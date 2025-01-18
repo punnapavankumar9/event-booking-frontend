@@ -1,0 +1,52 @@
+@if(isSearchActive()){
+<search></search>
+} @else {
+<div class="navbar-container container-md-fluid">
+    <div
+        class="navbar-line1 d-flex justify-content-between align-items-center border border-secondary-subtle border-bottom px-2 pb-1">
+        <div class="left px-2">
+            <div class="col">
+                <div class="navbar-line1__tagline">
+                    <span class="fs-2 fw-bold">
+                        It All Starts Here!
+                    </span>
+                </div>
+                <div class="navbar-line1__user-location">
+                    <span class="location_text">Hyderabad </span>
+                    <img class="location_icon" src="assets/icons/greater-than.svg" alt="greater-than-icon">
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <span class="search-icon p-1" (click)="activateSearch()">
+                <svg class="search-icon__svg" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                    width="24px" fill="#e8eaed">
+                    <path
+                        d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z" />
+                </svg>
+            </span>
+        </div>
+    </div>
+
+    <div class="navbar-line2 d-flex overflow-x-scroll">
+        <div class="catagory-item px-3 py-2 d-flex flex-column align-items-center">
+            <div class="event-catagory-menu">
+                <svg class="category-icon movies-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path
+                        d="M448 32l-86.1 0-1 1-127 127 92.1 0 1-1L453.8 32.3c-1.9-.2-3.8-.3-5.8-.3zm64 128l0-64c0-15.1-5.3-29.1-14-40l-104 104L512 160zM294.1 32l-92.1 0-1 1L73.9 160l92.1 0 1-1 127-127zM64 32C28.7 32 0 60.7 0 96l0 64 6.1 0 1-1 127-127L64 32zM512 192L0 192 0 416c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-224z" />
+                </svg>
+            </div>
+            <span class="catagory-name">Movies</span>
+        </div>
+        <div class="catagory-item px-3 py-2 d-flex flex-column align-items-center">
+            <div class="event-catagory-menu">
+                <svg class="category-icon movies-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+                    <path
+                        d="M280-120v-80h160v-124q-49-11-87.5-41.5T296-442q-75-9-125.5-65.5T120-640v-40q0-33 23.5-56.5T200-760h80v-80h400v80h80q33 0 56.5 23.5T840-680v40q0 76-50.5 132.5T664-442q-18 46-56.5 76.5T520-324v124h160v80H280Zm0-408v-152h-80v40q0 38 22 68.5t58 43.5Zm200 128q50 0 85-35t35-85v-240H360v240q0 50 35 85t85 35Zm200-128q36-13 58-43.5t22-68.5v-40h-80v152Zm-200-52Z" />
+                </svg>
+            </div>
+            <span class="catagory-name">Sports</span>
+        </div>
+    </div>
+</div>
+}

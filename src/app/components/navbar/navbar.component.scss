@@ -1,0 +1,38 @@
+@import "../../../styles.scss";
+
+.navbar-line1 {
+  &__user-location {
+    font-size: 0.8rem;
+    .location_text {
+      color: $primary-red;
+    }
+  }
+  .search-icon__svg {
+    fill: black;
+    opacity: 0.6;
+    scale: 1.2;
+    transform: all 0.5;
+  }
+}
+
+.navbar-line2 {
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+  &::-webkit-scrollbar {
+    display: none;
+    scroll-behavior: smooth;
+  }
+}
+
+.catagory-item {
+  .event-catagory-menu {
+    width: 40px;
+    .category-icon {
+      fill: $primary-red;
+      scale: 0.7;
+    }
+  }
+  .catagory-name {
+    @include fs(small);
+  }
+}

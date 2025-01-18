@@ -1,1 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+@import "./../node_modules/bootstrap/scss/bootstrap.scss";
+* {
+  font-family: Roboto, sans-serif;
+}
+
+$primary-red: rgb(220, 53, 75);
+
+$font-sizes: (
+  small: 0.8rem,
+  smaller: 0.5rem,
+  normal: 1rem,
+  big: 1.2rem,
+  bigger: 1.5rem,
+);
+
+@mixin fs($s) {
+  font-size: map-get($map: $font-sizes, $key: $s);
+}

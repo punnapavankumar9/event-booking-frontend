@@ -9,7 +9,7 @@ import { RegisterComponent } from '../../auth/register/register.component';
 })
 export class NavbarComponent {
   signedIn = signal<boolean>(false);
-  signInDialog = signal<boolean>(true);
+  signInDialog = signal<boolean>(false);
 
   toggleSignInDialog(val: boolean) {
     this.signInDialog.set(val);

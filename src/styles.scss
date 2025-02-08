@@ -1,7 +1,17 @@
+@use '@angular/material' as mat;
 @import url('https://fonts.googleapis.com/css2?family=Arizonia&display=swap');
-
+// angular material overrides
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+:root {
+    @include mat.snack-bar-overrides((
+      container-color: orange,
+      supporting-text-color: red,
+    ));
+  }
+  
 $primary-red: rgb(248, 68, 100);
 $primary-grey: rgb(151, 151, 151);
+
 
 * {
     box-sizing: border-box;
@@ -58,3 +68,4 @@ body {
     border-radius: 5px;
     @content;
 }
+

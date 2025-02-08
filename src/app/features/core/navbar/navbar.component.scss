@@ -1,7 +1,7 @@
-@import "../../../../styles.scss";
+@use "../../../../styles";
 
 .navbar {
-    @include d-flex-row-between();
+    @include styles.d-flex-row-between();
     width: 100%;
     height: 64px;
     background-color: transparent;
@@ -9,7 +9,7 @@
 }
 
 .left {
-    @include d-flex-row();
+    @include styles.d-flex-row();
     height: 100%;
     align-items: center;
 }
@@ -22,12 +22,12 @@
     display: flex;
     align-items: center;
     height: 100%;
-    color: $primary-red;
+    color: styles.$primary-red;
     margin: 0px 10px 0px 10px
 }
 
 .haberger-menu {
-    @include d-flex-column();
+    @include styles.d-flex-column();
     padding: 5px;
     height: 32px;
     justify-content: space-between;
@@ -41,7 +41,7 @@
 }
 
 .right {
-    @include d-flex-row();
+    @include styles.d-flex-row();
     height: 100%;
     align-items: center;
 }
@@ -56,7 +56,7 @@
 }
 
 .signin-button-link {
-    @include red-rect-button() {
+    @include styles.red-rect-button() {
         padding: 6px 10px 6px 10px;
     }
 }

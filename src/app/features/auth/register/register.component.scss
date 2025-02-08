@@ -1,4 +1,4 @@
-@import "../../../../styles.scss";
+@use "../../../../styles" as styles;
 
 
 .container {
@@ -57,7 +57,7 @@
     display: flex;
     width: 90%;
     margin: 0px auto;
-    border: .5px solid $primary-grey;
+    border: .5px solid styles.$primary-grey;
     padding: 10px;
     margin: 5px;
     border-radius: 4px;
@@ -100,7 +100,7 @@
     margin-left: 4px;
 
     &:focus {
-        border-color: $primary-red;
+        border-color: styles.$primary-red;
     }
 }
 
@@ -113,7 +113,7 @@
 }
 
 .submit-button {
-    @include red-rect-button() {
+    @include styles.red-rect-button() {
         padding: 10px;
         display: block;
         margin-left: 10px;

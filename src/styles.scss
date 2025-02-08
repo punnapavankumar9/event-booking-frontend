@@ -1,1 +1,60 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Arizonia&display=swap');
+
+$primary-red: rgb(248, 68, 100);
+$primary-grey: rgb(151, 151, 151);
+
+* {
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 0px;
+}
+
+@mixin d-flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin d-flex-row {
+    display: flex;
+    flex-direction: row
+}
+
+@mixin d-flex-column-between {
+    @include d-flex-column();
+    justify-content: space-between;
+    align-items: center;
+}
+
+@mixin d-flex-row-between {
+    @include d-flex-row();
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button-link {
+    text-decoration: none !important;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+@mixin red-rect-button {
+    color: white;
+    background-color: $primary-red;
+    border: none;
+    border-radius: 5px;
+    @content;
+}

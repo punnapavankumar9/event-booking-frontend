@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from "./components/home/navbar/navbar.component";
+import { NavbarComponent } from "./features/core/navbar/navbar.component";
 
 @Component({
   selector: 'app-root',

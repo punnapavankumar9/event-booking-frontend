@@ -52,7 +52,7 @@
         </div>
 
         <div class="sign-menu">
-            <form class="form">
+            <form class="form" [formGroup]="loginForm" (ngSubmit)="onSignin()">
                 <div class="form-field">
                     <div class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
@@ -61,7 +61,7 @@
                                 d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
                         </svg>
                     </div>
-                    <input type="email" placeholder="Username or Email" class="form-input">
+                    <input type="email" formControlName="username" placeholder="Username or Email" class="form-input">
                 </div>
                 <div class="form-field">
                     <div class="icon">
@@ -72,66 +72,64 @@
                             </path>
                         </svg>
                     </div>
-                    <input type="password" placeholder="Password" class="form-input">
+                    <input type="password" formControlName="password" placeholder="Password" class="form-input">
                 </div>
 
                 <div class="form-field">
                     <input type="submit" value="Submit" class="button-link submit-button">
                 </div>
-
             </form>
         </div>
         } @else {
         <div class="register-menu">
-            <form class="form">
-                <form class="form">
-                    <div class="form-field">
-                        <div class="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                class="bi bi-person" viewBox="0 0 16 16">
-                                <path
-                                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                            </svg>
-                        </div>
-                        <input type="email" placeholder="Username or Email" class="form-input">
+            <form class="form" [formGroup]="registerFrom" (ngSubmit)="onRegister()">
+                <div class="form-field">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-person" viewBox="0 0 16 16">
+                            <path
+                                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                        </svg>
                     </div>
-                    <div class="form-field">
-                        <div class="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                class="lock-icon bi bi-shield-lock-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.8 11.8 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7 7 0 0 0 1.048-.625 11.8 11.8 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.54 1.54 0 0 0-1.044-1.263 63 63 0 0 0-2.887-.87C9.843.266 8.69 0 8 0m0 5a1.5 1.5 0 0 1 .5 2.915l.385 1.99a.5.5 0 0 1-.491.595h-.788a.5.5 0 0 1-.49-.595l.384-1.99A1.5 1.5 0 0 1 8 5">
-                                </path>
-                            </svg>
-                        </div>
-                        <input type="password" placeholder="Password" class="form-input">
+                    <input type="email" placeholder="Username or Email" formControlName="username" class="form-input">
+                </div>
+                <div class="form-field">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="lock-icon bi bi-shield-lock-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.8 11.8 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7 7 0 0 0 1.048-.625 11.8 11.8 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.54 1.54 0 0 0-1.044-1.263 63 63 0 0 0-2.887-.87C9.843.266 8.69 0 8 0m0 5a1.5 1.5 0 0 1 .5 2.915l.385 1.99a.5.5 0 0 1-.491.595h-.788a.5.5 0 0 1-.49-.595l.384-1.99A1.5 1.5 0 0 1 8 5">
+                            </path>
+                        </svg>
                     </div>
-                    <div class="form-field">
-                        <div class="icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                class="bi bi-person" viewBox="0 0 16 16">
-                                <path
-                                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                            </svg>
-                        </div>
-                        <input type="email" placeholder="Firstname" class="form-input">
+                    <input type="password" formControlName="password" placeholder="Password" class="form-input">
+                </div>
+                <div class="form-field">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                            class="bi bi-person" viewBox="0 0 16 16">
+                            <path
+                                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                        </svg>
                     </div>
-                    <div class="form-field">
-                        <div class="icon">
-                            <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                viewBox="0 0 100.000000 100.000000" preserveAspectRatio="xMidYMid meet">
-                                <metadata>
-                                    Created by potrace 1.10, written by Peter Selinger 2001-2011
-                                </metadata>
-                                <g transform="translate(0.000000,100.000000) scale(0.100000,-0.100000)" fill="#000000"
-                                    stroke="none">
-                                    <path d="M231 946 c-87 -48 -50 -186 49 -186 51 0 100 49 100 99 0 75 -83 124
+                    <input type="text" formControlName="firstname" placeholder="Firstname" class="form-input">
+                </div>
+                <div class="form-field">
+                    <div class="icon">
+                        <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            viewBox="0 0 100.000000 100.000000" preserveAspectRatio="xMidYMid meet">
+                            <metadata>
+                                Created by potrace 1.10, written by Peter Selinger 2001-2011
+                            </metadata>
+                            <g transform="translate(0.000000,100.000000) scale(0.100000,-0.100000)" fill="#000000"
+                                stroke="none">
+                                <path d="M231 946 c-87 -48 -50 -186 49 -186 51 0 100 49 100 99 0 75 -83 124
                             -149 87z m89 -46 c11 -11 20 -29 20 -40 0 -26 -34 -60 -60 -60 -26 0 -60 34
                             -60 62 0 52 62 76 100 38z" />
-                                    <path d="M651 946 c-87 -48 -50 -186 49 -186 51 0 100 49 100 99 0 75 -83 124
+                                <path d="M651 946 c-87 -48 -50 -186 49 -186 51 0 100 49 100 99 0 75 -83 124
                             -149 87z m89 -46 c11 -11 20 -29 20 -40 0 -11 -9 -29 -20 -40 -11 -11 -29 -20
                             -40 -20 -26 0 -60 34 -60 62 0 52 62 76 100 38z" />
-                                    <path d="M138 724 c-50 -26 -58 -58 -58 -219 0 -132 2 -147 20 -165 11 -11 29
+                                <path d="M138 724 c-50 -26 -58 -58 -58 -219 0 -132 2 -147 20 -165 11 -11 29
                             -20 40 -20 19 0 20 -7 20 -123 0 -155 0 -155 120 -155 113 0 120 6 120 110 0
                             50 4 77 10 73 6 -3 10 -39 10 -80 0 -90 11 -105 80 -105 69 0 80 15 80 105 0
                             41 5 77 10 80 6 4 10 -21 10 -67 0 -100 9 -111 95 -114 95 -3 105 9 105 126
@@ -150,20 +148,19 @@
                             35 14 89 14 54 0 81 -4 89 -14z m89 -273 c-2 -70 -6 -88 -18 -88 -12 0 -16 18
                             -18 88 -3 82 -2 87 18 87 20 0 21 -5 18 -87z m80 0 c-2 -70 -6 -88 -18 -88
                             -12 0 -16 18 -18 88 -3 82 -2 87 18 87 20 0 21 -5 18 -87z" />
-                                    <path d="M445 655 c-30 -29 -33 -74 -6 -106 27 -33 95 -33 122 0 42 51 5 131
+                                <path d="M445 655 c-30 -29 -33 -74 -6 -106 27 -33 95 -33 122 0 42 51 5 131
                             -61 131 -19 0 -40 -9 -55 -25z m85 -30 c26 -32 -13 -81 -47 -59 -23 14 -28 41
                             -13 59 16 19 44 19 60 0z" />
-                                </g>
-                            </svg>
-                        </div>
-                        <input type="email" placeholder="Lastname" class="form-input">
+                            </g>
+                        </svg>
                     </div>
+                    <input type="text" formControlName="lastname" placeholder="Lastname" class="form-input">
+                </div>
 
-                    <div class="form-field">
-                        <input type="submit" value="Submit" class="button-link submit-button">
-                    </div>
+                <div class="form-field">
+                    <input type="submit" value="Submit" class="button-link submit-button">
+                </div>
 
-                </form>
             </form>
         </div>
         }

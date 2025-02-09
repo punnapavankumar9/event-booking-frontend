@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-main">
 
     <div class="form-container">
 
@@ -74,9 +74,10 @@
                     </div>
                     <input type="password" formControlName="password" placeholder="Password" class="form-input">
                 </div>
-
+                <ng-container *ngTemplateOutlet="errorMessageTemplate">
+                </ng-container>
                 <div class="form-field">
-                    <input type="submit" value="Submit" class="button-link submit-button">
+                    <input type="submit" [disabled]="!loginForm.valid" value="Submit" class="button-link submit-button">
                 </div>
             </form>
         </div>
@@ -91,8 +92,21 @@
                                 d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
                         </svg>
                     </div>
-                    <input type="email" placeholder="Username or Email" formControlName="username" class="form-input">
+                    <input type="text" placeholder="Username" formControlName="username" class="form-input">
                 </div>
+                <div class="form-field">
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-envelope-at" viewBox="0 0 16 16">
+                            <path
+                                d="M2 2a2 2 0 0 0-2 2v8.01A2 2 0 0 0 2 14h5.5a.5.5 0 0 0 0-1H2a1 1 0 0 1-.966-.741l5.64-3.471L8 9.583l7-4.2V8.5a.5.5 0 0 0 1 0V4a2 2 0 0 0-2-2zm3.708 6.208L1 11.105V5.383zM1 4.217V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v.217l-7 4.2z" />
+                            <path
+                                d="M14.247 14.269c1.01 0 1.587-.857 1.587-2.025v-.21C15.834 10.43 14.64 9 12.52 9h-.035C10.42 9 9 10.36 9 12.432v.214C9 14.82 10.438 16 12.358 16h.044c.594 0 1.018-.074 1.237-.175v-.73c-.245.11-.673.18-1.18.18h-.044c-1.334 0-2.571-.788-2.571-2.655v-.157c0-1.657 1.058-2.724 2.64-2.724h.04c1.535 0 2.484 1.05 2.484 2.326v.118c0 .975-.324 1.39-.639 1.39-.232 0-.41-.148-.41-.42v-2.19h-.906v.569h-.03c-.084-.298-.368-.63-.954-.63-.778 0-1.259.555-1.259 1.4v.528c0 .892.49 1.434 1.26 1.434.471 0 .896-.227 1.014-.643h.043c.118.42.617.648 1.12.648m-2.453-1.588v-.227c0-.546.227-.791.573-.791.297 0 .572.192.572.708v.367c0 .573-.253.744-.564.744-.354 0-.581-.215-.581-.8Z" />
+                        </svg>
+                    </div>
+                    <input type="email" formControlName="email" placeholder="Email" class="form-input">
+                </div>
+
                 <div class="form-field">
                     <div class="icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
@@ -104,63 +118,13 @@
                     </div>
                     <input type="password" formControlName="password" placeholder="Password" class="form-input">
                 </div>
-                <div class="form-field">
-                    <div class="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                            class="bi bi-person" viewBox="0 0 16 16">
-                            <path
-                                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                        </svg>
-                    </div>
-                    <input type="text" formControlName="firstname" placeholder="Firstname" class="form-input">
-                </div>
-                <div class="form-field">
-                    <div class="icon">
-                        <svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                            viewBox="0 0 100.000000 100.000000" preserveAspectRatio="xMidYMid meet">
-                            <metadata>
-                                Created by potrace 1.10, written by Peter Selinger 2001-2011
-                            </metadata>
-                            <g transform="translate(0.000000,100.000000) scale(0.100000,-0.100000)" fill="#000000"
-                                stroke="none">
-                                <path d="M231 946 c-87 -48 -50 -186 49 -186 51 0 100 49 100 99 0 75 -83 124
-                            -149 87z m89 -46 c11 -11 20 -29 20 -40 0 -26 -34 -60 -60 -60 -26 0 -60 34
-                            -60 62 0 52 62 76 100 38z" />
-                                <path d="M651 946 c-87 -48 -50 -186 49 -186 51 0 100 49 100 99 0 75 -83 124
-                            -149 87z m89 -46 c11 -11 20 -29 20 -40 0 -11 -9 -29 -20 -40 -11 -11 -29 -20
-                            -40 -20 -26 0 -60 34 -60 62 0 52 62 76 100 38z" />
-                                <path d="M138 724 c-50 -26 -58 -58 -58 -219 0 -132 2 -147 20 -165 11 -11 29
-                            -20 40 -20 19 0 20 -7 20 -123 0 -155 0 -155 120 -155 113 0 120 6 120 110 0
-                            50 4 77 10 73 6 -3 10 -39 10 -80 0 -90 11 -105 80 -105 69 0 80 15 80 105 0
-                            41 5 77 10 80 6 4 10 -21 10 -67 0 -100 9 -111 95 -114 95 -3 105 9 105 126
-                            l0 90 34 0 c40 0 60 21 52 53 -4 19 0 26 18 35 42 19 40 44 -9 195 -62 187
-                            -71 197 -193 197 -91 0 -132 -14 -132 -47 0 -12 5 -13 23 -8 12 5 59 10 103
-                            12 73 4 84 2 101 -16 16 -17 104 -268 103 -294 0 -5 -7 -7 -17 -5 -11 2 -27
-                            34 -48 98 -21 64 -37 96 -48 98 -25 5 -22 -21 23 -153 22 -65 40 -120 40 -122
-                            0 -2 -47 -3 -105 -3 l-105 0 0 75 c0 67 -3 79 -25 100 -22 23 -32 25 -115 25
-                            -83 0 -93 -2 -115 -25 -25 -24 -25 -26 -25 -210 l0 -185 -30 0 -29 0 -3 143
-                            c-3 118 -5 142 -18 142 -13 0 -15 -24 -18 -142 l-3 -143 -29 0 -30 0 -2 257
-                            c-3 222 -5 258 -18 258 -12 0 -16 -22 -20 -115 -4 -93 -8 -115 -20 -115 -13 0
-                            -15 24 -18 144 -2 137 -1 145 19 168 21 22 30 23 139 23 72 0 120 -4 127 -11
-                            14 -14 33 -3 33 17 0 24 -46 34 -163 34 -79 -1 -120 -5 -139 -16z m451 -278
-                            c8 -9 11 -44 9 -97 -3 -79 -4 -83 -28 -89 -24 -6 -25 -9 -28 -93 l-3 -87 -39
-                            0 -39 0 -3 87 c-3 84 -4 87 -28 93 -24 6 -25 10 -28 89 -2 53 1 88 9 97 8 10
-                            35 14 89 14 54 0 81 -4 89 -14z m89 -273 c-2 -70 -6 -88 -18 -88 -12 0 -16 18
-                            -18 88 -3 82 -2 87 18 87 20 0 21 -5 18 -87z m80 0 c-2 -70 -6 -88 -18 -88
-                            -12 0 -16 18 -18 88 -3 82 -2 87 18 87 20 0 21 -5 18 -87z" />
-                                <path d="M445 655 c-30 -29 -33 -74 -6 -106 27 -33 95 -33 122 0 42 51 5 131
-                            -61 131 -19 0 -40 -9 -55 -25z m85 -30 c26 -32 -13 -81 -47 -59 -23 14 -28 41
-                            -13 59 16 19 44 19 60 0z" />
-                            </g>
-                        </svg>
-                    </div>
-                    <input type="text" formControlName="lastname" placeholder="Lastname" class="form-input">
-                </div>
 
+                <ng-container *ngTemplateOutlet="errorMessageTemplate">
+                </ng-container>
                 <div class="form-field">
-                    <input type="submit" value="Submit" class="button-link submit-button">
+                    <input type="submit" [disabled]="!registerFrom.valid" value="Submit"
+                        class="button-link submit-button">
                 </div>
-
             </form>
         </div>
         }
@@ -172,3 +136,8 @@
     </div>
 
 </div>
+<ng-template #errorMessageTemplate>
+    @if(errorMessage()){
+    <span class="error-message"> {{errorMessage()}} </span>
+    }
+</ng-template>

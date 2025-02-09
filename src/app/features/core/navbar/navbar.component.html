@@ -8,9 +8,13 @@
 
     </div>
     <div class="right">
+        @if(signedIn()){
 
+        <div class="signout-button button-link">
+            <a class="signout-button-link btn-special-red button-link" (click)="logout()">Sign out</a>
+        </div>
         <div class="auth-info">
-            @if(signedIn()){
+
             <div [routerLink]="['/auth', 'profile']" [routerLinkActive]="['active-tab']"
                 class="profile-icon button-link">
                 <div class="footer-menu-item__icon">
@@ -22,13 +26,13 @@
                     </svg>
                 </div>
             </div>
-            } @else {
-            <div class="signin-button button-link">
-                <a class="signin-button-link button-link" (click)="toggleSignInDialog(true)">Sign in</a>
-            </div>
-            }
         </div>
-        <div class="haberger-menu button-link">
+        } @else {
+        <div class="signin-button button-link">
+            <a class="signin-button-link button-link" (click)="toggleSignInDialog(true)">Sign in</a>
+        </div>
+        }
+        <div class="haberger-menu button-link" (click)="toggleSideNav()">
             <span></span>
             <span></span>
             <span></span>
@@ -38,4 +42,8 @@
 
 @if(signInDialog()){
 <app-register (closeDialog)="toggleSignInDialog(false)"></app-register>
+}
+
+@if(sideNav()){
+<app-sidenav (hideSideNav)="toggleSideNav()"></app-sidenav>
 }

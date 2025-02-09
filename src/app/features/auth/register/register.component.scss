@@ -1,7 +1,7 @@
 @use "../../../../styles" as styles;
 
 
-.container {
+.container-main{
     position: fixed;
     top: 0;
     left: 0;
@@ -120,8 +120,22 @@
         margin-top: 20px;
         width: 100%;
     }
+
+    &[disabled] {
+        background-color: styles.$primary-grey;
+    }
 }
 
+.error-message {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    color: styles.$primary-red;
+    display: block;
+    &::before {
+        content: "*";
+    }
+}
 
 .toggle-tab-button {
     padding: 10px;

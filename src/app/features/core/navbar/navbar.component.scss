@@ -8,6 +8,10 @@
     background-color: aliceblue;
 }
 
+.right>div {
+    padding: 10px;
+}
+
 .left {
     @include styles.d-flex-row();
     height: 100%;
@@ -28,7 +32,7 @@
 
 .haberger-menu {
     @include styles.d-flex-column();
-    padding: 5px;
+    padding: 5px !important;
     height: 32px;
     justify-content: space-between;
     margin-right: 20px;
@@ -55,7 +59,8 @@
     top: 2px;
 }
 
-.signin-button-link {
+.signin-button-link,
+.signout-button-link {
     @include styles.red-rect-button() {
         padding: 6px 10px 6px 10px;
     }

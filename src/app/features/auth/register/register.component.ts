@@ -2,13 +2,14 @@ import { Component, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { UserRegistrationDetails } from '../types';
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { HttpErrorResponse } from '@angular/common/http';
+import { ToastService } from '../../core/services/toast.service';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule],
-  providers: [MatSnackBar],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -16,6 +17,7 @@ export class RegisterComponent {
 
   dialog = output<boolean>({ alias: "closeDialog" });
   signInTab = signal<boolean>(true);
+  errorMessage = signal<string | null>(null);
 
 
   loginForm = new FormGroup({
@@ -25,12 +27,10 @@ export class RegisterComponent {
 
   registerFrom = new FormGroup({
     'username': new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(35)]),
-    'firstname': new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(35)]),
-    'lastname': new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(35)]),
+    'email': new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(35), Validators.email]),
     'password': new FormControl('', [Validators.required, Validators.minLength(8)])
   })
-  constructor(private authService: AuthService, private snackBar: MatSnackBar) {
-
+  constructor(private authService: AuthService, private toastService: ToastService) {
   }
 
 
@@ -39,26 +39,26 @@ export class RegisterComponent {
   }
 
   toggelSignInTab(val: boolean) {
+    this.errorMessage.set(null);
     this.signInTab.set(val);
   }
 
-  showErrorMessage(err: Error) {
-    this.snackBar.open(err.message, "close")
+  showSuccessMessage(message: string) {
+    this.toastService.showToast({ message: message, type: 'success' })
   }
 
 
   onRegister() {
-    const { username, password, firstname, lastname } = this.registerFrom.value;
-    this.authService.register({ username: username!, password: password!, firstname: firstname!, lastname: lastname! }).subscribe({
+    const { username, password, email } = this.registerFrom.value;
+    this.authService.register({ username: username!, password: password!, email: email! }).subscribe({
       next: (registrationDetails: UserRegistrationDetails) => {
-        console.log("registration sucessfull");
-        console.log(registrationDetails);
+        this.showSuccessMessage("Registered User " + username + " Please Login");
+        this.toggelSignInTab(true);
       },
-      error: (err: Error) => {
-        this.showErrorMessage(err);
+      error: (err: HttpErrorResponse) => {
+        this.errorMessage.set(err.error.message ?? err.message);
       }
     })
-
   }
 
   onSignin() {
@@ -67,8 +67,9 @@ export class RegisterComponent {
       next: () => {
         this.closeDialog();
       },
-      error: (err: Error) => {
-        this.showErrorMessage(err)
+      error: (err: HttpErrorResponse) => {
+        console.error(err);
+        this.errorMessage.set(err.error.message ?? err.message);
       }
     })
   }

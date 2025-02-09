@@ -6,6 +6,5 @@ export type LoginCredentials = {
 export type UserRegistrationDetails = {
     username: string,
     password: string,
-    firstname: string,
-    lastname: string
+    email: string
 }

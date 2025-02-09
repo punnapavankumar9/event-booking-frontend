@@ -1,5 +1,5 @@
 const gatewayURL = 'http://localhost:8080/api'
 export const environment = {
-    identity: gatewayURL + '/users',
-    events: gatewayURL + '/events'
+    identity: gatewayURL + "/v1/users",
+    events: gatewayURL + '/v1/events'
 };

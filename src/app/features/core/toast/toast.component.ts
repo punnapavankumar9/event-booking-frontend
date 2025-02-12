@@ -1,7 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ToastService } from '../services/toast.service';
 import { Toast } from '../types';
-import { single, take } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -10,10 +9,11 @@ import { CommonModule } from '@angular/common';
   templateUrl: './toast.component.html',
   styleUrl: './toast.component.scss'
 })
-export class ToastComponent {
+export class ToastComponent implements OnInit {
   toasts: Toast[] = [];
 
-  constructor(private toastService: ToastService) { }
+  constructor(private toastService: ToastService) {
+  }
 
   ngOnInit(): void {
     this.toastService.toast$.subscribe((toast: Toast) => {

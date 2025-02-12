@@ -1,0 +1,37 @@
+.movie-card {
+  padding: 10px;
+
+  transition: transform ease-in-out 0.2s;
+
+  &:hover {
+    transform: scale(1.01);
+  }
+
+  .movie-image-container {
+    max-width: 250px;
+    overflow: hidden;
+    height: 350px;
+
+
+
+    .movie-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: transparent;
+      border-radius: 10px;
+    }
+
+    position: relative;
+  }
+
+  .rating {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 5px;
+    border-radius: 3px;
+  }
+}

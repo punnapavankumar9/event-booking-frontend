@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Observable, tap } from 'rxjs';
 import { LoginCredentials, UserRegistrationDetails } from '../types';
@@ -10,23 +10,25 @@ import { headersWithToken } from '../../utils/utils';
   providedIn: 'root'
 })
 export class AuthService {
-  userSerivceBaseUrl = environment.identity
-  loginUrl = this.userSerivceBaseUrl + '/login';
-  signupUrl = this.userSerivceBaseUrl;
+  userServiceBaseUrl = environment.identity
+  loginUrl = this.userServiceBaseUrl + '/login';
+  signupUrl = this.userServiceBaseUrl;
 
   constructor(private httpClient: HttpClient) {
 
   }
 
   login(credentials: LoginCredentials): Observable<{ token: string }> {
-    return this.httpClient.post<{ token: string }>(this.loginUrl, credentials, { headers: headersWithToken() }).pipe(
+    return this.httpClient.post<{
+      token: string
+    }>(this.loginUrl, credentials, {headers: headersWithToken()}).pipe(
       tap((response: { token: string }) => {
         localStorage.setItem('jwt-token', response.token);
       }));
   }
 
   register(registrationDetails: UserRegistrationDetails) {
-    return this.httpClient.post<UserRegistrationDetails>(this.signupUrl, registrationDetails, { headers: headersWithToken() });
+    return this.httpClient.post<UserRegistrationDetails>(this.signupUrl, registrationDetails, {headers: headersWithToken()});
   }
 
   isAuthenticated() {

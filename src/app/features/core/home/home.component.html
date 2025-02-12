@@ -1,0 +1,18 @@
+<app-slider></app-slider>
+
+
+<div>
+    <div class="top">
+
+    </div>
+    <div class="movie-cards-container">
+        <div class="row justify-content-start">
+            @for (movie of movies; track movie.id) {
+                <app-movie-card class="col" [movie]="movie"></app-movie-card>
+            }
+        </div>
+    </div>
+
+    .bottom
+</div>
+

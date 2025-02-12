@@ -1,0 +1,23 @@
+@if (movie()) {
+    <div class="movie-card d-flex flex-column">
+        <div class="movie-image-container">
+            <div class="rating d-flex p-1 justify-content-center align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"
+                     width="24px" fill="gold">
+                    <path
+                        d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/>
+                </svg>
+                <span>
+                {{ movie().rating }}
+            </span>
+            </div>
+            <img class="movie-image" [priority]="1" width="250" height="300" [ngSrc]="movie().imageUrls[0]" alt="{{movie().title}}">
+        </div>
+        <div class="movie-title fs-5">
+            {{ movie().title }}
+        </div>
+        <div class="genre">
+            {{ movie().genre }}
+        </div>
+    </div>
+}

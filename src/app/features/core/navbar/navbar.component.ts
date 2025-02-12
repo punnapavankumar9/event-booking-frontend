@@ -1,8 +1,9 @@
-import { Component, input, OnInit, output, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { RegisterComponent } from '../../auth/register/register.component';
 import { SidenavComponent } from '../sidenav/sidenav.component';
 import { ToastService } from '../services/toast.service';
+
 @Component({
   selector: 'app-navbar',
   imports: [RouterLink, RouterLinkActive, RegisterComponent, SidenavComponent],
@@ -41,10 +42,10 @@ export class NavbarComponent implements OnInit {
     const token = localStorage.getItem('jwt-token');
     if (token && /.*[.].*[.]*/.test(token) && !this.signedIn()) {
       this.signedIn.set(true);
-      this.toastService.showToast({ message: "Logged Successfully", type: 'success' });
+      this.toastService.showToast({message: "Logged Successfully", type: 'success'});
     } else if (this.signedIn()) {
       this.signedIn.set(false);
-      this.toastService.showToast({ message: 'Logged out successfully', type: 'info' });
+      this.toastService.showToast({message: 'Logged out successfully', type: 'info'});
       localStorage.removeItem('jwt-token')
     }
   }

@@ -34,7 +34,22 @@ export class MoviesComponent implements OnInit {
           }
           data.forEach((movie) => {
             this.movies().push(movie);
-          })
+          });data.forEach((movie) => {
+            this.movies().push(movie);
+          });data.forEach((movie) => {
+            this.movies().push(movie);
+          });data.forEach((movie) => {
+            this.movies().push(movie);
+          });data.forEach((movie) => {
+            this.movies().push(movie);
+          });data.forEach((movie) => {
+            this.movies().push(movie);
+          });data.forEach((movie) => {
+            this.movies().push(movie);
+          });
+          data.forEach((movie) => {
+            this.movies().push(movie);
+          });
         },
         error: error => {
           this.toastService.showToast({type: 'error', message: error.message})

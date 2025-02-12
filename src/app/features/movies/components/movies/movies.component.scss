@@ -1,3 +1,7 @@
-.movie-list-row {
-  max-height: 350px;
+@import "scss/bootstrap";
+
+.movie-list-container::after {
+  content: "";
+  flex: auto;
+  max-width: 500px;
 }

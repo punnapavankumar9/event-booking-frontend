@@ -18,6 +18,9 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules/bootstrap"
+              ],
               "sass": {
                 "silenceDeprecations": [
                   "mixed-decls",

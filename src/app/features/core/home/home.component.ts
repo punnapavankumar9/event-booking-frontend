@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.moviesService.getMovies().subscribe((movies) => {
+    this.moviesService.getMovies(0).subscribe((movies) => {
       movies.forEach(movie => {
         this.movies().push(movie);
       })

@@ -1,67 +1,67 @@
 @use "../../../../styles";
 
 .navbar {
-    @include styles.d-flex-row-between();
-    width: 100%;
-    height: 64px;
-    background-color: transparent;
-    background-color: aliceblue;
+  @include styles.d-flex-row-between();
+  width: 100%;
+  height: 64px;
+  background-color: transparent;
+  background-color: aliceblue;
 }
 
-.right>div {
-    padding: 10px;
+.right > div {
+  padding: 10px;
 }
 
 .left {
-    @include styles.d-flex-row();
-    height: 100%;
-    align-items: center;
+  @include styles.d-flex-row();
+  height: 100%;
+  align-items: center;
 }
 
 .website-icon {
-    font-family: "Arizonia", serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 2rem;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    color: styles.$primary-red;
-    margin: 0px 10px 0px 10px
+  font-family: "Arizonia", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  color: styles.$primary-red;
+  margin: 0px 10px 0px 10px
 }
 
 .haberger-menu {
-    @include styles.d-flex-column();
-    padding: 5px !important;
-    height: 32px;
-    justify-content: space-between;
-    margin-right: 20px;
+  @include styles.d-flex-column();
+  padding: 5px !important;
+  height: 32px;
+  justify-content: space-between;
+  margin-right: 20px;
 
-    span {
-        width: 32px;
-        height: 3px;
-        background-color: black;
-    }
+  span {
+    width: 32px;
+    height: 3px;
+    background-color: black;
+  }
 }
 
 .right {
-    @include styles.d-flex-row();
-    height: 100%;
-    align-items: center;
+  @include styles.d-flex-row();
+  height: 100%;
+  align-items: center;
 }
 
 .auth-info {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .profile-icon {
-    position: relative;
-    top: 2px;
+  position: relative;
+  top: 2px;
 }
 
 .signin-button-link,
 .signout-button-link {
-    @include styles.red-rect-button() {
-        padding: 6px 10px 6px 10px;
-    }
+  @include styles.red-rect-button() {
+    padding: 6px 10px 6px 10px;
+  }
 }

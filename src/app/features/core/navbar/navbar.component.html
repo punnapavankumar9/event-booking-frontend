@@ -1,6 +1,7 @@
 <div class="navbar">
     <div class="left">
-        <a class="website-icon button-link" [routerLink]="['/']" routerLinkActive="router-link-active">
+        <a class="website-icon button-link" [routerLink]="['/']"
+           routerLinkActive="router-link-active">
             <span>Ticket Booking </span>
         </a>
     </div>
@@ -11,7 +12,8 @@
         @if (signedIn()) {
 
             <div class="signout-button button-link">
-                <a class="signout-button-link btn-special-red button-link" (click)="logout()">Sign out</a>
+                <a class="signout-button-link btn-special-red button-link" (click)="logout()">Sign
+                    out</a>
             </div>
             <!--        <div class="auth-info">-->
 
@@ -29,7 +31,8 @@
                 <!--        </div>-->
         } @else {
             <div class="signin-button button-link">
-                <a class="signin-button-link btn-special-red button-link" (click)="toggleSignInDialog(true)">Sign in</a>
+                <a class="signin-button-link btn-special-red button-link"
+                   (click)="toggleSignInDialog(true)">Sign in</a>
             </div>
         }
         <div class="haberger-menu button-link" (click)="toggleSideNav()">

@@ -34,7 +34,7 @@
                             <span class="interested-count">
                                 @let likes = movie().likes;
                                 @if (likes >= 1000) {
-                                    {{ likes / 1000 }}K are Interested
+                                    {{ (likes / 1000).toFixed(1) }}K are Interested
                                 } @else {
                                     {{ likes }} Are Interested
                                 }

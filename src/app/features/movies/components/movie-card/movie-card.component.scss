@@ -3,6 +3,10 @@
 
   transition: transform ease-in-out 0.2s;
 
+  .movie-title {
+    overflow: clip;
+  }
+
   &:hover {
     transform: scale(1.01);
   }

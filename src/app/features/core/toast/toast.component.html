@@ -1,12 +1,15 @@
-<div aria-live="polite" aria-atomic="true" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1200">
+<div aria-live="polite" aria-atomic="true" class="position-fixed bottom-0 end-0 p-3"
+     style="z-index: 1200">
     <ng-container *ngFor="let toast of toasts">
-        <div class="toast show align-items-center" role="alert" aria-live="assertive" [ngClass]="getToastClass(toast)"
+        <div class="toast show align-items-center" role="alert" aria-live="assertive"
+             [ngClass]="getToastClass(toast)"
              aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body">
                     {{ toast.message }}
                 </div>
-                <button type="button" class="btn-close me-2 m-auto" (click)="removeToast(toast)" data-bs-dismiss="toast"
+                <button type="button" class="btn-close me-2 m-auto" (click)="removeToast(toast)"
+                        data-bs-dismiss="toast"
                         aria-label="Close"></button>
             </div>
         </div>

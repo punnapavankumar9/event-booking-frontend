@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
 })
 export class RegisterComponent {
 
-  dialog = output<boolean>({ alias: "closeDialog" });
+  dialog = output<boolean>({alias: "closeDialog"});
   signInTab = signal<boolean>(true);
   errorMessage = signal<string | null>(null);
 
@@ -30,6 +30,7 @@ export class RegisterComponent {
     'email': new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(35), Validators.email]),
     'password': new FormControl('', [Validators.required, Validators.minLength(8)])
   })
+
   constructor(private authService: AuthService, private toastService: ToastService) {
   }
 
@@ -44,13 +45,13 @@ export class RegisterComponent {
   }
 
   showSuccessMessage(message: string) {
-    this.toastService.showToast({ message: message, type: 'success' })
+    this.toastService.showToast({message: message, type: 'success'})
   }
 
 
   onRegister() {
-    const { username, password, email } = this.registerFrom.value;
-    this.authService.register({ username: username!, password: password!, email: email! }).subscribe({
+    const {username, password, email} = this.registerFrom.value;
+    this.authService.register({username: username!, password: password!, email: email!}).subscribe({
       next: (registrationDetails: UserRegistrationDetails) => {
         this.showSuccessMessage("Registered User " + username + " Please Login");
         this.toggelSignInTab(true);
@@ -62,8 +63,8 @@ export class RegisterComponent {
   }
 
   onSignin() {
-    const { username, password } = this.loginForm.value;
-    this.authService.login({ username: username!, password: password! }).subscribe({
+    const {username, password} = this.loginForm.value;
+    this.authService.login({username: username!, password: password!}).subscribe({
       next: () => {
         this.closeDialog();
       },

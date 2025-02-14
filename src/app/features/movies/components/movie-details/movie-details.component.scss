@@ -1,0 +1,120 @@
+@import "scss/bootstrap";
+@import "../../../../../styles";
+
+.header-container {
+  background-color: rgb(26, 26, 26);
+  color: white;
+}
+
+.header {
+  width: min(80%, 1150px);
+  margin: 0 auto;
+  padding: 20px;
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-color: rgb(26, 26, 26);
+  position: relative;
+  max-width: 1440px;
+}
+
+.release-date {
+  font-size: .75rem;
+  padding: 3px 0;
+  display: block;
+  text-align: center;
+  background-color: black;
+  color: white;
+  z-index: 10;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 0 0 10px 10px;
+  box-shadow: black 1px -5px 10px;
+}
+
+@include media-breakpoint-down(md) {
+  .header {
+    width: 100%;
+    flex-direction: column !important;
+    margin: 0 20px;
+    //background-image: none !important;
+  }
+}
+
+
+.image-container {
+  width: 250px;
+  height: 375px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+}
+
+.movie-title-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: transparent;
+  border-radius: 10px;
+}
+
+
+.right {
+  flex-grow: 1;
+  margin-left: 30px;
+  padding: 10px;
+
+  .rating-box {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid white;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px 0 20px 0;
+
+    .likes {
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .tag-line {
+      font-size: .65rem;
+    }
+
+    .interested-button {
+      font-size: .75rem;
+      background-color: rgb(229, 229, 229) !important;
+      border: none !important;
+    }
+
+
+  }
+
+  .movie-meta-tag {
+    background-color: rgb(229, 229, 229);
+    color: black;
+    padding: 5px;
+    margin-right: 10px;
+    border-radius: 5px;
+  }
+
+  .movie-meta-info {
+    margin-top: 20px;
+  }
+
+  .book-tickets-btn {
+    background-color: rgb(248, 68, 100);
+    color: white;
+    padding: 10px 35px;
+    font-size: .9rem;
+    border-radius: 8px;
+  }
+}
+
+.about-movie {
+  width: min(80%, 1150px);
+  margin: 0 auto;
+  padding: 20px;
+}
+

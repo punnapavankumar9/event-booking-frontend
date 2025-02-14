@@ -1,18 +1,14 @@
-<app-slider></app-slider>
+<!--// TODO add slider or carousal or cleanup slider component-->
 
-
+<link rel="stylesheet" href="home.component.scss">
 <div>
     <div class="top">
 
     </div>
     <div class="movie-cards-container">
-        <div class="row justify-content-start">
-            @for (movie of movies; track movie.id) {
-                <app-movie-card class="col" [movie]="movie"></app-movie-card>
-            }
-        </div>
+        @for (movie of movies(); track movie.id) {
+            <app-movie-card [movie]="movie"></app-movie-card>
+        }
     </div>
-
-    .bottom
 </div>
 

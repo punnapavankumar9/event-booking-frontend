@@ -1,0 +1,89 @@
+<div class="generic-form-container">
+
+    <form class="generic-form" [formGroup]="form" (ngSubmit)="createMovie()">
+        <legend>
+            <h1 class="form-header">
+                Create Movie
+            </h1>
+        </legend>
+        <div class="mb-3">
+            <label for="title" class="form-label">Movie Title</label>
+            <input type="text" [formControl]="form.controls.title" class="form-control" id="title"
+                   placeholder="Movie Title">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Movie Description</label>
+            <textarea class="form-control" [formControl]="form.controls.description"
+                      id="description" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="duration" class="form-label">Movie Runtime(Minutes)</label>
+            <input type="number" [formControl]="form.controls.duration" class="form-control"
+                   id="duration">
+        </div>
+        <div class="mb-3">
+            <label for="release-date" class="form-label">Release
+                Date</label>
+            <input type="datetime-local" class="form-control"
+                   [formControl]="form.controls.releaseDate"
+                   id="release-date">
+        </div>
+        <div class="mb-3">
+            <label class
+                       ="form-label">Genres</label>
+            <div formArrayName="genres">
+                <div class="d-flex py-2 justify-content-center align-items-center"
+                     *ngFor="let genre of form.controls.genres.controls; let i = index">
+                    <input type="text" class="form-control" placeholder="Enter genre"
+                           [formControl]="genre" [id]="'genre' + i">
+                    <button class="btn" type="button"
+                            (click)="removeGenre(i)">❌
+                    </button>
+                </div>
+            </div>
+            <button type="button" class="btn btn-success" (click)="addGenre()">Add Genre</button>
+        </div>
+        <div class="mb-3">
+            <label class
+                       ="form-label">Tags</label>
+            <div formArrayName="tags">
+                <div class="d-flex py-2 justify-content-center align-items-center"
+                     *ngFor="let tag of form.controls.tags.controls; let i = index">
+                    <input type="text" class="form-control" placeholder="Enter Tag"
+                           [formControl]="tag" [id]="'tag' + i">
+                    <button class="btn" type="button"
+                            (click)="removeTag(i)">❌
+                    </button>
+                </div>
+            </div>
+            <button type="button" class="btn btn-success" (click)="addTag()">Add Tag</button>
+        </div>
+        <div class="mb-3">
+            <label for="images" class="form-label">Movie Images</label>
+            <input class="form-control" (change)="onFileSelected($event)"
+                   accept=".avif, .png, .jpg, .jpeg" type="file"
+                   id="images" [formControl]="form.controls.images" multiple>
+            <ul>
+                <li *ngFor="let file of selectedImages">{{ file.name }}</li>
+            </ul>
+        </div>
+
+        <div>
+            <label for="posterImage" class="form-label">Poster Image</label>
+            <input class="form-control" (change)="posterImageSelected($event)"
+                   accept=".avif, .png, .jpg, .jpeg" type="file"
+                   id="posterImage" [formControl]="form.controls.posterImage">
+            @if (posterImage) {
+                <div>
+                    {{ posterImage.name }}
+                </div>
+            }
+        </div>
+
+        <div class="submit-btn-container">
+            <button class="form-submit-btn-red" type="submit">
+                Create
+            </button>
+        </div>
+    </form>
+</div>

@@ -1,5 +1,5 @@
 <div
-    class="movie-list-container d-flex flex-row flex-wrap justify-content-center align-items-start">
+    class="movie-list-container d-flex flex-row flex-wrap justify-content-start align-items-start">
     @for (movie of movies(); track movie.id) {
         <app-movie-card [movie]="movie"/>
     }

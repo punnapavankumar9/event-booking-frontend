@@ -1,23 +1,24 @@
 @if (movie()) {
-    <div class="movie-card d-flex flex-column">
+    <div [routerLink]="['/movies', 'details', movie().id]" class="movie-card d-flex flex-column">
         <div class="movie-image-container">
             <div class="rating d-flex p-1 justify-content-center align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960"
-                     width="24px" fill="gold">
+                <svg class="movie-rating-star" width="24" height="24">
                     <path
-                        d="m354-287 126-76 126 77-33-144 111-96-146-13-58-136-58 135-146 13 111 97-33 143ZM233-120l65-281L80-590l288-25 112-265 112 265 288 25-218 189 65 281-247-149-247 149Zm247-350Z"/>
+                        d="M18.494 22.12h0-.012a.935.935 0 01-.423-.1h-.001l-5.96-3.072-.115-.059-.115.059-5.963 3.072h0a.934.934 0 01-.973-.07.903.903 0 01-.31-.391.884.884 0 01-.051-.492l-.246-.044.246.044 1.169-6.479.024-.132-.098-.093L.851 9.762a.896.896 0 01-.228-.895.9.9 0 01.28-.409.928.928 0 01.463-.203h.001L8.031 7.3l.13-.019.059-.117 2.934-5.904h0a.907.907 0 01.339-.372.933.933 0 011.318.372h0v.002l2.97 5.892.059.116.13.019 6.663.955h.001c.171.024.331.094.463.203.13.108.228.25.28.408a.883.883 0 01-.227.895l-.002.001-4.814 4.6-.097.094.024.132 1.169 6.479h0v.003a.884.884 0 01-.049.501.904.904 0 01-.887.56z"
+                        fill="#F07584" stroke="#EB4E62" stroke-width=".5"/>
                 </svg>
                 <span>
                 {{ movie().rating }}
             </span>
             </div>
-            <img class="movie-image" [priority]="1" width="250" height="300" [ngSrc]="movie().imageUrls[0]" alt="{{movie().title}}">
+            <img class="movie-image" [priority]="1" width="250" height="300"
+                 [ngSrc]="movie().imageUrls[0]" alt="{{movie().title}}">
         </div>
         <div class="movie-title fs-5">
             {{ movie().title }}
         </div>
         <div class="genre">
-            {{ movie().genre }}
+            {{ movie().genreString }}
         </div>
     </div>
 }

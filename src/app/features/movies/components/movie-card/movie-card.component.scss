@@ -8,11 +8,9 @@
   }
 
   .movie-image-container {
-    max-width: 250px;
+    width: 250px !important;
     overflow: hidden;
     height: 350px;
-
-
 
     .movie-image {
       width: 100%;
@@ -34,4 +32,8 @@
     padding: 5px;
     border-radius: 3px;
   }
+}
+
+.movie-rating-star {
+  scale: .7;
 }

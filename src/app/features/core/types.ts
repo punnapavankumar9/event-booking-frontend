@@ -5,11 +5,18 @@ export type Toast = {
   delay?: number
 }
 
+
 export type Movie = {
   id: string,
   title: string,
   imageUrls: string[],
-  overview: string,
+  description: string,
   rating: number,
-  genre: string
+  genres: string[],
+  likes: number,
+  releaseDate: Date,
+  duration: number,
+  genreString?: string,
+  tags?: string[],
+  posterUrl: string;
 }

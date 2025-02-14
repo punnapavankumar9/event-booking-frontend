@@ -1,8 +1,8 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { MovieCardComponent } from '../movie-card/movie-card.component';
 import { Movie } from '../../../core/types';
 import { MoviesService } from '../../services/movies.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { MovieCardComponent } from '../movie-card/movie-card.component';
 
 @Component({
   selector: 'app-movies',
@@ -34,22 +34,7 @@ export class MoviesComponent implements OnInit {
           }
           data.forEach((movie) => {
             this.movies().push(movie);
-          });data.forEach((movie) => {
-            this.movies().push(movie);
-          });data.forEach((movie) => {
-            this.movies().push(movie);
-          });data.forEach((movie) => {
-            this.movies().push(movie);
-          });data.forEach((movie) => {
-            this.movies().push(movie);
-          });data.forEach((movie) => {
-            this.movies().push(movie);
-          });data.forEach((movie) => {
-            this.movies().push(movie);
-          });
-          data.forEach((movie) => {
-            this.movies().push(movie);
-          });
+          })
         },
         error: error => {
           this.toastService.showToast({type: 'error', message: error.message})

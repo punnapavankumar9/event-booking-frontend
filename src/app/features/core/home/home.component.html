@@ -1,14 +1,21 @@
 <!--// TODO add slider or carousal or cleanup slider component-->
 
-<link rel="stylesheet" href="home.component.scss">
 <div>
     <div class="top">
 
     </div>
-    <div class="movie-cards-container">
-        @for (movie of movies(); track movie.id) {
-            <app-movie-card [movie]="movie"></app-movie-card>
-        }
+    <div class="movies-list">
+        <div class="movies-list-header d-flex flex-row justify-content-between align-items-center">
+            <div class="left">
+                <span>Recommended Movies</span>
+            </div>
+            <span class="right red-link" [routerLink]="['/movies']">see all</span>
+        </div>
+        <div class="movie-cards-container mt-0 pt-0">
+            @for (movie of movies(); track movie.id) {
+                <app-movie-card [movie]="movie"></app-movie-card>
+            }
+        </div>
     </div>
 </div>
 

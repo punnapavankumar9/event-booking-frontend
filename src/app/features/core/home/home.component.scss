@@ -5,3 +5,17 @@
   overflow: scroll;
   scrollbar-width: none;
 }
+
+.movies-list-header {
+  padding: 10px 10px 0 10px;
+
+  .left {
+    font-size: 1.5rem;
+    font-weight: bolder;
+    padding-left: 5px;
+  }
+}
+
+.right {
+
+}

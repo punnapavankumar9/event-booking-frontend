@@ -162,3 +162,15 @@ $font-sizes: (
   text-align: center;
   transform: translateX(-10px);
 }
+
+.red-link {
+  color: $primary-red;
+}
+
+.red-link::after {
+  content: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='red' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.08786 6.08783C4.24407 5.93162 4.49734 5.93162 4.65355 6.08783L7.8707 9.30498L11.0879 6.08783C11.2441 5.93162 11.4973 5.93162 11.6535 6.08783C11.8098 6.24404 11.8098 6.4973 11.6535 6.65351L8.22426 10.0828C8.029 10.2781 7.71241 10.2781 7.51715 10.0828L4.08786 6.65351C3.93165 6.4973 3.93165 6.24404 4.08786 6.08783Z' %3E%3C/path%3E%3C/svg%3E");
+  transform: rotate(-90deg);
+  display: inline-block;
+  fill: $primary-red;
+  color: $primary-red;
+}

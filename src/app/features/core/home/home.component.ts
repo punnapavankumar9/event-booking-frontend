@@ -2,11 +2,13 @@ import { Component, OnInit, signal } from '@angular/core';
 import { Movie } from '../types';
 import { MoviesService } from '../../movies/services/movies.service';
 import { MovieCardComponent } from '../../movies/components/movie-card/movie-card.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   imports: [
-    MovieCardComponent
+    MovieCardComponent,
+    RouterLink
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

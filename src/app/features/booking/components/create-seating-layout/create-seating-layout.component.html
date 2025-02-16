@@ -1,0 +1,335 @@
+<div class="seating-layout-container">
+
+    @if (page() === 0) {
+        <div class="page0 page-container">
+            <form [formGroup]="form" novalidate class="needs-validation" (ngSubmit)="movePage(1)">
+                <div class="mb-3">
+                    <label for="rows" class="form-label">Rows</label>
+                    @let rowsControl = form.controls.rows;
+                    <input type="number" class="form-control" [formControl]="rowsControl"
+                           id="rows" placeholder="Enter Rows"
+                           [ngClass]="{'is-invalid': hasError(rowsControl) || hasError(form.controls.tiers)}">
+                    @if (hasError(rowsControl, 'min') || hasError(rowsControl,
+                        'required') || hasError(rowsControl,
+                        'max')) {
+                        <div class="invalid-feedback">
+                            rows must be between {{ validationMeta.minAllowedRows }}
+                            -{{ validationMeta.maxAllowedRows }}
+                        </div>
+                    }
+                    @if (hasError(form.controls.tiers, 'rowsMismatch')) {
+                        <div class="invalid-feedback">
+                            Total rows must match the sum of tier rows
+                        </div>
+                    }
+                </div>
+                <div class="mb-3">
+                    <label for="columns" class="form-label">Columns</label>
+                    @let columnsControl = form.controls.columns;
+                    <input type="number" [formControl]="columnsControl" class="form-control"
+                           id="columns"
+                           placeholder="Enter Columns"
+                           [ngClass]="{'is-invalid': hasError(columnsControl)}">
+                    @if (hasError(columnsControl, 'min') || hasError(columnsControl,
+                        'required') || hasError(
+                        columnsControl, 'max')) {
+                        <div class="invalid-feedback">
+                            columns must be between {{ validationMeta.minAllowedColumns }}
+                            -{{ validationMeta.maxAllowedColumns }}
+                        </div>
+                    }
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Tiers</label>
+                    <div formArrayName="tiers">
+                        <div class="d-flex flex-row justify-content-center align-items-center"
+                             *ngFor="let tier of form.controls.tiers.controls; let i = index">
+                            @let nameId = 'name' + i;
+                            <div class="input-group tier-form flex-grow-1 py-2 mb-3">
+                                @let rowsControl = tier.controls.rows;
+                                @let tierNameControl = tier.controls.tierName;
+                                <input type="text" class="form-control"
+                                       placeholder="Enter tier name"
+                                       [formControl]="tier.controls.tierName" [id]="nameId"
+                                       [ngClass]="{'is-invalid': hasError(tierNameControl)}">
+                                <input type="number" class="form-control"
+                                       placeholder="Enter rows"
+                                       [formControl]="tier.controls.rows" [id]="'row' + nameId"
+                                       [ngClass]="{'is-invalid': hasError(rowsControl)}">
+
+                                <span style="cursor: pointer;" (click)="removeTier(i)"
+                                      class="input-group-text"
+                                      id="basic-addon1">❌</span>
+                                @if (hasError(rowsControl, 'min') || hasError(rowsControl,
+                                    'required') || hasError(
+                                    rowsControl, 'max')) {
+                                    <div class="invalid-feedback">
+                                        rows must be
+                                        between {{ validationMeta.minAllowedColumns }}
+                                        -{{ validationMeta.maxAllowedColumns }}
+                                    </div>
+                                }
+                                @if (hasError(tierNameControl,
+                                    'required') || hasError(tierNameControl, 'pattern')) {
+                                    <div class="invalid-feedback">
+                                        please enter a valid tier
+                                        name {{ validationMeta.minAllowedColumns }}
+                                        -{{ validationMeta.maxAllowedColumns }}
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-info" (click)="addTier()">Add Tag
+                    </button>
+                </div>
+                <div class="mb-3">
+                    <label class="col-form-label">Screen Position</label>
+                    <div class="btn-group col-auto ps-3" role="group"
+                         aria-label="Basic radio toggle button group">
+                        <input type="radio" class="btn-check" name="screen-position"
+                               id="screen-top1"
+                               autocomplete="off" (change)="updatePosition('top')"
+                               [attr.checked]="screenPosition() === 'top' ? true : null">
+                        <label class="btn btn-outline-primary" for="screen-top1">Top</label>
+
+                        <input type="radio" class="btn-check" name="screen-position"
+                               id="screen-bottom2"
+                               autocomplete="off" (change)="updatePosition('bottom')"
+                               [attr.checked]="screenPosition() === 'bottom' ? true : null">
+                        <label class="btn btn-outline-primary" for="screen-bottom2">Bottom</label>
+                    </div>
+
+                </div>
+                <div class="submit-btn-container">
+                    <button [disabled]="form.invalid" class="btn btn-success" (click)="movePage(1)"
+                            type="submit">
+                        Next Page
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    } @else if (page() === 1) {
+        <div class="page1">
+            <div class="btn-group bottom-nav">
+                <button type="button" class="btn btn-danger dropdown-toggle"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    Action
+                </button>
+                <ul class="dropdown-menu">
+                    <li (click)="invertSeatSelection()"><a class="dropdown-item">Invert
+                        selection</a></li>
+                    <li (click)="selectAllSeats()"><a class="dropdown-item">Select all</a></li>
+                    <li (click)="deselectAllSeats()"><a class="dropdown-item">Deselect all</a></li>
+                    <li (click)="markAsSpace(true)"><a class="dropdown-item">Mark As space</a></li>
+                    <li (click)="markAsAvailable(true)"><a class="dropdown-item">Mark as
+                        available</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="layout-container">
+                @if (screenPosition() == 'top') {
+                    <ng-container *ngTemplateOutlet="screenIcon"></ng-container>
+                }
+                <table class="layout-table table-responsive">
+                    <tr class="duplicate-col-btn-row layout-table-row">
+                        @for (row of [].constructor(seatingLayout()[0].length + 1); track $index) {
+                            @if ($index >= 1) {
+                                <td class="duplicate-column-btn layout-btn seat"
+                                    title="duplicate column"
+                                    (click)="duplicateColumn($index - 1)">
+                                    <svg viewBox="0 0 24 24"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                           stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M15.24 2H11.3458C9.58159 1.99999 8.18418 1.99997 7.09054 2.1476C5.96501 2.29953 5.05402 2.61964 4.33559 3.34096C3.61717 4.06227 3.29833 4.97692 3.14701 6.10697C2.99997 7.205 2.99999 8.60802 3 10.3793V16.2169C3 17.725 3.91995 19.0174 5.22717 19.5592C5.15989 18.6498 5.15994 17.3737 5.16 16.312L5.16 11.3976L5.16 11.3024C5.15993 10.0207 5.15986 8.91644 5.27828 8.03211C5.40519 7.08438 5.69139 6.17592 6.4253 5.43906C7.15921 4.70219 8.06404 4.41485 9.00798 4.28743C9.88877 4.16854 10.9887 4.1686 12.2652 4.16867L12.36 4.16868H15.24L15.3348 4.16867C16.6113 4.1686 17.7088 4.16854 18.5896 4.28743C18.0627 2.94779 16.7616 2 15.24 2Z"
+                                                fill="#1C274C"></path>
+                                            <path
+                                                d="M6.6001 11.3974C6.6001 8.67119 6.6001 7.3081 7.44363 6.46118C8.28716 5.61426 9.64481 5.61426 12.3601 5.61426H15.2401C17.9554 5.61426 19.313 5.61426 20.1566 6.46118C21.0001 7.3081 21.0001 8.6712 21.0001 11.3974V16.2167C21.0001 18.9429 21.0001 20.306 20.1566 21.1529C19.313 21.9998 17.9554 21.9998 15.2401 21.9998H12.3601C9.64481 21.9998 8.28716 21.9998 7.44363 21.1529C6.6001 20.306 6.6001 18.9429 6.6001 16.2167V11.3974Z"
+                                                fill="#1C274C"></path>
+                                        </g>
+                                    </svg>
+                                </td>
+                            } @else {
+                                <td class="duplicate-column-btn layout-btn seat"></td>
+                            }
+                        }
+                    </tr>
+                    <tr class="delete-col-btn-row layout-table-row">
+                        @for (row of [].constructor(seatingLayout()[0].length + 1); track $index) {
+                            @if ($index >= 1) {
+                                <td class="delete-column-btn layout-btn seat" title="delete column"
+                                    (click)="deleteColumn($index - 1)">
+                                    <svg
+                                        viewBox="0 0 24 24"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                           stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M5.755,20.283,4,8H20L18.245,20.283A2,2,0,0,1,16.265,22H7.735A2,2,0,0,1,5.755,20.283ZM21,4H16V3a1,1,0,0,0-1-1H9A1,1,0,0,0,8,3V4H3A1,1,0,0,0,3,6H21a1,1,0,0,0,0-2Z"></path>
+                                        </g>
+                                    </svg>
+                                </td>
+                            } @else {
+                                <td class="duplicate-column-btn layout-btn seat"></td>
+                            }
+                        }
+                    </tr>
+                    <tr class="select-col-btn-row layout-table-row">
+                        @for (row of [].constructor(seatingLayout()[0].length + 1); track $index) {
+                            @if ($index >= 1) {
+                                <td class="select-column-btn layout-btn seat" title="select column"
+                                    (click)="invertColumnSelection($index - 1)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                         fill="currentColor" class="bi bi-check2-square"
+                                         viewBox="0 0 16 16">
+                                        <path
+                                            d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5z"/>
+                                        <path
+                                            d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0"/>
+                                    </svg>
+                                </td>
+                            } @else {
+                                <td class="duplicate-column-btn layout-btn seat"></td>
+                            }
+                        }
+                    </tr>
+
+                    @for (row of seatingLayout(); track row; let rowId = $index) {
+                        @if (renderTierHeader(rowId)) {
+                            <ng-container *ngTemplateOutlet="tierHeader">
+                            </ng-container>
+                        }
+                        <tr class="layout-table-row">
+                            @if (resetAvailableSeatCount() !== 1) {
+
+                            }
+                            <td class="col-indicator-column-btn layout-btn seat"
+                                title="col-indicator column">
+                                @if (!blockedRow(rowId)) {
+                                    <input type="text" [value]="getColumnIndicator(rowId)"
+                                           class="border-0 text-center form-control p-0 col-indicator">
+                                }
+                            </td>
+
+                            @for (col of seatingLayout()[rowId]; track col; let colId = $index) {
+                                @let seat = seatingLayout()[rowId][colId];
+                                <td [ngClass]="[seat.isSelected ? 'selected-seat' : '', seat.isSpace ? 'space-seat': '' ]"
+                                    class="seat"
+                                    (click)="toggleSeatSelection(rowId, colId)">
+                                    <span>
+                                        @if (!seat.isSpace) {
+                                            {{ incrementAvailableSeatCount() }}
+                                        }
+                                    </span>
+                                </td>
+                            }
+
+                            <td class="select-column-btn layout-btn seat" title="select column"
+                                (click)="invertRowSelection(rowId)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                     fill="currentColor" class="bi bi-check2-square"
+                                     viewBox="0 0 16 16">
+                                    <path
+                                        d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5z"/>
+                                    <path
+                                        d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0"/>
+                                </svg>
+                            </td>
+                            <td class="delete-row-btn layout-btn seat" title="delete row"
+                                (click)="deleteRow(rowId)">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                       stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path
+                                            d="M5.755,20.283,4,8H20L18.245,20.283A2,2,0,0,1,16.265,22H7.735A2,2,0,0,1,5.755,20.283ZM21,4H16V3a1,1,0,0,0-1-1H9A1,1,0,0,0,8,3V4H3A1,1,0,0,0,3,6H21a1,1,0,0,0,0-2Z"></path>
+                                    </g>
+                                </svg>
+                            </td>
+                            <td class="duplicate-row-btn layout-btn seat" title="duplicate row"
+                                (click)="duplicateAndAppendRow(rowId)">
+                                <svg viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                       stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <path
+                                            d="M15.24 2H11.3458C9.58159 1.99999 8.18418 1.99997 7.09054 2.1476C5.96501 2.29953 5.05402 2.61964 4.33559 3.34096C3.61717 4.06227 3.29833 4.97692 3.14701 6.10697C2.99997 7.205 2.99999 8.60802 3 10.3793V16.2169C3 17.725 3.91995 19.0174 5.22717 19.5592C5.15989 18.6498 5.15994 17.3737 5.16 16.312L5.16 11.3976L5.16 11.3024C5.15993 10.0207 5.15986 8.91644 5.27828 8.03211C5.40519 7.08438 5.69139 6.17592 6.4253 5.43906C7.15921 4.70219 8.06404 4.41485 9.00798 4.28743C9.88877 4.16854 10.9887 4.1686 12.2652 4.16867L12.36 4.16868H15.24L15.3348 4.16867C16.6113 4.1686 17.7088 4.16854 18.5896 4.28743C18.0627 2.94779 16.7616 2 15.24 2Z"
+                                            fill="#1C274C"></path>
+                                        <path
+                                            d="M6.6001 11.3974C6.6001 8.67119 6.6001 7.3081 7.44363 6.46118C8.28716 5.61426 9.64481 5.61426 12.3601 5.61426H15.2401C17.9554 5.61426 19.313 5.61426 20.1566 6.46118C21.0001 7.3081 21.0001 8.6712 21.0001 11.3974V16.2167C21.0001 18.9429 21.0001 20.306 20.1566 21.1529C19.313 21.9998 17.9554 21.9998 15.2401 21.9998H12.3601C9.64481 21.9998 8.28716 21.9998 7.44363 21.1529C6.6001 20.306 6.6001 18.9429 6.6001 16.2167V11.3974Z"
+                                            fill="#1C274C"></path>
+                                    </g>
+                                </svg>
+                            </td>
+                        </tr>
+                    }
+                </table>
+                @if (resetTierName()) {
+                }
+                @if (screenPosition() == 'bottom') {
+                    <ng-container *ngTemplateOutlet="screenIcon"></ng-container>
+                }
+            </div>
+            <div class="bottom-nav">
+                <button class="form-submit-btn-red m-2" (click)="movePage(-1)" type="button">
+                    Prev Page
+                </button>
+                <button class="form-submit-btn-red m-2" (click)="createLayout()" type="button">
+                    Create Layout
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+<ng-template #tierHeader>
+    <div class="tier-header">
+        <hr>
+        <span class="tier-name">
+            <span class="tier-name-inner">
+            {{ activeTier?.value?.tierName }}
+            </span>
+        </span>
+    </div>
+</ng-template>
+
+<ng-template #screenIcon>
+    <div
+        class="screen text-center d-flex justify-content-center align-items-center"
+        [ngClass]="screenPosition() == 'top' ? 'flex-column' : 'flex-column-reverse' "
+    >
+        <span class="screen-tagline"
+              [ngStyle]="{'top' : (screenPosition() == 'top') ? '15px' : '-15px'}">
+            All eyes this way please!
+        </span>
+        <svg [ngClass]="screenPosition() == 'top' ? 'screen-rotate' : ''"
+             xmlns="http://www.w3.org/2000/svg"
+             version="1.1" id="Layer_1" x="0px" y="0px" width="20%" viewBox="0 0 1228 194"
+             enable-background="new 0 0 1228 194" xml:space="preserve">
+<path fill="transparent" opacity="1.000000" stroke="none"
+      d=" M1163.000000,195.000000   C775.333313,195.000000 388.166656,195.000000 1.000000,195.000000   C1.000000,130.333328 1.000000,65.666664 1.000000,1.000000   C410.333344,1.000000 819.666687,1.000000 1229.000000,1.000000   C1229.000000,65.666664 1229.000000,130.333328 1229.000000,195.000000   C1207.166626,195.000000 1185.333374,195.000000 1163.000000,195.000000  M949.500000,136.962296   C991.493225,136.962311 1033.486450,136.962265 1075.479736,136.962341   C1092.643677,136.962372 1109.808105,137.010391 1126.971191,136.891357   C1128.755981,136.878983 1131.451294,136.428177 1132.165405,135.242218   C1136.594360,127.886894 1140.577759,120.263237 1144.571167,112.980049   C1141.848267,111.000389 1139.715088,109.003860 1137.218994,107.704758   C1115.365479,96.331223 1093.445557,85.085571 1071.548950,73.794693   C1060.896484,68.301773 1050.311157,62.673607 1039.562744,57.375847   C1036.869385,56.048374 1033.664062,55.090584 1030.693726,55.089489   C753.070435,54.987160 475.447144,54.987610 197.823868,55.082077   C194.805695,55.083107 191.513947,55.856777 188.814377,57.201916   C170.931564,66.112648 153.146774,75.222099 135.388718,84.380554   C123.114647,90.710716 110.929924,97.214333 98.714760,103.658424   C93.534019,106.391518 88.377594,109.170685 82.714050,112.193703   C83.293190,113.483635 83.774155,114.814110 84.457245,116.031143   C87.305267,121.105301 90.503899,126.006577 93.010170,131.241180   C95.066780,135.536636 97.738869,137.078918 102.632172,137.076691   C384.588074,136.948486 666.544067,136.962265 949.500000,136.962296  z"/>
+            <path fill="#C7D8F9" opacity="1.000000" stroke="none"
+                  d=" M949.000000,136.962250   C666.544067,136.962265 384.588074,136.948486 102.632172,137.076691   C97.738869,137.078918 95.066780,135.536636 93.010170,131.241180   C90.503899,126.006577 87.305267,121.105301 84.457245,116.031143   C83.774155,114.814110 83.293190,113.483635 82.714050,112.193703   C88.377594,109.170685 93.534019,106.391518 98.714760,103.658424   C110.929924,97.214333 123.114647,90.710716 135.388718,84.380554   C153.146774,75.222099 170.931564,66.112648 188.814377,57.201916   C191.513947,55.856777 194.805695,55.083107 197.823868,55.082077   C475.447144,54.987610 753.070435,54.987160 1030.693726,55.089489   C1033.664062,55.090584 1036.869385,56.048374 1039.562744,57.375847   C1050.311157,62.673607 1060.896484,68.301773 1071.548950,73.794693   C1093.445557,85.085571 1115.365479,96.331223 1137.218994,107.704758   C1139.715088,109.003860 1141.848267,111.000389 1144.571167,112.980049   C1140.577759,120.263237 1136.594360,127.886894 1132.165405,135.242218   C1131.451294,136.428177 1128.755981,136.878983 1126.971191,136.891357   C1109.808105,137.010391 1092.643677,136.962372 1075.479736,136.962341   C1033.486450,136.962265 991.493225,136.962311 949.000000,136.962250  M936.500000,114.038971   C653.845703,114.460533 371.191406,114.882095 87.700104,115.304901   C90.170029,119.900383 92.402153,123.734962 94.326103,127.718391   C96.453033,132.122086 99.148727,134.157074 104.642036,134.154205   C444.258301,133.976959 783.874634,133.994980 1123.490967,133.994476   C1124.824097,133.994476 1126.207764,134.208694 1127.475586,133.919037   C1128.661743,133.648026 1130.203735,133.132919 1130.764160,132.219254   C1134.254150,126.529480 1137.512207,120.697456 1141.350586,114.039085   C1072.655518,114.039085 1005.077759,114.039085 936.500000,114.038971  M277.500000,57.988792   C251.171890,57.988804 224.843506,57.936497 198.516052,58.067619   C195.805267,58.081120 192.830093,58.657124 190.433624,59.871796   C165.192307,72.665596 140.030579,85.616859 114.878441,98.585861   C108.163933,102.048019 101.557098,105.719009 94.045311,109.753624   C441.040466,109.753624 786.972717,109.753624 1133.879639,109.753624   C1132.423828,108.848267 1131.794678,108.394424 1131.113037,108.042221   C1100.651123,92.304657 1070.227539,76.492027 1039.660889,60.960407   C1036.130859,59.166683 1031.804443,58.109692 1027.846313,58.107601   C778.064270,57.975609 528.282166,57.988777 277.500000,57.988792  z"/>
+            <path fill="transparent" opacity="1.000000" stroke="none"
+                  d=" M937.000000,114.039032   C1005.077759,114.039085 1072.655518,114.039085 1141.350586,114.039085   C1137.512207,120.697456 1134.254150,126.529480 1130.764160,132.219254   C1130.203735,133.132919 1128.661743,133.648026 1127.475586,133.919037   C1126.207764,134.208694 1124.824097,133.994476 1123.490967,133.994476   C783.874634,133.994980 444.258301,133.976959 104.642036,134.154205   C99.148727,134.157074 96.453033,132.122086 94.326103,127.718391   C92.402153,123.734962 90.170029,119.900383 87.700104,115.304901   C371.191406,114.882095 653.845703,114.460533 937.000000,114.039032  z"/>
+            <path fill="transparent" opacity="1.000000" stroke="none"
+                  d=" M278.000000,57.988777   C528.282166,57.988777 778.064270,57.975609 1027.846313,58.107601   C1031.804443,58.109692 1036.130859,59.166683 1039.660889,60.960407   C1070.227539,76.492027 1100.651123,92.304657 1131.113037,108.042221   C1131.794678,108.394424 1132.423828,108.848267 1133.879639,109.753624   C786.972717,109.753624 441.040466,109.753624 94.045311,109.753624   C101.557098,105.719009 108.163933,102.048019 114.878441,98.585861   C140.030579,85.616859 165.192307,72.665596 190.433624,59.871796   C192.830093,58.657124 195.805267,58.081120 198.516052,58.067619   C224.843506,57.936497 251.171890,57.988804 278.000000,57.988777  M917.500000,104.988487   C979.642029,104.988487 1041.784058,104.988487 1103.926147,104.988487   C1080.989624,92.439598 1058.037476,80.664589 1034.984985,69.089676   C1032.432617,67.808098 1029.306763,67.084198 1026.446533,67.083267   C751.793823,66.994072 477.141083,66.994011 202.488403,67.084213   C199.629669,67.085152 196.512161,67.834167 193.953827,69.111763   C173.396103,79.377998 152.939987,89.847832 132.464340,100.278053   C129.902969,101.582817 127.408806,103.019516 123.794151,104.988457   C388.910431,104.988457 652.705200,104.988457 917.500000,104.988487  z"/>
+            <path fill="#D6E3F9" opacity="1.000000" stroke="none"
+                  d=" M917.000000,104.988472   C652.705200,104.988457 388.910431,104.988457 123.794151,104.988457   C127.408806,103.019516 129.902969,101.582817 132.464340,100.278053   C152.939987,89.847832 173.396103,79.377998 193.953827,69.111763   C196.512161,67.834167 199.629669,67.085152 202.488403,67.084213   C477.141083,66.994011 751.793823,66.994072 1026.446533,67.083267   C1029.306763,67.084198 1032.432617,67.808098 1034.984985,69.089676   C1058.037476,80.664589 1080.989624,92.439598 1103.926147,104.988487   C1041.784058,104.988487 979.642029,104.988487 917.000000,104.988472  z"/>
+</svg>
+    </div>
+</ng-template>
+

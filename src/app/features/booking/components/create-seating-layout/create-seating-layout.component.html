@@ -24,6 +24,27 @@
                     }
                 </div>
                 <div class="mb-3">
+                    <label for="name" class="form-label">Layout Name</label>
+                    @let nameControl = form.controls.name;
+                    <input type="text" class="form-control" [formControl]="nameControl"
+                           id="name" placeholder="Enter Name"
+                           [ngClass]="{'is-invalid': hasError(nameControl) || hasError(form.controls.tiers)}">
+                    @if (hasError(nameControl, 'minlength') || hasError(nameControl,
+                        'required') || hasError(nameControl,
+                        'maxlength')) {
+                        <div class="invalid-feedback">
+                            name length must be between {{ validationMeta.nameMinLength }}
+                            - {{ validationMeta.nameMaxLength }}
+                        </div>
+                    }
+                    @if (hasError(form.controls.tiers, 'nameMismatch')) {
+                        <div class="invalid-feedback">
+                            Total rows must match the sum of tier rows
+                        </div>
+                    }
+                </div>
+
+                <div class="mb-3">
                     <label for="columns" class="form-label">Columns</label>
                     @let columnsControl = form.controls.columns;
                     <input type="number" [formControl]="columnsControl" class="form-control"
@@ -89,14 +110,14 @@
                          aria-label="Basic radio toggle button group">
                         <input type="radio" class="btn-check" name="screen-position"
                                id="screen-top1"
-                               autocomplete="off" (change)="updatePosition('top')"
-                               [attr.checked]="screenPosition() === 'top' ? true : null">
+                               autocomplete="off" (change)="updatePosition('TOP')"
+                               [attr.checked]="screenPosition() === 'TOP' ? true : null">
                         <label class="btn btn-outline-primary" for="screen-top1">Top</label>
 
                         <input type="radio" class="btn-check" name="screen-position"
                                id="screen-bottom2"
-                               autocomplete="off" (change)="updatePosition('bottom')"
-                               [attr.checked]="screenPosition() === 'bottom' ? true : null">
+                               autocomplete="off" (change)="updatePosition('BOTTOM')"
+                               [attr.checked]="screenPosition() === 'BOTTOM' ? true : null">
                         <label class="btn btn-outline-primary" for="screen-bottom2">Bottom</label>
                     </div>
 
@@ -130,7 +151,7 @@
             </div>
 
             <div class="layout-container">
-                @if (screenPosition() == 'top') {
+                @if (screenPosition() == 'TOP') {
                     <ng-container *ngTemplateOutlet="screenIcon"></ng-container>
                 }
                 <table class="layout-table table-responsive">
@@ -279,7 +300,7 @@
                 </table>
                 @if (resetTierName()) {
                 }
-                @if (screenPosition() == 'bottom') {
+                @if (screenPosition() == 'BOTTOM') {
                     <ng-container *ngTemplateOutlet="screenIcon"></ng-container>
                 }
             </div>
@@ -309,13 +330,13 @@
 <ng-template #screenIcon>
     <div
         class="screen text-center d-flex justify-content-center align-items-center"
-        [ngClass]="screenPosition() == 'top' ? 'flex-column' : 'flex-column-reverse' "
+        [ngClass]="screenPosition() == 'TOP' ? 'flex-column' : 'flex-column-reverse' "
     >
         <span class="screen-tagline"
-              [ngStyle]="{'top' : (screenPosition() == 'top') ? '15px' : '-15px'}">
+              [ngStyle]="{'top' : (screenPosition() == 'TOP') ? '15px' : '-15px'}">
             All eyes this way please!
         </span>
-        <svg [ngClass]="screenPosition() == 'top' ? 'screen-rotate' : ''"
+        <svg [ngClass]="screenPosition() == 'TOP' ? 'screen-rotate' : ''"
              xmlns="http://www.w3.org/2000/svg"
              version="1.1" id="Layer_1" x="0px" y="0px" width="20%" viewBox="0 0 1228 194"
              enable-background="new 0 0 1228 194" xml:space="preserve">

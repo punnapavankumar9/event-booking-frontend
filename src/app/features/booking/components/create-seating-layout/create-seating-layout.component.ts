@@ -3,16 +3,17 @@ import { NgClass, NgForOf, NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
   AbstractControl,
   FormArray,
-  FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { Seat, SeatingLayout } from '../types';
+import { ScreenPosition, Seat, SeatingLayout, ServerSideSeatingLayout } from '../types';
 import { ToastService } from '../../../core/services/toast.service';
 import { validateTierWiseRowCount } from '../../validators';
+import { SeatLayoutService } from '../../services/seat-layout.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 type TierFormGroup = FormGroup<{
@@ -41,9 +42,11 @@ export class CreateSeatingLayoutComponent {
     maxAllowedRows: 50,
     minAllowedRows: 5,
     minAllowedColumns: 5,
+    nameMinLength: 5,
+    nameMaxLength: 50
   }
 
-  screenPosition = signal<'top' | 'bottom'>('top');
+  screenPosition = signal<ScreenPosition>('TOP');
   seatingLayout = signal<SeatingLayout>(null as unknown as SeatingLayout);
   tierMap: { [key: number]: TierFormGroup } = {}
   activeTier: TierFormGroup | null = null;
@@ -51,11 +54,12 @@ export class CreateSeatingLayoutComponent {
   form = new FormGroup({
     rows: new FormControl(10, [Validators.required, Validators.min(this.validationMeta.minAllowedRows), Validators.max(this.validationMeta.maxAllowedRows)]),
     columns: new FormControl(10, [Validators.required, Validators.min(this.validationMeta.minAllowedColumns), Validators.max(this.validationMeta.maxAllowedColumns)]),
+    name: new FormControl(null, [Validators.required, Validators.maxLength(this.validationMeta.nameMaxLength), Validators.minLength(this.validationMeta.nameMinLength)]),
     tiers: new FormArray([] as TierFormGroup[], {validators: [validateTierWiseRowCount, Validators.min(1)]}),
   });
 
 
-  constructor(private toastService: ToastService, private fb: FormBuilder) {
+  constructor(private toastService: ToastService, private seatLayoutService: SeatLayoutService) {
     this.addTier();
     this.form.controls.rows.valueChanges.subscribe(() => {
       this.form.controls.tiers.updateValueAndValidity()
@@ -152,14 +156,48 @@ export class CreateSeatingLayoutComponent {
     if (this.page() == 1) {
       this.refreshSeatingLayout()
     }
-    console.log(this.page());
   }
 
   // seating layout utils
   createLayout() {
-    this.updateTierNameInSeatingLayout()
-    console.log(this.form.value);
-    console.log(this.seatingLayout());
+    if (!this.form.valid) {
+      this.toastService.showToast({message: "Invalid seat state", type: 'error'})
+      return;
+    }
+
+    this.updateTierNameInSeatingLayout();
+
+    const capacity = this.seatingLayout().reduce((rowSum, row) => {
+      return rowSum + row.reduce((colSum, seat) => (seat.isSpace ? 0 : 1) + colSum, 0);
+    }, 0);
+    const seats: Seat[] = [];
+    for (let row of this.seatingLayout()) {
+      for (const seat of row) {
+        seats.push({...seat});
+      }
+    }
+
+    const formData = this.form.value;
+    const postData: ServerSideSeatingLayout = {
+      rows: formData.rows!,
+      columns: formData.columns!,
+      capacity,
+      seats,
+      screenPosition: this.screenPosition(),
+      name: formData.name!
+    };
+
+    this.seatLayoutService.createSeatingLayout(postData).subscribe({
+      next: (response: ServerSideSeatingLayout) => {
+        this.toastService.showToast({
+          message: "Seating Layout Created Successfully",
+          type: 'success'
+        });
+      },
+      error: (error: HttpErrorResponse) => {
+        this.toastService.showToast({message: error.error.message ?? error.message, type: 'error'});
+      }
+    });
   }
 
   refreshSeatingLayout() {
@@ -401,7 +439,7 @@ export class CreateSeatingLayoutComponent {
     return flag ? 1 : 0;
   }
 
-  updatePosition(position: 'top' | 'bottom') {
+  updatePosition(position: ScreenPosition) {
     this.screenPosition.set(position);
   }
 

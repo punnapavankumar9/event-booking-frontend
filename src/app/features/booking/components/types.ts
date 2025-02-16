@@ -12,6 +12,11 @@ export type ServerSideSeatingLayout = {
   columns: number;
   capacity: number;
   seats: Seat[];
+  screenPosition: ScreenPosition;
+  name: string;
 }
+
+export type ScreenPosition = 'TOP' | 'BOTTOM';
+
 
 export type SeatingLayout = (Seat & { isSelected?: boolean }) [][];

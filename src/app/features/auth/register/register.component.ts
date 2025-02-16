@@ -48,7 +48,6 @@ export class RegisterComponent {
     this.toastService.showToast({message: message, type: 'success'})
   }
 
-
   onRegister() {
     const {username, password, email} = this.registerFrom.value;
     this.authService.register({username: username!, password: password!, email: email!}).subscribe({
@@ -69,7 +68,6 @@ export class RegisterComponent {
         this.closeDialog();
       },
       error: (err: HttpErrorResponse) => {
-        console.error(err);
         this.errorMessage.set(err.error.message ?? err.message);
       }
     })

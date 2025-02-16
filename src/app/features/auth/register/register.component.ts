@@ -5,11 +5,12 @@ import { UserRegistrationDetails } from '../types';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../../core/services/toast.service';
 import { CommonModule } from '@angular/common';
+import { ClickOutsideDirective } from '../../core/directives/click-outside.directive';
 
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, ClickOutsideDirective],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -39,7 +40,7 @@ export class RegisterComponent {
     this.dialog.emit(false);
   }
 
-  toggelSignInTab(val: boolean) {
+  toggleSignInTab(val: boolean) {
     this.errorMessage.set(null);
     this.signInTab.set(val);
   }
@@ -53,7 +54,7 @@ export class RegisterComponent {
     this.authService.register({username: username!, password: password!, email: email!}).subscribe({
       next: (registrationDetails: UserRegistrationDetails) => {
         this.showSuccessMessage("Registered User " + username + " Please Login");
-        this.toggelSignInTab(true);
+        this.toggleSignInTab(true);
       },
       error: (err: HttpErrorResponse) => {
         this.errorMessage.set(err.error.message ?? err.message);
@@ -65,6 +66,7 @@ export class RegisterComponent {
     const {username, password} = this.loginForm.value;
     this.authService.login({username: username!, password: password!}).subscribe({
       next: () => {
+        this.toastService.showToast({message: "Logged Successfully", type: 'success'});
         this.closeDialog();
       },
       error: (err: HttpErrorResponse) => {

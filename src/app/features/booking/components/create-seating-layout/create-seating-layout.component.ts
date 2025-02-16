@@ -9,11 +9,12 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { ScreenPosition, Seat, SeatingLayout, ServerSideSeatingLayout } from '../types';
+import { ScreenPosition, Seat, SeatingLayout, ServerSideSeatingLayout } from '../../types';
 import { ToastService } from '../../../core/services/toast.service';
 import { validateTierWiseRowCount } from '../../validators';
 import { SeatLayoutService } from '../../services/seat-layout.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 
 type TierFormGroup = FormGroup<{
@@ -59,7 +60,7 @@ export class CreateSeatingLayoutComponent {
   });
 
 
-  constructor(private toastService: ToastService, private seatLayoutService: SeatLayoutService) {
+  constructor(private toastService: ToastService, private seatLayoutService: SeatLayoutService, private router: Router) {
     this.addTier();
     this.form.controls.rows.valueChanges.subscribe(() => {
       this.form.controls.tiers.updateValueAndValidity()
@@ -193,6 +194,7 @@ export class CreateSeatingLayoutComponent {
           message: "Seating Layout Created Successfully",
           type: 'success'
         });
+        this.router.navigate(['/booking', 'seating', response.id]);
       },
       error: (error: HttpErrorResponse) => {
         this.toastService.showToast({message: error.error.message ?? error.message, type: 'error'});

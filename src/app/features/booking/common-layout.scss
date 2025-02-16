@@ -1,0 +1,179 @@
+@import "../../../styles";
+
+.page-container {
+  margin: 20px auto 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 20px;
+}
+
+.page0 {
+  width: min(90%, 500px);
+}
+
+.btn {
+  outline: none;
+}
+
+.the-legend {
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 0;
+  width: 100%;
+  padding: 0 10px;
+  border: 1px solid #e0e0e0;
+}
+
+.the-fieldset {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 10px;
+  width: 100%;
+}
+
+.tier-group {
+  position: relative;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px auto 20px;
+
+  .tier-name {
+    border-radius: 5px;
+    color: white;
+    position: absolute;
+    top: -10px;
+    background-color: $primary-red;
+    padding: 0 10px;
+    z-index: 10;
+  }
+}
+
+.seat {
+  cursor: pointer;
+  border-radius: 2px;
+  width: 25px;
+  height: 25px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2px;
+  font-size: .8rem;
+  border: 1px solid $seat-green;
+  color: $seat-green;
+}
+
+.selected-seat {
+  background-color: $seat-green !important;
+  color: white;
+}
+
+.space-seat {
+  background-color: #909090;
+  border: none;
+  color: white;
+}
+
+.available-seat {
+
+}
+
+.page1 {
+  width: 100%;
+}
+
+.layout-container {
+  width: 90%;
+  margin: 20px auto 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.layout-table {
+  margin: 0 auto;
+}
+
+.bottom-nav {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.delete-column-btn, .delete-row-btn {
+  fill: $primary-red;
+}
+
+.layout-btn {
+  padding: 3px;
+  fill: $primary-red;
+  border: none !important;
+  cursor: pointer;
+
+  svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+}
+
+
+.layout-table-row {
+  overflow: scroll;
+}
+
+
+.col-indicator {
+  text-transform: uppercase;
+  height: 25px;
+  width: 25px;
+  padding: 0;
+  position: relative;
+  top: 3px;
+  left: 1px;
+}
+
+.editable-text {
+  border-bottom: 1px dashed gray;
+  display: inline-block;
+  cursor: pointer;
+  min-width: 100px;
+  padding: 2px;
+}
+
+.editable-text:hover {
+  background-color: #f8f9fa;
+}
+
+.tier-header {
+  position: relative;
+
+  .tier-name {
+    position: absolute;
+    top: -13px;
+    background-color: transparent;
+    text-align: center;
+    width: 100%;
+
+    .tier-name-inner {
+      background-color: white;
+      padding: 0 10px;
+      font-size: .7rem;
+    }
+  }
+}
+
+.screen-rotate {
+  transform: rotate(180deg);
+}
+
+.screen-tagline {
+  position: relative;
+  font-size: .7rem;
+}
+
+.screen {
+  svg {
+    min-width: 350px;
+  }
+}

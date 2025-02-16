@@ -4,12 +4,14 @@ import { ActivatedRoute } from '@angular/router';
 import { MoviesService } from '../../services/movies.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { DatePipe, NgStyle } from '@angular/common';
+import { ImageLoaderDirective } from '../../../core/directives/image-loading-status';
 
 @Component({
   selector: 'app-movie-details',
   imports: [
     DatePipe,
     NgStyle,
+    ImageLoaderDirective,
   ],
   templateUrl: './movie-details.component.html',
   styleUrl: './movie-details.component.scss'

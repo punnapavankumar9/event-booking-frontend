@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, output, signal } from '@angular/core';
+import { Component, computed, OnInit, output } from '@angular/core';
 import { AuthService } from '../../auth/services/auth.service';
 import { ClickOutsideDirective } from '../directives/click-outside.directive';
 
@@ -14,16 +14,14 @@ export class SidenavComponent implements OnInit {
   hideSideNav = output<boolean>();
 
   ngOnInit(): void {
-    this.authenticated.set(this.authService.isAuthenticated())
   }
 
-  authenticated = signal(false);
+  authenticated = computed(() => !!this.authService.authToken());
 
   onHideSideNav() {
     this.hideSideNav.emit(true);
   }
 
   constructor(private authService: AuthService) {
-
   }
 }

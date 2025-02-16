@@ -1,9 +1,10 @@
 import { HttpHeaders } from "@angular/common/http";
 import { AnyObject } from "../../types";
+import { AuthService } from '../auth/services/auth.service';
 
 
-export function headersWithToken(headers?: AnyObject): HttpHeaders {
-  const token = localStorage.getItem('jwt-token');
+export function headersWithToken(authService: AuthService, headers?: AnyObject): HttpHeaders {
+  const token = authService.authToken();
   if (!token) return headers as unknown as HttpHeaders;
   if (headers) {
     (headers as any).Authorization = "Bearer " + token;

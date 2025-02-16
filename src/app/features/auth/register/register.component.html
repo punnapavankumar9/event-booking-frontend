@@ -1,6 +1,6 @@
 <div class="container-main">
 
-    <div class="form-container">
+    <div class="form-container" appClickOutside (clickOutside)="closeDialog()">
 
         <div class="legend-header">
             <span>
@@ -142,9 +142,9 @@
             </div>
         }
         @if (signInTab()) {
-            <a class="button-link toggle-tab-button" (click)="toggelSignInTab(false)"> Register </a>
+            <a class="button-link toggle-tab-button" (click)="toggleSignInTab(false)"> Register </a>
         } @else {
-            <a class="button-link toggle-tab-button" (click)="toggelSignInTab(true)"> Sign in</a>
+            <a class="button-link toggle-tab-button" (click)="toggleSignInTab(true)"> Sign in</a>
         }
     </div>
 

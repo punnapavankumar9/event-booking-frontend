@@ -10,6 +10,10 @@ export const routes: Route[] = [
           {
             path: "create",
             loadComponent: () => import("./components/create-seating-layout/create-seating-layout.component").then(m => m.CreateSeatingLayoutComponent),
+          },
+          {
+            path: ":id",
+            loadComponent: () => import("./components/seat-layout/seat-layout.component").then(m => m.SeatLayoutComponent),
           }
         ]
       }

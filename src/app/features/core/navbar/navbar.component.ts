@@ -1,8 +1,9 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { RegisterComponent } from '../../auth/register/register.component';
 import { SidenavComponent } from '../sidenav/sidenav.component';
 import { ToastService } from '../services/toast.service';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,15 +11,14 @@ import { ToastService } from '../services/toast.service';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
 
-  signedIn = signal<boolean>(false);
+  signedIn = computed(() => !!this.authService.authToken());
   signInDialog = signal<boolean>(false);
   sideNav = signal<boolean>(false);
 
   toggleSignInDialog(val: boolean) {
     this.signInDialog.set(val);
-    this.refreshLoginStatus();
   }
 
   toggleSideNav() {
@@ -26,27 +26,10 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('jwt-token');
-    this.refreshLoginStatus();
+    this.authService.authToken.set(null);
+    this.toastService.showToast({message: 'Logged out successfully', type: 'info'});
   }
 
-  ngOnInit(): void {
-    this.refreshLoginStatus();
-  }
-
-  constructor(private toastService: ToastService) {
-
-  }
-
-  refreshLoginStatus() {
-    const token = localStorage.getItem('jwt-token');
-    if (token && /.*[.].*[.]*/.test(token) && !this.signedIn()) {
-      this.signedIn.set(true);
-      this.toastService.showToast({message: "Logged Successfully", type: 'success'});
-    } else if (this.signedIn()) {
-      this.signedIn.set(false);
-      this.toastService.showToast({message: 'Logged out successfully', type: 'info'});
-      localStorage.removeItem('jwt-token')
-    }
+  constructor(private toastService: ToastService, private authService: AuthService) {
   }
 }

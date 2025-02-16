@@ -1,12 +1,11 @@
 @if (movie()) {
-
     <div class="header-container w-100">
         <div class="header d-flex flex-row justify-content-start align-items-center"
              [ngStyle]="{ 'background-image': 'linear-gradient(90deg, #1A1A1A 24.97%, #1A1A1A 38.3%, rgba(26, 26, 26, 0.04) 97.47%, #1A1A1A 100%), url(' + movie().posterUrl + ')' }">
 
             <div class="left d-flex flex-column">
                 <div class="image-container">
-                    <img class="movie-title-image" [src]="movie().imageUrls[0]"
+                    <img class="movie-title-image" appImageLoader [src]="movie().imageUrls[0]"
                          [alt]="movie().title + ' title image'">
                 </div>
                 <div class="release-date">

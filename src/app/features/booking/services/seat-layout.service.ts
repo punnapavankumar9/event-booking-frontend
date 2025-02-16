@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { ServerSideSeatingLayout } from '../components/types';
+import { ServerSideSeatingLayout } from '../types';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SeatLayoutService {
-
-  seatingLayoutUrl = environment.seatingLayoutUrl;
 
   constructor(private httpClient: HttpClient) {
 
@@ -17,4 +15,9 @@ export class SeatLayoutService {
   createSeatingLayout(seatingLayout: ServerSideSeatingLayout) {
     return this.httpClient.post<ServerSideSeatingLayout>(environment.seatingLayoutUrl, seatingLayout);
   }
+
+  getSeatLayout(id: string) {
+    return this.httpClient.get<ServerSideSeatingLayout>(environment.seatingLayoutUrl + "/" + id);
+  }
+
 }

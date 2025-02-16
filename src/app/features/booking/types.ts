@@ -1,3 +1,5 @@
+import { FormControl, FormGroup } from '@angular/forms';
+
 export type Seat = {
   row: number;
   column: number;
@@ -17,6 +19,11 @@ export type ServerSideSeatingLayout = {
 }
 
 export type ScreenPosition = 'TOP' | 'BOTTOM';
+
+export type TierFormGroup = FormGroup<{
+  rows: FormControl<number | null>,
+  tierName: FormControl<string | null>
+}>;
 
 
 export type SeatingLayout = (Seat & { isSelected?: boolean }) [][];

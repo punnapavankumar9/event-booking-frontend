@@ -11,8 +11,10 @@
                 {{ movie().rating }}
             </span>
             </div>
-            <img class="movie-image" [priority]="1" width="250" height="300"
-                 [ngSrc]="movie().imageUrls[0]" alt="{{movie().title}}">
+            <div class="image-container">
+                <img class="movie-image" appImageLoader [priority]="1" width="250" height="375"
+                     [ngSrc]="movie().imageUrls[0]" alt="{{movie().title}}">
+            </div>
         </div>
         <div class="movie-title fs-6">
             {{ movie().title }}

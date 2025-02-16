@@ -2,12 +2,14 @@ import { Component, input } from '@angular/core';
 import { Movie } from '../../../core/types';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { ImageLoaderDirective } from '../../../core/directives/image-loading-status';
 
 @Component({
   selector: 'app-movie-card',
   imports: [
     NgOptimizedImage,
-    RouterLink
+    RouterLink,
+    ImageLoaderDirective
   ],
   templateUrl: './movie-card.component.html',
   styleUrl: './movie-card.component.scss'

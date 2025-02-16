@@ -1,0 +1,29 @@
+@import "./../../common-layout";
+
+.main-container {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.seat:not(.layout-btn) {
+  background-color: white !important;
+}
+
+.space-seat {
+  visibility: hidden;
+}
+
+.layout-btn {
+  cursor: auto !important;
+}
+
+$main-container-background: #f9f9f9;
+
+.main-container {
+  background-color: $main-container-background;
+}
+
+.tier-name-inner {
+  background-color: $main-container-background !important;
+}

@@ -1,0 +1,181 @@
+<div class="generic-form-container">
+
+    <form class="generic-form" [formGroup]="form" (ngSubmit)="createVenue()">
+        <legend>
+            <h1 class="form-header">
+                Create Venue
+            </h1>
+        </legend>
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            @let nameControl = form.controls.name;
+            <input type="text" class="form-control" [formControl]="nameControl"
+                   id="name" placeholder="Enter Name"
+                   [ngClass]="{'is-invalid': hasError(nameControl)}">
+            @if (hasError(nameControl, 'minlength') || hasError(nameControl,
+                'required') || hasError(nameControl,
+                'maxlength')) {
+                <div class="invalid-feedback">
+                    name length must be between {{ validationMeta.stringFieldMinLength }}
+                    to {{ validationMeta.stringFieldMaxLength }}
+                </div>
+            }
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            @let descriptionControl = form.controls.description;
+            <textarea class="form-control" [formControl]="descriptionControl"
+                      id="description" placeholder="Enter Description"
+                      [ngClass]="{'is-invalid': hasError(descriptionControl)}">
+
+            </textarea>
+            @if (hasError(descriptionControl, 'minlength') || hasError(descriptionControl,
+                'required') || hasError(descriptionControl,
+                'maxlength')) {
+                <div class="invalid-feedback">
+                    description length must be between {{ validationMeta.descriptionMinLength }}
+                    to {{ validationMeta.descriptionMaxLength }}
+                </div>
+            }
+        </div>
+        <div class="mb-3">
+            <label for="capacity" class="form-label">Capacity</label>
+            @let capacityControl = form.controls.capacity;
+            <input type="number" class="form-control" [formControl]="capacityControl"
+                   id="capacity" placeholder="Enter Capacity"
+                   [ngClass]="{'is-invalid': hasError(capacityControl)}">
+            @if (hasError(capacityControl, 'min') || hasError(capacityControl,
+                'required') || hasError(capacityControl,
+                'max')) {
+                <div class="invalid-feedback">
+                    capacity length must be between {{ validationMeta.minCapacity }}
+                    to {{ validationMeta.maxCapacity }}
+                </div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="pincode" class="form-label">Pincode</label>
+            @let pincodeControl = form.controls.pincode;
+            <input type="number" class="form-control" [formControl]="pincodeControl"
+                   id="pincode" placeholder="Enter Pincode"
+                   [ngClass]="{'is-invalid': hasError(pincodeControl)}">
+            @if (hasError(pincodeControl, 'minlength') || hasError(pincodeControl,
+                'required') || hasError(pincodeControl,
+                'maxlength')) {
+                <div class="invalid-feedback">
+                    Pincode must be
+                    between {{ validationMeta.pincodeMin }}
+                    to {{ validationMeta.pincodeMax }}
+                </div>
+            }
+        </div>
+
+        <div class="mb-3">
+            <label for="country" class="form-label">Country</label>
+            <select
+                id="country"
+                class="form-select"
+                [formControl]="form.controls.country"
+            >
+                <option value="">Select Country</option>
+                )
+                @for (country of countries(); track $index) {
+                    <option [value]="country">{{ country }}</option>
+                }
+
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="state" class="form-label">State</label>
+            <select
+                id="state"
+                class="form-select"
+                [formControl]="form.controls.state"
+            >
+                <option value="">Select State</option>
+                )
+                @for (state of states(); track $index) {
+                    <option [value]="state">{{ state }}</option>
+                }
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="city" class="form-label">City</label>
+            <select
+                id="city"
+                class="form-select"
+                [formControl]="form.controls.city"
+            >
+                <option value="">Select City</option>
+                )
+                @for (city of cities(); track $index) {
+                    <option [value]="city">{{ city }}</option>
+                }
+
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="location" class="form-label">Address</label>
+            @let locationControl = form.controls.location;
+            <input type="text" class="form-control" [formControl]="locationControl"
+                   id="location" placeholder="Enter Address"
+                   [ngClass]="{'is-invalid': hasError(locationControl)}">
+            @if (hasError(locationControl, 'minlength') || hasError(locationControl,
+                'required') || hasError(locationControl,
+                'maxlength')) {
+                <div class="invalid-feedback">
+                    Seating Layout Id length must be
+                    between {{ validationMeta.stringFieldMinLength }}
+                    to {{ validationMeta.stringFieldMaxLength }}
+                </div>
+            }
+        </div>
+
+
+        <div class="mb-3">
+            <label for="seatingLayoutId" class="form-label">Seating Layout Id</label>
+            @let seatingLayoutIdControl = form.controls.seatingLayoutId;
+            <input type="text" class="form-control" [formControl]="seatingLayoutIdControl"
+                   id="seatingLayoutId" placeholder="Enter Seating Layout Id"
+                   [ngClass]="{'is-invalid': hasError(seatingLayoutIdControl)}">
+            @if (hasError(seatingLayoutIdControl, 'minlength') || hasError(seatingLayoutIdControl,
+                'required') || hasError(seatingLayoutIdControl,
+                'maxlength')) {
+                <div class="invalid-feedback">
+                    Seating Layout Id length must be
+                    between {{ validationMeta.stringFieldMinLength }}
+                    to {{ validationMeta.stringFieldMaxLength }}
+                </div>
+            }
+        </div>
+
+
+        <div class="mb-3">
+            <label for="googleMapsUrl" class="form-label">Maps Url</label>
+            @let googleMapsUrlControl = form.controls.googleMapsUrl;
+            <input type="text" class="form-control" [formControl]="googleMapsUrlControl"
+                   id="googleMapsUrl" placeholder="Enter Maps Url"
+                   [ngClass]="{'is-invalid': hasError(googleMapsUrlControl)}">
+            @if (hasError(googleMapsUrlControl, 'minlength') || hasError(googleMapsUrlControl,
+                'required') || hasError(googleMapsUrlControl,
+                'maxlength')) {
+                <div class="invalid-feedback">
+                    Maps URL length must be between {{ validationMeta.stringFieldMinLength }}
+                    to {{ validationMeta.urlMaxLength }}
+                </div>
+            }
+            @if (hasError(googleMapsUrlControl, 'pattern')) {
+                <div class="invalid-feedback">
+                    Please enter a valid Maps URL
+                </div>
+            }
+        </div>
+        <div class="submit-btn-container">
+            <button class="form-submit-btn-red" type="submit" [disabled]="form.invalid">
+                Create
+            </button>
+        </div>
+    </form>
+</div>

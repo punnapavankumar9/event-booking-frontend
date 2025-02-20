@@ -164,6 +164,10 @@ $font-sizes: (
   transform: translateX(-10px);
 }
 
+.bg-primary-red {
+  background-color: $primary-red;
+}
+
 .red-link {
   color: $primary-red;
 }

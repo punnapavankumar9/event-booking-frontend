@@ -16,6 +16,18 @@ export const routes: Route[] = [
             loadComponent: () => import("./components/seat-layout/seat-layout.component").then(m => m.SeatLayoutComponent),
           }
         ]
+      },
+      {
+        path: "venue", children: [
+          {
+            path: "create",
+            loadComponent: () => import("./components/create-venue/create-venue.component").then(m => m.CreateVenueComponent),
+          },
+          {
+            path: ":id",
+            loadComponent: () => import("./components/venue-details/venue-details.component").then(m => m.VenueDetailsComponent)
+          }
+        ]
       }
     ]
   }

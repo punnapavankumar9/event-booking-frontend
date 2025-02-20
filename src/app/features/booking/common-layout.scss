@@ -90,6 +90,17 @@
   white-space: nowrap; /* Prevents text from wrapping */
 }
 
+.spec-info {
+  display: flex;
+  flex-direction: row;
+  width: 450px;
+}
+
+.spec-info > .spec-title::after {
+  content: ":";
+
+}
+
 .layout-table {
   margin: 0 auto;
 }

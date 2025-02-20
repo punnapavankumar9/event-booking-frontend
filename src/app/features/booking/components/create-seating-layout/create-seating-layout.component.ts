@@ -15,6 +15,7 @@ import { validateTierWiseRowCount } from '../../validators';
 import { SeatLayoutService } from '../../services/seat-layout.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { hasError } from '../../../utils/utils';
 
 
 type TierFormGroup = FormGroup<{
@@ -197,7 +198,7 @@ export class CreateSeatingLayoutComponent {
         this.router.navigate(['/booking', 'seating', response.id]);
       },
       error: (error: HttpErrorResponse) => {
-        this.toastService.showToast({message: error.error.message ?? error.message, type: 'error'});
+        this.toastService.showToast({message: error?.error?.message ?? error.message, type: 'error'});
       }
     });
   }
@@ -445,10 +446,5 @@ export class CreateSeatingLayoutComponent {
     this.screenPosition.set(position);
   }
 
-  hasError(control: AbstractControl, errorType: string | undefined = undefined): boolean {
-    if (!errorType) {
-      return ((control && Object.keys(control.errors ?? {}).length > 0) && (control.touched || control.dirty));
-    }
-    return (control && control.hasError(errorType) && (control.touched || control.dirty));
-  }
+  protected readonly hasError = hasError;
 }

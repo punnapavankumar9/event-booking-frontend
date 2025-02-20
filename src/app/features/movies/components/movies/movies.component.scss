@@ -1,5 +1,8 @@
 @import "scss/bootstrap";
 
+.full-scrollable-container {
+  height: 100vh;
+}
 
 @include media-breakpoint-down(md) {
   .movie-list-container {

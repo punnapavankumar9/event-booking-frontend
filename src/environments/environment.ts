@@ -3,5 +3,7 @@ export const environment = {
   identity: gatewayURL + "/api/v1/users",
   events: gatewayURL + '/api/v1/events',
   seatingLayoutUrl: gatewayURL + '/api/v1/seating-layout',
-  movies: gatewayURL + '/api/v1/movies'
+  movies: gatewayURL + '/api/v1/movies',
+  locations: gatewayURL + '/api/v1/locations',
+  venues: gatewayURL + '/api/v1/venues',
 };

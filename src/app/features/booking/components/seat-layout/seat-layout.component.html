@@ -1,48 +1,82 @@
 @if (layout()) {
-    <div class="main-container">
+    <div class="container my-4">
+        <!-- Header Section -->
+        <div class="header bg-light p-4 rounded mb-4">
+            <h1 class="display-4">{{ serverResponse()?.name }}</h1>
+            <span
+                class="badge bg-primary-red fs-5">{{ serverResponse()?.capacity }}
+                Seats</span>
+        </div>
 
+        <!-- Layout Details Section -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5>Layout Details</h5>
+                <ul class="list-unstyled">
+                    <li><i class="bi bi-grid-3x3 me-2"></i>
+                        Rows: {{ serverResponse()?.rows }}
+                    </li>
+                    <li><i class="bi bi-grid me-2"></i>
+                        Columns: {{ serverResponse()?.columns }}
+                    </li>
+                    <li><i class="bi bi-display me-2"></i> Screen
+                        Position: {{ serverResponse()?.screenPosition }}
+                    </li>
+                </ul>
+            </div>
+        </div>
 
-        <div class="layout-container">
-            @if (serverResponse()?.screenPosition == 'TOP') {
-                <ng-container *ngTemplateOutlet="screenIcon"></ng-container>
-            }
-            <table class="layout-table table-responsive">
-                @for (row of layout(); track row; let rowId = $index) {
-                    @if (renderTierHeader(layout(), rowId)) {
-                        <ng-container *ngTemplateOutlet="tierHeader">
-                        </ng-container>
-                    }
-                    <tr class="layout-table-row">
-                        @if (resetAvailableSeatCount() !== 1) {
+        <!-- Visual Seating Layout Placeholder -->
+        <div class="mb-4">
+            <div class="seating-visual p-3 border rounded">
+                <h5>Seating Arrangement</h5>
+                <div class="main-container">
+                    <div class="layout-container">
 
+                        @if (serverResponse()?.screenPosition == 'TOP') {
+                            <ng-container *ngTemplateOutlet="screenIcon"></ng-container>
                         }
-                        <td class="col-indicator-column-btn layout-btn seat"
-                            title="col-indicator column">
-                            @if (!blockedRow(rowId)) {
-                                <span
-                                    class="border-0 text-center p-0 col-indicator">
-                                    {{ getColumnIndicator(rowId) }}</span>
-                            }
-                        </td>
+                        <table class="layout-table table-responsive">
+                            @for (row of layout(); track row; let rowId = $index) {
+                                @if (renderTierHeader(layout(), rowId)) {
+                                    <ng-container *ngTemplateOutlet="tierHeader">
+                                    </ng-container>
+                                }
+                                <tr class="layout-table-row">
+                                    @if (resetAvailableSeatCount() !== 1) {
 
-                        @for (col of layout()[rowId]; track col; let colId = $index) {
-                            @let seat = layout()[rowId][colId];
-                            <td [ngClass]="[seat.isSelected ? 'selected-seat' : '', seat.isSpace ? 'space-seat': '' ]"
-                                class="seat"
-                            >
+                                    }
+                                    <td class="col-indicator-column-btn layout-btn seat"
+                                        title="col-indicator column">
+                                        @if (!blockedRow(rowId)) {
+                                            <span
+                                                class="border-0 text-center p-0 col-indicator">
+                                    {{ getColumnIndicator(rowId) }}</span>
+                                        }
+                                    </td>
+
+                                    @for (col of layout()[rowId]; track col; let colId = $index) {
+                                        @let seat = layout()[rowId][colId];
+                                        <td [ngClass]="[seat.isSelected ? 'selected-seat' : '', seat.isSpace ? 'space-seat': '' ]"
+                                            class="seat"
+                                        >
                                     <span>
                                         @if (!seat.isSpace) {
                                             {{ incrementAvailableSeatCount() }}
                                         }
                                     </span>
-                            </td>
+                                        </td>
+                                    }
+                                </tr>
+                            }
+                        </table>
+                        @if (serverResponse()?.screenPosition == 'BOTTOM') {
+                            <ng-container *ngTemplateOutlet="screenIcon"></ng-container>
                         }
-                    </tr>
-                }
-            </table>
-            @if (serverResponse()?.screenPosition == 'BOTTOM') {
-                <ng-container *ngTemplateOutlet="screenIcon"></ng-container>
-            }
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 

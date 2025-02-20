@@ -27,3 +27,19 @@ export type TierFormGroup = FormGroup<{
 
 
 export type SeatingLayout = (Seat & { isSelected?: boolean }) [][];
+
+
+export type Venue = {
+  id?: string,
+  name: string,
+  description: string,
+  capacity: number,
+  ownerId?: string,
+  location: string,
+  country: string,
+  pincode: number,
+  state: string,
+  city: string,
+  googleMapsUrl: string,
+  seatingLayoutId: string
+}

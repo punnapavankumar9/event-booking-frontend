@@ -1,0 +1,44 @@
+@if (venueDetails()) {
+    @let venue = venueDetails();
+    <div class="container my-4">
+        <div class="header bg-light p-4 rounded mb-4">
+            <h1 class="display-4">{{ venue?.name }}</h1>
+            <span class="badge bg-primary-red fs-5">{{ venue?.capacity }} Capacity</span>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Location Details</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-geo-alt me-2"></i> {{ venue?.location }}</li>
+                            <li><i class="bi bi-globe me-2"></i> {{ venue?.country }}</li>
+                            <li><i class="bi bi-map me-2"></i> {{ venue?.state }}</li>
+                            <li><i class="bi bi-pin me-2"></i> {{ venue?.pincode }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Additional Info</h5>
+                        <ul class="list-unstyled">
+                            <li>
+                                @if (venue?.ownerId) {
+                                    <i class="bi bi-person me-2"></i> Owner ID: {{ venue?.ownerId }}
+                                }
+                            </li>
+                            <li>
+                                <i class="bi bi-grid me-2"></i> Seating Layout
+                                ID: {{ venue?.seatingLayoutId }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <h5>Description</h5>
+            <p>{{ venue?.description }}</p>
+        </div>
+    </div>
+}

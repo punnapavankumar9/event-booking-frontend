@@ -2,44 +2,44 @@
 @import "../../../../../styles";
 
 .header-container {
-  background-color: rgb(26, 26, 26);
+  background-color: #1a1a1a;
   color: white;
 }
 
 .header {
   width: min(80%, 1150px);
   margin: 0 auto;
-  padding: 20px;
-  -webkit-box-align: center;
-  align-items: center;
+  padding: 30px;
   display: flex;
+  align-items: center;
   background-repeat: no-repeat;
   background-position: right center;
-  background-color: rgb(26, 26, 26);
+  background-size: cover;
   position: relative;
   max-width: 1440px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .release-date {
-  font-size: .75rem;
-  padding: 3px 0;
-  display: block;
+  font-size: 0.85rem;
+  padding: 5px 10px;
   text-align: center;
-  background-color: black;
+  background: linear-gradient(135deg, rgba(248, 68, 100, 0.8), rgba(235, 78, 98, 0.8));
   color: white;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  position: relative;
   z-index: 10;
-  border-top: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 0 0 10px 10px;
-  box-shadow: black 1px -5px 10px;
 }
 
 @include media-breakpoint-down(md) {
   .header {
     width: 100%;
     flex-direction: column !important;
+    padding: 20px;
   }
 }
-
 
 .image-container {
   width: 250px;
@@ -52,14 +52,13 @@
   height: 100%;
   object-fit: cover;
   border: transparent;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0;
 }
-
 
 .right {
   flex-grow: 1;
-  margin-left: 30px;
-  padding: 10px;
+  margin-left: 40px;
+  padding: 15px;
 
   .rating-box {
     display: flex;
@@ -71,48 +70,80 @@
 
     .likes {
       svg {
-        width: 20px;
-        height: 20px;
+        width: 22px;
+        height: 22px;
       }
     }
 
     .tag-line {
-      font-size: .65rem;
+      font-size: 0.75rem;
+      color: #d3d3d3;
     }
 
     .interested-button {
-      font-size: .75rem;
-      background-color: rgb(229, 229, 229) !important;
-      border: none !important;
+      font-size: 0.85rem;
+      background: linear-gradient(135deg, #e5e5e5, #d3d3d3);
+      border: none;
+      border-radius: 8px;
+      transition: transform 0.2s ease-in-out;
+
+      &:hover {
+        transform: scale(1.05);
+      }
     }
-
-
   }
 
   .movie-meta-tag {
-    background-color: rgb(229, 229, 229);
-    color: black;
-    padding: 5px;
+    background: #e5e5e5;
+    color: #1a1a1a;
+    padding: 6px 12px;
     margin-right: 10px;
     border-radius: 5px;
+    font-size: 0.85rem;
+    transition: background 0.2s ease-in-out;
+
+    &:hover {
+      background: #f84464;
+      color: white;
+    }
   }
 
   .movie-meta-info {
-    margin-top: 20px;
+    margin-top: 25px;
+    font-size: 1rem;
+    color: #d3d3d3;
   }
 
   .book-tickets-btn {
-    background-color: rgb(248, 68, 100);
+    background: linear-gradient(135deg, #f84464, #eb4e62);
     color: white;
-    padding: 10px 35px;
-    font-size: .9rem;
-    border-radius: 8px;
+    padding: 12px 40px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: none;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 8px rgba(248, 68, 100, 0.4);
+    }
   }
 }
 
 .about-movie {
   width: min(80%, 1150px);
-  margin: 0 auto;
-  padding: 20px;
+  margin: 20px auto;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+  .description-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0.7;
+  }
 }
 
+.movie-title {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}

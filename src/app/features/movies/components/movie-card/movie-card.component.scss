@@ -1,48 +1,89 @@
 .movie-card {
+  margin: 10px;
+  width: 250px;
   padding: 10px;
   cursor: pointer;
-  transition: transform ease-in-out 0.2s;
-
-  .movie-title {
-    overflow: clip;
-  }
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.01);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 
   &:hover {
     transform: scale(1.01);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   }
 
   .movie-image-container {
-    width: 250px !important;
-    overflow: hidden;
+    width: 100%;
     height: 375px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px 10px 0 0; // Rounded top only
+
+    .image-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
 
     .movie-image {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border: transparent;
-      border-radius: 10px;
+      border: none;
     }
 
-    position: relative;
+    .image-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50%; // Gradient covers bottom half
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent); // Dark gradient for text readability
+      pointer-events: none; // Allows clicks to pass through
+    }
   }
 
   .rating {
     position: absolute;
     top: 10px;
     right: 10px;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.6);
-    padding: 5px;
-    border-radius: 3px;
+    background: linear-gradient(135deg, #F07584, #EB4E62); // Pink gradient
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 12px; // Circular badge
+    font-size: 0.9rem;
+    font-weight: 500;
   }
-}
 
-.movie-rating-star {
-  scale: .7;
-}
+  .movie-info {
+    background: #fff; // Match card background
+    border-radius: 0 0 10px 10px; // Rounded bottom
+  }
 
-.movie-image-container {
-  width: 100%;
-  height: 100%;
+  .movie-title {
+    font-size: 1.1rem; // Slightly larger
+    color: #212529; // Dark grey for contrast
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); // Subtle shadow for depth
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .genre {
+    font-size: 0.85rem; // Smaller for subtlety
+    color: #6C757D; // Muted grey
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &::before {
+      content: "• "; // Bullet separator
+      color: #F07584; // Pink accent
+    }
+  }
+
+  .movie-rating-star {
+    transform: scale(0.85); // Slightly smaller but clearer
+  }
 }

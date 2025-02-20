@@ -1,26 +1,26 @@
 @if (movie()) {
     <div [routerLink]="['/movies', 'details', movie().id]" class="movie-card d-flex flex-column">
-        <div class="movie-image-container">
-            <div class="rating d-flex p-1 justify-content-center align-items-center">
-                <svg class="movie-rating-star" width="24" height="24">
+        <div class="movie-image-container position-relative">
+            <!-- Rating Badge -->
+            <div class="rating d-flex align-items-center justify-content-center">
+                <svg class="movie-rating-star" width="20" height="20" viewBox="0 0 24 24">
                     <path
                         d="M18.494 22.12h0-.012a.935.935 0 01-.423-.1h-.001l-5.96-3.072-.115-.059-.115.059-5.963 3.072h0a.934.934 0 01-.973-.07.903.903 0 01-.31-.391.884.884 0 01-.051-.492l-.246-.044.246.044 1.169-6.479.024-.132-.098-.093L.851 9.762a.896.896 0 01-.228-.895.9.9 0 01.28-.409.928.928 0 01.463-.203h.001L8.031 7.3l.13-.019.059-.117 2.934-5.904h0a.907.907 0 01.339-.372.933.933 0 011.318.372h0v.002l2.97 5.892.059.116.13.019 6.663.955h.001c.171.024.331.094.463.203.13.108.228.25.28.408a.883.883 0 01-.227.895l-.002.001-4.814 4.6-.097.094.024.132 1.169 6.479h0v.003a.884.884 0 01-.049.501.904.904 0 01-.887.56z"
-                        fill="#F07584" stroke="#EB4E62" stroke-width=".5"/>
+                        fill="#F07584" stroke="#EB4E62" stroke-width="1"/>
                 </svg>
-                <span>
-                {{ movie().rating }}
-            </span>
+                <span class="ms-1">{{ movie().rating }}</span>
             </div>
+            <!-- Image with Gradient Overlay -->
             <div class="image-container">
                 <img class="movie-image" appImageLoader [priority]="1" width="250" height="375"
-                     [ngSrc]="movie().imageUrls[0]" alt="{{movie().title}}">
+                     [ngSrc]="movie().imageUrls[0]" alt="{{ movie().title }}">
+                <div class="image-overlay"></div>
             </div>
         </div>
-        <div class="movie-title fs-6">
-            {{ movie().title }}
-        </div>
-        <div class="genre small">
-            {{ movie().genreString }}
+        <!-- Title and Genre -->
+        <div class="movie-info p-2">
+            <div class="movie-title fw-bold">{{ movie().title }}</div>
+            <div class="genre small text-muted">{{ movie().genreString }}</div>
         </div>
     </div>
 }

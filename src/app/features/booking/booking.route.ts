@@ -28,6 +28,14 @@ export const routes: Route[] = [
             loadComponent: () => import("./components/venue-details/venue-details.component").then(m => m.VenueDetailsComponent)
           }
         ]
+      },
+      {
+        path: 'scheduler', children: [
+          {
+            path: "movie/:id",
+            loadComponent: () => import("./components/movie-scheduler/movie-scheduler.component").then(m => m.MovieSchedulerComponent),
+          }
+        ]
       }
     ]
   }

@@ -1,6 +1,6 @@
 import { Component, computed, OnInit, signal } from '@angular/core';
 import { Movie } from '../../../core/types';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MoviesService } from '../../services/movies.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { DatePipe, NgStyle } from '@angular/common';
@@ -8,13 +8,10 @@ import { ImageLoaderDirective } from '../../../core/directives/image-loading-sta
 
 @Component({
   selector: 'app-movie-details',
-  imports: [
-    DatePipe,
-    NgStyle,
-    ImageLoaderDirective,
-  ],
+  standalone: true,
+  imports: [DatePipe, NgStyle, ImageLoaderDirective, RouterLink],
   templateUrl: './movie-details.component.html',
-  styleUrl: './movie-details.component.scss'
+  styleUrl: './movie-details.component.scss',
 })
 export class MovieDetailsComponent implements OnInit {
   movieId = signal<string | null>(null);
@@ -23,7 +20,11 @@ export class MovieDetailsComponent implements OnInit {
     return new Date(this.movie().releaseDate).getTime() < new Date().getTime();
   });
 
-  constructor(private activatedRouter: ActivatedRoute, private moviesService: MoviesService, private toastService: ToastService) {
+  constructor(
+    private activatedRouter: ActivatedRoute,
+    private moviesService: MoviesService,
+    private toastService: ToastService
+  ) {
     this.activatedRouter.params.subscribe(params => {
       this.movieId.set(params['id']);
     });
@@ -42,7 +43,7 @@ export class MovieDetailsComponent implements OnInit {
       },
       error: (error: Error) => {
         this.toastService.showToast({type: 'error', message: error.message});
-      }
+      },
     });
   }
 

@@ -43,3 +43,13 @@ export type Venue = {
   googleMapsUrl: string,
   seatingLayoutId: string
 }
+
+export type EventCategory = 'MOVIE' | 'SPORTS' | 'CONCERT' | "MEETING";
+export type EventDurationCategory = 'SINGLE_DAY' | 'MULTI_DAY' | 'SHORT_TERM';
+
+
+export type EventSchedulerInfo = {
+  duration: number;
+  startDate: string;
+  eventDurationCategory: EventDurationCategory;
+}

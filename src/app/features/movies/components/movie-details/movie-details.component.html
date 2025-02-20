@@ -5,79 +5,80 @@
 
             <div class="left d-flex flex-column">
                 <div class="image-container">
-                    <img class="movie-title-image" appImageLoader [src]="movie().imageUrls[0]"
-                         [alt]="movie().title + ' title image'">
+                    <img
+                        class="movie-title-image"
+                        appImageLoader
+                        [src]="movie().imageUrls[0]"
+                        [alt]="movie().title + ' title image'"
+                    />
                 </div>
                 <div class="release-date">
                     @if (!isReleased()) {
-                        Releasing on {{ movie().releaseDate | date }}
+                        Releasing on {{ movie().releaseDate | date: 'mediumDate' }}
                     } @else {
-                        In cinemas
+                        In Cinemas
                     }
                 </div>
             </div>
             <div class="right d-flex flex-column justify-content-start align-items-start">
-                <div class="movie-title fs-2">
-                    {{ movie().title }}
-                </div>
+                <div class="movie-title fs-1 fw-bold">{{ movie().title }}</div>
                 <div class="rating-box">
-                    <div
-                        class="left d-flex flex-column justify-content-center">
-                        <div class="likes d-flex">
-                            <svg width="32" height="32">
-                                <path xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd"
-                                      clip-rule="evenodd"
-                                      d="M8 16.167c.833.25 1.667.333 2.5.333.038 0 .058 0 .062-.008.004-.01-.016-.03-.062-.075h3.917c1.5 0 2-.834 2-1.667v-.333c.5-.417.666-1.084.583-1.75.25-.25.417-.5.5-.834.167-.333.167-.666.083-1 .417-.416.667-.916.667-1.5a2.063 2.063 0 00-2.083-2.083H12.5c.25-.833.333-1.583.25-2.333l-.028-.084c-.253-.766-.687-2.077-1.972-1.916-.917.166-1.5.916-1.5 1.833 0 1.333-1.167 2.917-2.167 3.667-.25.166-.416.416-.416.75v6c0 .416.333.833.75.916.137 0 .25.026.35.048.083.019.158.036.233.036zm-5.083.916h1.75c.666 0 1.166-.583 1.166-1.25V9.25c0-.667-.5-1.25-1.166-1.25h-1.75C2.25 8 1.75 8.583 1.75 9.25v6.583c0 .667.5 1.25 1.167 1.25z"
-                                      fill="#008A1E"/>
+                    <div class="left d-flex flex-column justify-content-center">
+                        <div class="likes d-flex align-items-center">
+                            <svg width="24" height="24">
+                                <path
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill-rule="evenodd"
+                                    clip-rule="evenodd"
+                                    d="M8 16.167c.833.25 1.667.333 2.5.333.038 0 .058 0 .062-.008.004-.01-.016-.03-.062-.075h3.917c1.5 0 2-.834 2-1.667v-.333c.5-.417.666-1.084.583-1.75.25-.25.417-.5.5-.834.167-.333.167-.666.083-1 .417-.416.667-.916.667-1.5a2.063 2.063 0 00-2.083-2.083H12.5c.25-.833.333-1.583.25-2.333l-.028-.084c-.253-.766-.687-2.077-1.972-1.916-.917.166-1.5.916-1.5 1.833 0 1.333-1.167 2.917-2.167 3.667-.25.166-.416.416-.416.75v6c0 .416.333.833.75.916.137 0 .25.026.35.048.083.019.158.036.233.036zm-5.083.916h1.75c.666 0 1.166-.583 1.166-1.25V9.25c0-.667-.5-1.25-1.166-1.25h-1.75C2.25 8 1.75 8.583 1.75 9.25v6.583c0 .667.5 1.25 1.167 1.25z"
+                                    fill="#008A1E"
+                                />
                             </svg>
-                            <span class="interested-count">
+                            <span class="interested-count ms-2">
                                 @let likes = movie().likes;
                                 @if (likes >= 1000) {
                                     {{ (likes / 1000).toFixed(1) }}K are Interested
                                 } @else {
                                     {{ likes }} Are Interested
                                 }
-                                </span>
+              </span>
                         </div>
-                        <span class="tag-line">
-                            Are you interested in watching this movie?
-                        </span>
+                        <span class="tag-line">Are you interested in watching this movie?</span>
                     </div>
                     <div class="right">
-                        <button class="interested-button btn-white px-3 py-2">
-                            I'm Interested
+                        <button class="interested-button btn-white px-3 py-2">I'm Interested
                         </button>
                     </div>
                 </div>
                 <div class="tags">
                     @for (tag of movie().tags; track tag) {
-                        <span class="movie-meta-tag">
-                                {{ tag }}
-                            </span>
+                        <span class="movie-meta-tag">{{ tag }}</span>
                     }
                 </div>
                 <div class="movie-meta-info">
-                        <span>
-                        @if (movie().duration < 60) {
-                            {{ movie().duration }} min
-                        } @else {
-                            @let min = movie().duration % 60;
-                            {{ Math.floor(movie().duration / 60) }}h {{ min > 0 ? min
-                            + "min" : "" }}
-                        }
-                        </span>
+          <span>
+            @if (movie().duration < 60) {
+                {{ movie().duration }} min
+            } @else {
+                @let min = movie().duration % 60;
+                {{ Math.floor(movie().duration / 60) }}h {{ min > 0 ? min + 'min' : '' }}
+            }
+          </span>
                 </div>
-                <button class="book-tickets-btn">Book tickets</button>
+                <div class="d-flex gap-3">
+                    <button class="book-tickets-btn">Book Tickets</button>
+                    <button
+                        class="book-tickets-btn"
+                        [routerLink]="['/booking', 'scheduler', 'movie', movie().id]"
+                    >
+                        Schedule Shows
+                    </button>
+                </div>
             </div>
         </div>
     </div>
     <div class="about-movie">
-        <div class="fs-4 fw-bold my-2">
-            About the movie
-        </div>
-        <span class="my-2 white-tag-color">
-            {{ movie().description }}
-            </span>
+        <div class="fs-4 fw-bold my-3">About the Movie</div>
+        <span class="description-text">{{ movie().description }}</span>
     </div>
 }
-

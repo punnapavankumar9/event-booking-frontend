@@ -14,6 +14,15 @@
   visibility: hidden;
 }
 
+.header {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.seating-visual {
+  min-height: 200px;
+  background: #f8f9fa;
+}
+
 .layout-btn {
   cursor: auto !important;
 }

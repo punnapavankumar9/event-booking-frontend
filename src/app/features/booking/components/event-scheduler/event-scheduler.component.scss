@@ -1,0 +1,151 @@
+// Modern color palette
+$primary: #007bff;
+$success: #28a745;
+$danger: #dc3545;
+$light-bg: #f8f9fa;
+$border-radius: 8px;
+
+.container {
+  max-width: 1200px;
+  background: $light-bg;
+  border-radius: $border-radius;
+  padding: 2rem;
+}
+
+// Day Card
+.day-card {
+  background: #fff;
+  border: none;
+  border-radius: $border-radius;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  .card-title {
+    font-size: 1.25rem;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .form-label {
+    color: #555;
+    font-weight: 500;
+  }
+
+  .form-control {
+    border-radius: $border-radius;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ced4da;
+
+    &:focus {
+      border-color: $primary;
+      box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+    }
+  }
+}
+
+// Show Card
+.show-card {
+  background: #fff;
+  border: none;
+  border-radius: $border-radius;
+  transition: box-shadow 0.2s ease;
+
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .btn-danger {
+    border-radius: $border-radius;
+    font-weight: 500;
+    padding: 0.5rem;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: darken($danger, 10%);
+    }
+  }
+}
+
+// Buttons
+.btn {
+  border-radius: $border-radius;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &.btn-success {
+    background: linear-gradient(135deg, $success, darken($success, 10%));
+    border: none;
+
+    &:hover {
+      background: linear-gradient(135deg, darken($success, 5%), darken($success, 15%));
+    }
+  }
+
+  &.btn-primary {
+    background: linear-gradient(135deg, $primary, darken($primary, 10%));
+    border: none;
+
+    &:hover {
+      background: linear-gradient(135deg, darken($primary, 5%), darken($primary, 15%));
+    }
+  }
+
+  &.btn-danger {
+    background: linear-gradient(135deg, $danger, darken($danger, 10%));
+    border: none;
+
+    &:hover {
+      background: linear-gradient(135deg, darken($danger, 5%), darken($danger, 15%));
+    }
+  }
+
+  &.btn-lg {
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+  }
+
+  &[disabled] {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+// Global Options
+.global-options-container {
+  .btn {
+    min-width: 120px;
+  }
+}
+
+// Alert
+.alert {
+  border-radius: $border-radius;
+  padding: 1.5rem;
+
+  &.alert-danger {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+
+    .alert-heading {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    ul {
+      padding-left: 1.5rem;
+
+      li {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+
+  &.alert-warning {
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+    font-size: 1.1rem;
+  }
+}

@@ -1,4 +1,5 @@
 import { FormControl, FormGroup } from '@angular/forms';
+import { AnyObject } from '../../types';
 
 export type Seat = {
   row: number;
@@ -45,11 +46,47 @@ export type Venue = {
 }
 
 export type EventCategory = 'MOVIE' | 'SPORTS' | 'CONCERT' | "MEETING";
-export type EventDurationCategory = 'SINGLE_DAY' | 'MULTI_DAY' | 'SHORT_TERM';
+export type EventDurationType = 'SHORT_TERM' | 'SINGLE_DAY' | 'MULTI_DAY';
 
+export type ScheduledEvent = {
+  startDate: Date;
+  endDate: Date;
+  isOpenForBooking: boolean;
+}
 
-export type EventSchedulerInfo = {
+export type EventInfo = {
   duration: number;
-  startDate: string;
-  eventDurationCategory: EventDurationCategory;
+  startDate: Date;
+  eventDurationCategory: EventDurationType;
+}
+
+export type Event = {
+  id?: string,
+  name: string,
+  eventId: string,
+  organizerId?: string,
+  eventType: EventCategory,
+  venueId: string,
+  openForBooking: boolean,
+  eventDurationDetails: {
+    startTime: Date;
+    endTime: Date;
+    eventDurationType: EventDurationType
+  },
+  additionalDetails?: AnyObject,
+  pricingTierMaps: PricingTierMap[],
+  seatState?: string,
+  seatingLayoutId: string,
+}
+
+export type PricingTierMap = {
+  name: string;
+  price: number;
+}
+
+
+export type VenueWithNameAndLayoutId = {
+  name: string,
+  id: string,
+  seatingLayoutId: string,
 }

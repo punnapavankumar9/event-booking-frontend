@@ -1,80 +1,125 @@
-@if (movieDetails()) {
-  <div class="container my-4">
-    <!-- Header Section -->
-    <div class="header bg-light p-4 rounded mb-4">
-      <div class="row align-items-center">
-        <div class="col-md-8">
-          <h1 class="display-4">{{ movieDetails()?.title }}</h1>
-          <p class="lead text-muted">
-            Release Date: {{ movieDetails()?.releaseDate | date:'mediumDate' }}
-            | Rating: <span class="badge bg-success">{{ movieDetails()?.rating }}/10</span>
-          </p>
+@if (movieDetails) {
+    <div class="container my-4">
+        <div class="header bg-light p-4 rounded mb-4">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="display-4">{{ movieDetails.title }}</h1>
+                    <p class="lead text-muted">
+                        Release Date: {{ movieDetails.releaseDate | date:'mediumDate' }}
+                        | Rating: <span class="badge bg-success">{{ movieDetails.rating }}
+                        /10</span>
+                    </p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <img appImageLoader [ngSrc]="movieDetails.posterUrl!" priority width="1280"
+                         height="640"
+                         alt="{{ movieDetails.title }} Poster"
+                         class="img-fluid rounded"
+                         style="max-height: 300px;">
+                </div>
+            </div>
         </div>
-        <div class="col-md-4 text-center">
-          <img appImageLoader [ngSrc]="movieDetails()?.posterUrl!" priority width="1280"
-               height="640"
-               alt="{{ movieDetails()?.title }} Poster"
-               class="img-fluid rounded"
-               style="max-height: 300px;">
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>Details</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-film me-2"></i>
+                                Genres: {{ movieDetails.genres!.join(', ') }}
+                            </li>
+                            <li><i class="bi bi-clock me-2"></i>
+                                Duration: {{ movieDetails.duration }} minutes
+                            </li>
+                            <li><i class="bi bi-tags me-2"></i> Tags: {{ movieDetails.tags!.join(
+                                ', ') }}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Engagement</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="bi bi-heart-fill me-2 text-danger"></i>
+                                Likes: {{ movieDetails.likes | number }}
+                            </li>
+                            <li><i class="bi bi-globe me-2"></i> Languages: {{ extractLanguages(
+                                movieDetails.tags!) }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Details Section -->
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-6">
-            <h5>Details</h5>
-            <ul class="list-unstyled">
-              <li><i class="bi bi-film me-2"></i> Genres: {{ movieDetails()?.genres!.join(', ') }}
-              </li>
-              <li><i class="bi bi-clock me-2"></i> Duration: {{ movieDetails()?.duration }} minutes
-              </li>
-              <li><i class="bi bi-tags me-2"></i> Tags: {{ movieDetails()?.tags!.join(', ') }}</li>
-            </ul>
-          </div>
-          <div class="col-md-6">
-            <h5>Engagement</h5>
-            <ul class="list-unstyled">
-              <li><i class="bi bi-heart-fill me-2 text-danger"></i>
-                Likes: {{ movieDetails()?.likes | number }}
-              </li>
-              <li><i class="bi bi-globe me-2"></i> Languages: {{ extractLanguages(
-                  movieDetails()?.tags!) }}
-              </li>
-            </ul>
-          </div>
+        <div class="mb-4">
+            <h5>Description</h5>
+            <p>{{ movieDetails.description }}</p>
         </div>
-      </div>
-    </div>
 
-    <!-- Description Section (No Collapse) -->
-    <div class="mb-4">
-      <h5>Description</h5>
-      <p>{{ movieDetails()?.description }}</p>
-    </div>
+        <div class="mb-4">
+            <h5>Schedule Movie Screening</h5>
+            <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="container py-4">
+                <!-- Venue Search -->
+                <div class="form-group mb-3 position-relative">
+                    <label for="venueSearch" class="form-label">Search Venue</label>
+                    <input id="venueSearch" (input)="onVenueSearch(searchBox.value)" #searchBox
+                           class="form-control" placeholder="Search by name">
 
-    <!-- Image Gallery -->
-    <div class="mb-4">
-      <h5>Images</h5>
-      <div class="row">
-        @for (url of movieDetails()?.imageUrls; track $index) {
-          <div class="image-container">
-            <img appImageLoader [ngSrc]="url" width="278" height="417" alt="Movie Image"
-                 class="img-fluid rounded mb-3 movie-images">
-          </div>
-        }
-      </div>
-    </div>
+                    <ul *ngIf="venueSuggestions().length > 0"
+                        class="list-group venue-location-list mt-2 position-absolute w-100">
+                        <li *ngFor="let venue of venueSuggestions()" (click)="selectVenue(venue)"
+                            class="list-group-item list-group-item-action">
+                            {{ venue.name }}
+                        </li>
+                    </ul>
+                </div>
 
-    <!-- Scheduling Placeholder -->
-    <div class="mb-4">
-      <h5>Schedule Movie</h5>
-      <div class="card p-3">
-        <p class="text-muted">Scheduling functionality to be implemented here.</p>
-      </div>
-    </div>
-  </div>
+                <!-- Selected Venue and Pricing Tiers -->
+                <div *ngIf="selectedVenue()" class="mb-3">
+                    <p><strong>Selected Venue:</strong>
+                        <a class="text-decoration-none"
+                           [routerLink]="['/booking', 'seating', selectedVenue().seatingLayoutId ]"
+                           target="_blank" rel="noopener noreferer">
+                            {{ selectedVenue().name }}
+                        </a>
+                    </p>
+                    <div formArrayName="pricingTierMaps">
+                        <div *ngFor="let tierGroup of pricingTierMaps.controls; let i=index"
+                             [formGroupName]="i" class="mb-2">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Tier: {{ tierGroup.get('name')?.value }}
+                                </label>
+                                @let priceControl = tierGroup.get('price')!;
+                                <input formControlName="price" type="number" class="form-control"
+                                       placeholder="Enter price"
+                                       [ngClass]="{'is-invalid' : hasError(priceControl)}">
+                                @if (hasError(priceControl!, 'min') || hasError(priceControl,
+                                    'required') || hasError(priceControl,
+                                    'max')) {
+                                    <div class="invalid-feedback">
+                                        <span>
+                                            price must be between 0 - 250000
+                                        </span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Submit Button -->
+
+                <div class="event-scheduler-container container my-4">
+                    <app-event-scheduler (submitEventInfo)="collectEventsFromScheduler($event)"
+                                         [eventInfo]="getEventInfo()"></app-event-scheduler>
+                </div>
+                <button type="submit" class="btn btn-primary"
+                        [disabled]="eventForm.invalid">Create
+                    Event
+                </button>
+            </form>
+        </div>
+    </div>
 }

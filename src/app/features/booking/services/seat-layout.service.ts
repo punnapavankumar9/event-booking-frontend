@@ -20,4 +20,7 @@ export class SeatLayoutService {
     return this.httpClient.get<ServerSideSeatingLayout>(environment.seatingLayoutUrl + "/" + id);
   }
 
+  getTierNames(id: string) {
+    return this.httpClient.get<string[]>(environment.seatingLayoutUrl + "/tier-info/" + id);
+  }
 }

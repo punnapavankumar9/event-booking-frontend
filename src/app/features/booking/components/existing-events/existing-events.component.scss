@@ -1,0 +1,89 @@
+.existing-events-calendar {
+  .calendar-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .nav-arrow {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 5px;
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+    }
+
+    .calendar-dates {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 10px 0;
+
+      .calendar-day {
+        min-width: 80px;
+        text-align: center;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 5px;
+        background: #fff;
+
+        &.has-events {
+          background-color: #f8f9fa;
+          border-color: #007bff;
+        }
+
+        &.no-events {
+          display: none; // Hide days with no events
+        }
+
+        &.selected {
+          background-color: #007bff;
+          color: white;
+        }
+
+        .day-name {
+          font-size: 12px;
+          color: #666;
+        }
+
+        .day-number {
+          font-size: 18px;
+          font-weight: bold;
+        }
+
+        .day-month {
+          font-size: 12px;
+          color: #666;
+        }
+
+        .time-slots {
+          margin-top: 5px;
+
+          .time-slot {
+            background: #f0f0f0;
+            border-radius: 5px;
+            padding: 5px;
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            input[type="checkbox"] {
+              margin: 0;
+              cursor: not-allowed; // Disabled for viewing only
+            }
+
+            .booking-status {
+              font-size: 12px;
+              color: #333;
+            }
+          }
+        }
+      }
+    }
+  }
+}

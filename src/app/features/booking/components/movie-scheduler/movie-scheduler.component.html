@@ -58,68 +58,84 @@
         </div>
 
         <div class="mb-4">
-            <h5>Schedule Movie Screening</h5>
-            <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="container py-4">
-                <!-- Venue Search -->
-                <div class="form-group mb-3 position-relative">
-                    <label for="venueSearch" class="form-label">Search Venue</label>
-                    <input id="venueSearch" (input)="onVenueSearch(searchBox.value)" #searchBox
-                           class="form-control" placeholder="Search by name">
-
-                    <ul *ngIf="venueSuggestions().length > 0"
-                        class="list-group venue-location-list mt-2 position-absolute w-100">
-                        <li *ngFor="let venue of venueSuggestions()" (click)="selectVenue(venue)"
-                            class="list-group-item list-group-item-action">
-                            {{ venue.name }}
-                        </li>
-                    </ul>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5>{{ showScheduler() ? 'Schedule Movie Screening'
+                    : 'View Existing Schedules' }}</h5>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="toggleScheduler"
+                           (change)="toggleView()" [checked]="showScheduler()"
+                           [disabled]="selectedVenue() == null">
+                    <label class="form-check-label" for="toggleScheduler">
+                        {{ showScheduler() ? 'Switch to Existing Schedules'
+                        : 'Switch to Schedule New Screening' }}
+                    </label>
                 </div>
+            </div>
 
-                <!-- Selected Venue and Pricing Tiers -->
-                <div *ngIf="selectedVenue()" class="mb-3">
-                    <p><strong>Selected Venue:</strong>
-                        <a class="text-decoration-none"
-                           [routerLink]="['/booking', 'seating', selectedVenue().seatingLayoutId ]"
-                           target="_blank" rel="noopener noreferer">
-                            {{ selectedVenue().name }}
-                        </a>
-                    </p>
-                    <div formArrayName="pricingTierMaps">
-                        <div *ngFor="let tierGroup of pricingTierMaps.controls; let i=index"
-                             [formGroupName]="i" class="mb-2">
-                            <div class="form-group">
-                                <label class="form-label">
-                                    Tier: {{ tierGroup.get('name')?.value }}
-                                </label>
-                                @let priceControl = tierGroup.get('price')!;
-                                <input formControlName="price" type="number" class="form-control"
-                                       placeholder="Enter price"
-                                       [ngClass]="{'is-invalid' : hasError(priceControl)}">
-                                @if (hasError(priceControl!, 'min') || hasError(priceControl,
-                                    'required') || hasError(priceControl,
-                                    'max')) {
-                                    <div class="invalid-feedback">
-                                        <span>
-                                            price must be between 0 - 250000
-                                        </span>
-                                    </div>
-                                }
+            <!-- Conditional Rendering Based on Toggle -->
+            @if (showScheduler()) {
+                <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="container py-4">
+                    <!-- Venue Search -->
+                    <div class="form-group mb-3 position-relative">
+                        <label for="venueSearch" class="form-label">Search Venue</label>
+                        <input id="venueSearch" (input)="onVenueSearch(searchBox.value)" #searchBox
+                               class="form-control" placeholder="Search by name">
+                        <ul *ngIf="venueSuggestions().length > 0"
+                            class="list-group venue-location-list mt-2 position-absolute w-100">
+                            <li *ngFor="let venue of venueSuggestions()"
+                                (click)="selectVenue(venue)"
+                                class="list-group-item list-group-item-action">
+                                {{ venue.name }}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Selected Venue and Pricing Tiers -->
+                    <div *ngIf="selectedVenue()" class="mb-3">
+                        <p><strong>Selected Venue:</strong>
+                            <a class="text-decoration-none"
+                               [routerLink]="['/booking', 'seating', selectedVenue().seatingLayoutId ]"
+                               target="_blank" rel="noopener noreferrer">
+                                {{ selectedVenue().name }}
+                            </a>
+                        </p>
+                        <div formArrayName="pricingTierMaps">
+                            <div *ngFor="let tierGroup of pricingTierMaps.controls; let i=index"
+                                 [formGroupName]="i" class="mb-2">
+                                <div class="form-group">
+                                    <label class="form-label">Tier: {{ tierGroup.get(
+                                        'name')?.value }}</label>
+                                    @let priceControl = tierGroup.get('price')!;
+                                    <input formControlName="price" type="number"
+                                           class="form-control" placeholder="Enter price"
+                                           [ngClass]="{'is-invalid' : hasError(priceControl)}">
+                                    @if (hasError(priceControl!, 'min') || hasError(priceControl,
+                                        'required') || hasError(priceControl, 'max')) {
+                                        <div class="invalid-feedback">
+                                            <span>price must be between 0 - 250000</span>
+                                        </div>
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Submit Button -->
-
-                <div class="event-scheduler-container container my-4">
-                    <app-event-scheduler (submitEventInfo)="collectEventsFromScheduler($event)"
-                                         [eventInfo]="getEventInfo()"></app-event-scheduler>
+                    <!-- Event Scheduler -->
+                    <div class="event-scheduler-container container my-4">
+                        <app-event-scheduler (submitEventInfo)="collectEventsFromScheduler($event)"
+                                             [eventInfo]="getEventInfo()"></app-event-scheduler>
+                    </div>
+                    <button type="submit" class="btn btn-primary" [disabled]="eventForm.invalid">
+                        Create Event
+                    </button>
+                </form>
+            } @else {
+                <div class="existing-events-container container my-4">
+                    <app-existing-events [eventId]="movieId()!"
+                                         [venueId]="selectedVenue().id"></app-existing-events>
                 </div>
-                <button type="submit" class="btn btn-primary"
-                        [disabled]="eventForm.invalid">Create
-                    Event
-                </button>
-            </form>
+            }
+
         </div>
     </div>
 }

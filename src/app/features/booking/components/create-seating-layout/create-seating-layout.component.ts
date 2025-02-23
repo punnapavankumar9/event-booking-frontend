@@ -1,7 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { NgClass, NgForOf, NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
-  AbstractControl,
   FormArray,
   FormControl,
   FormGroup,
@@ -175,7 +174,7 @@ export class CreateSeatingLayoutComponent {
     const seats: Seat[] = [];
     for (let row of this.seatingLayout()) {
       for (const seat of row) {
-        seats.push({...seat});
+        seats.push({row: seat.row, column: seat.column, isSpace: seat.isSpace, tier: seat.tier});
       }
     }
 
@@ -198,7 +197,10 @@ export class CreateSeatingLayoutComponent {
         this.router.navigate(['/booking', 'seating', response.id]);
       },
       error: (error: HttpErrorResponse) => {
-        this.toastService.showToast({message: error?.error?.message ?? error.message, type: 'error'});
+        this.toastService.showToast({
+          message: error?.error?.message ?? error.message,
+          type: 'error'
+        });
       }
     });
   }

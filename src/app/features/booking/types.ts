@@ -69,14 +69,14 @@ export type Event = {
   venueId: string,
   openForBooking: boolean,
   eventDurationDetails: {
-    startTime: Date;
-    endTime: Date;
+    startTime: string;
+    endTime: string;
     eventDurationType: EventDurationType
   },
   additionalDetails?: AnyObject,
   pricingTierMaps: PricingTierMap[],
   seatState?: string,
-  seatingLayoutId: string,
+  seatingLayoutId?: string,
 }
 
 export type PricingTierMap = {

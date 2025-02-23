@@ -6,13 +6,8 @@ import { MoviesService } from "../../../movies/services/movies.service";
 import { DatePipe, DecimalPipe, NgClass, NgForOf, NgIf, NgOptimizedImage } from "@angular/common";
 import { ImageLoaderDirective } from "../../../core/directives/image-loading-status";
 import { EventSchedulerComponent } from "../event-scheduler/event-scheduler.component";
-import {
-  Event,
-  EventInfo,
-  PricingTierMap,
-  ScheduledEvent,
-  VenueWithNameAndLayoutId
-} from "../../types";
+import { ExistingEventsComponent } from "../existing-events/existing-events.component"; // New import
+import { Event, EventInfo, ScheduledEvent, VenueWithNameAndLayoutId } from "../../types";
 import { debounceTime, distinctUntilChanged, Subject, switchMap, take } from 'rxjs';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VenueService } from '../../services/venue.service';
@@ -29,6 +24,7 @@ import { EventService } from '../../services/event.service';
     DecimalPipe,
     ImageLoaderDirective,
     EventSchedulerComponent,
+    ExistingEventsComponent, // Add new component to imports
     ReactiveFormsModule,
     NgIf,
     NgForOf,
@@ -36,11 +32,12 @@ import { EventService } from '../../services/event.service';
     RouterLink
   ],
   templateUrl: './movie-scheduler.component.html',
-  styleUrl: './movie-scheduler.component.scss'
+  styleUrls: ['./movie-scheduler.component.scss'] // Fixed typo: styleUrl -> styleUrls
 })
 export class MovieSchedulerComponent implements OnInit {
   movieId = signal<string | null>(null);
   movieDetails: Movie = null as unknown as Movie;
+  showScheduler = signal(true); // Toggle state: true = scheduler, false = existing events
 
   eventForm: FormGroup<{
     venueId: FormControl<string | null>;
@@ -49,26 +46,21 @@ export class MovieSchedulerComponent implements OnInit {
 
   eventSchedulerComponent = viewChild(EventSchedulerComponent);
 
-  // Signals for venue management
-  venueSearchQuery = signal('');              // Tracks the search input
-  venueSuggestions = signal<any[]>([]);     // Holds search results
-  selectedVenue = signal<any | null>(null); // Tracks the selected venue
+  venueSearchQuery = signal('');
+  venueSuggestions = signal<any[]>([]);
+  selectedVenue = signal<any | null>(null);
 
   seatingTiers = signal<string[]>([]);
-  // Computed signal for seating tiers
   seatingLayoutSubject = new Subject<VenueWithNameAndLayoutId>();
 
-  // Getter for the pricingTierMaps FormArray
   get pricingTierMaps(): FormArray {
     return this.eventForm.get('pricingTierMaps') as FormArray;
   }
 
-  // Handle venue search input
   onVenueSearch(query: string): void {
     this.venueSearchQuery.set(query);
   }
 
-  // Handle venue selection
   selectVenue(venue: any): void {
     this.selectedVenue.set(venue);
     this.seatingLayoutSubject.next(venue);
@@ -90,14 +82,12 @@ export class MovieSchedulerComponent implements OnInit {
   ) {
     route.params.subscribe(params => {
       this.movieId.set(params['id']);
-    })
+    });
     this.eventForm = new FormGroup({
       venueId: new FormControl(''),
       pricingTierMaps: new FormArray([] as FormGroup[])
     });
 
-
-    // Effect: Update venue suggestions when search query changes
     effect(() => {
       const query = this.venueSearchQuery();
       this.venueSearchSubject.next(query);
@@ -106,25 +96,19 @@ export class MovieSchedulerComponent implements OnInit {
     this.seatingLayoutSubject.pipe(
       distinctUntilChanged(),
       debounceTime(200),
-      switchMap(venue => {
-        return seatingService.getTierNames(venue.seatingLayoutId);
-      }))
-    .subscribe({
-      next: (data) => {
-        this.seatingTiers.set(data);
-      },
-      error: (err: HttpErrorResponse) => {
-        toastService.showToast({message: err.message, type: 'error'})
-      }
-    })
-
+      switchMap(venue => seatingService.getTierNames(venue.seatingLayoutId))
+    ).subscribe({
+      next: (data) => this.seatingTiers.set(data),
+      error: (err: HttpErrorResponse) => toastService.showToast({
+        message: err.message,
+        type: 'error'
+      })
+    });
 
     this.venueSearchSubject.pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      switchMap(query =>
-        venueService.searchVenues(query)
-      )
+      switchMap(query => venueService.searchVenues(query))
     ).subscribe({
       next: (venues) => this.venueSuggestions.set(venues),
       error: (err: HttpErrorResponse) => {
@@ -132,7 +116,6 @@ export class MovieSchedulerComponent implements OnInit {
       }
     });
 
-    // Effect: Update pricing tiers when selected venue changes
     effect(() => {
       const tiers = this.seatingTiers();
       this.pricingTierMaps.clear();
@@ -148,15 +131,13 @@ export class MovieSchedulerComponent implements OnInit {
   ngOnInit() {
     if (this.movieId()) {
       this.movieService.getMovieDetails(this.movieId()!).pipe(take(1)).subscribe({
-        next: result => {
-          this.movieDetails = result;
-        },
+        next: result => this.movieDetails = result,
         error: err => {
           this.toastService.showToast({type: 'error', message: err.message});
         }
-      })
+      });
     } else {
-      this.toastService.showToast({message: "Invalid URL", type: 'error'})
+      this.toastService.showToast({message: "Invalid URL", type: 'error'});
       this.router.navigate(['/']);
     }
   }
@@ -167,12 +148,16 @@ export class MovieSchedulerComponent implements OnInit {
   }
 
   getEventInfo(): EventInfo {
-    return {
-      duration: this.movieDetails?.duration!,
-      startDate: this.movieDetails?.releaseDate!,
-      eventDurationCategory: "SHORT_TERM"
+    if (!this.movieDetails) {
+      throw new Error('Movie details not loaded');
     }
+    return {
+      duration: this.movieDetails.duration,
+      startDate: this.movieDetails.releaseDate,
+      eventDurationCategory: "SHORT_TERM"
+    };
   }
+
 
   scheduledEvents: ScheduledEvent[] = [];
 
@@ -190,33 +175,50 @@ export class MovieSchedulerComponent implements OnInit {
       return;
     }
     this.invokeCollectEventsFromScheduler();
+    if (this.scheduledEvents.length === 0) {
+      this.toastService.showToast({message: "No events scheduled to submit", type: 'error'});
+      return;
+    }
     const events: Event[] = [];
     const formValue = this.eventForm.getRawValue();
-    const pricingTierMaps: PricingTierMap[] = []
     for (const event of this.scheduledEvents) {
+      // Convert local Date objects to UTC ISO strings
+      const startTimeUTC = event.startDate.toISOString(); // Converts local Date to UTC ISO string
+      const endTimeUTC = event.endDate.toISOString();     // Converts local Date to UTC ISO string
+
+      if (isNaN(new Date(startTimeUTC).getTime()) || isNaN(new Date(endTimeUTC).getTime())) {
+        this.toastService.showToast({
+          message: "Invalid date format in scheduled event",
+          type: 'error'
+        });
+        return;
+      }
+
       events.push({
         eventType: "MOVIE",
         eventId: this.movieDetails.id!,
         name: this.movieDetails.title!,
-        seatingLayoutId: this.selectedVenue().seatingLayoutId,
         venueId: this.selectedVenue().id,
         openForBooking: event.isOpenForBooking,
         eventDurationDetails: {
           eventDurationType: "SHORT_TERM",
-          startTime: event.startDate,
-          endTime: event.endDate
+          startTime: startTimeUTC, // UTC ISO string
+          endTime: endTimeUTC      // UTC ISO string
         },
         pricingTierMaps: formValue.pricingTierMaps as any
-      })
+      });
     }
     this.eventService.createEvents(events).subscribe({
-      next: result => {
-        this.toastService.showToast({message: "events Created Successfully", type: 'success'});
-      },
-      error: err => {
-        this.toastService.showToast({message: err.message, type: 'error'});
-      }
-    })
+      next: result => this.toastService.showToast({
+        message: "Events Created Successfully",
+        type: 'success'
+      }),
+      error: err => this.toastService.showToast({message: err.message, type: 'error'})
+    });
+  }
+
+  toggleView(): void {
+    this.showScheduler.set(!this.showScheduler());
   }
 
   protected readonly hasError = hasError;

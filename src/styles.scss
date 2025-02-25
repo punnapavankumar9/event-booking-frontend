@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Arizonia&display=swap');
 @import "bootstrap";
 
-$primary-red: rgb(220, 53, 75);
+$primary-red: #f84464;
 $primary-grey: rgb(151, 151, 151);
 $seat-green: #1ea83c;
 
 * {
   box-sizing: border-box;
-  padding: 0px;
-  margin: 0px;
+  padding: 0;
+  margin: 0;
 }
 
 @mixin d-flex-column {
@@ -215,4 +215,28 @@ $font-sizes: (
   100% {
     transform: translate(-50%, -50%) rotate(360deg);
   }
+}
+
+.small-75 {
+  font-size: .75rem;
+}
+
+.small-70 {
+  font-size: .70rem;
+}
+
+.small-85 {
+  font-size: .85rem;
+}
+
+.small-65 {
+  font-size: .65rem;
+}
+
+.small-55 {
+  font-size: .55rem;
+}
+
+.small-80 {
+  font-size: .80rem;
 }

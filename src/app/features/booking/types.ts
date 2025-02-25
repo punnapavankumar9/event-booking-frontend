@@ -79,6 +79,8 @@ export type Event = {
   seatingLayoutId?: string,
 }
 
+export type EventWithVenueName = Event & { venueName: string };
+
 export type PricingTierMap = {
   name: string;
   price: number;

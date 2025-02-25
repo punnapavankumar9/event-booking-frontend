@@ -36,6 +36,15 @@ export const routes: Route[] = [
             loadComponent: () => import("./components/movie-scheduler/movie-scheduler.component").then(m => m.MovieSchedulerComponent),
           }
         ]
+      },
+      {
+        path: 'shows',
+        children: [
+          {
+            path: ":movieId",
+            loadComponent: () => import("./components/show-listing/show-listing.component").then(m => m.ShowListingComponent),
+          }
+        ]
       }
     ]
   }

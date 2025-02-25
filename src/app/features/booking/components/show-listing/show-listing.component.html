@@ -1,0 +1,235 @@
+<div class="main-container">
+    @if (dates().length == 0) {
+        <h1>No Shows Available</h1>
+    } @else {
+        <!-- Header -->
+
+        <div class="top-header container">
+
+            <div class="row mb-2">
+                <div class="col">
+                    <h1 class="display-6">{{ movieInfo()?.title }}</h1>
+                    <div class="genres ms-5">
+                        @for (genre of movieInfo()?.genres; track $index) {
+                            <span class="genre-chip">{{ genre }}</span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="data-and-filter-container d-flex flex-row justify-content-between align-items-center">
+                <!-- Date Navigation -->
+                <div class="date-navigation d-fac ">
+                    <button class="btn arrow left" (click)="previousWeek()">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <div
+                        class="dates d-flex flex-nowrap overflow-auto align-items-center justify-content-center">
+                        @for (date of dates(); track $index) {
+                            <div class="date"
+                                 [class.selected]="isSelectedDate(date)"
+                                 (click)="selectDate(date)">
+                                <div
+                                    class="d-flex rounded-1 flex-column align-items-center justify-content-center small date-container">
+                                <span class="text-uppercase small-65">
+                                    {{ date.toLocaleString('en-US', {weekday: 'short'}) }}
+                                </span>
+                                    <span class="small-85">  {{ date.getDate() }} </span>
+                                    <span class="text-uppercase small-65">
+                                        {{ date.toLocaleString('en-US', {month: 'short'}) }}
+                                </span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <button class="btn arrow right" (click)="nextWeek()">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+
+                <!-- Filters -->
+                <div class="d-flex flex-row">
+                    <div class="col-md-8 d-flex justify-content-start">
+                        <div class="dropdown me-2">
+                            <button class="btn dropdown-toggle" type="button"
+                                    id="languageFormatDropdown" data-bs-toggle="dropdown">
+                                Hindi - 2D
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Hindi - 2D</a></li>
+                                <li><a class="dropdown-item" href="#">Telugu - 2D</a></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown me-2">
+                            <button class="btn dropdown-toggle" type="button"
+                                    id="priceRangeDropdown"
+                                    data-bs-toggle="dropdown">
+                                Filter Price Range
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Prices</a></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown me-2">
+                            <button class="btn dropdown-toggle" type="button"
+                                    id="showTimingsDropdown"
+                                    data-bs-toggle="dropdown">
+                                Filter Show Timings
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Timings</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <button class="btn">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom-container-holder pt-3">
+            <div class="bottom-container container mt-2 p-0">
+                <div class="d-flex justify-content-end">
+                    <div class="legend d-fac p-1">
+                        <div class="d-fac py-1">
+                            <span class="dot available me-2"></span>
+                            <span class="opacity-50 small-65">  AVAILABLE </span>
+                        </div>
+                        <div class="d-fac py-1">
+                            <span class="dot fast-filling me-2 ms-4"></span>
+                            <span class="opacity-50 small-65"> FAST FILLING </span>
+                        </div>
+                        <div class="d-fac py-1">
+                            <span class="dot subtitles me-2 ms-4"></span>
+                            <span class="opacity-50 small-65"> SUBTITLES LANGUAGE </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="theater-list">
+                    @for (theater of theaters(); track $index) {
+                        <hr class="p-0 m-0 opacity-1">
+                        <div class="theater-container pt-1 pb-2">
+                            <div class="theater p-2 d-flex flex-row">
+                                <div class="left d-flex flex-row justify-content-between">
+                                    <i class="bi bi-heart me-3 flex-shrink-0"></i>
+                                    <div
+                                        class="theater-info d-flex flex-grow-1 flex-column justify-content-start mb-2">
+                                        <div class="fw-bold">
+                                        <span
+                                            class="theater-name text-break w-100 me-2">{{ theater.venueName }}
+                                        </span>
+                                            <!--                                        <span-->
+                                            <!--                                            class="theater-location text-break w-100 me-2">{{ theater.location }}-->
+                                            <!--  TODO expose location-->
+                                            <!--                                        </span>-->
+                                        </div>
+                                        <div class="features mt-3 d-flex flex-row">
+                                    <span class="feature feature-m-ticket">
+                                    <svg version="1.1" width="20px" height="20px"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         x="0px" y="0px"
+                                         viewBox="0 0 100 100" enable-background="new 0 0 100 100"
+                                         xml:space="preserve">
+                                                                    <path
+                                                                        d="M73.5 95.2H26.8c-1.3 0-2.3-1-2.3-2.3V7.6c0-1.3 1-2.3 2.3-2.3h46.7c1.3 0 2.3 1 2.3 2.3V93c0 1.2-1.1 2.2-2.3 2.2zM26.8 6.4c-.6 0-1.1.5-1.1 1.1v85.4c0 .6.5 1.1 1.1 1.1h46.7c.6 0 1.1-.5 1.1-1.1V7.6c0-.6-.5-1.1-1.1-1.1l-46.7-.1z"/>
+                                        <path
+                                            d="M68.8 78.9H31.3c-.6 0-1.2-.5-1.2-1.2V16c0-.6.5-1.2 1.2-1.2h37.5c.6 0 1.2.5 1.2 1.2v61.7c0 .6-.5 1.2-1.2 1.2zm0-62.9H31.3v61.6h37.4l.1-61.6zm-19 74.4c-2.3 0-4.1-1.9-4.1-4.1 0-2.3 1.9-4.1 4.1-4.1 2.3 0 4.1 1.9 4.1 4.1a4 4 0 01-4.1 4.1zm0-7.1a2.9 2.9 0 102.9 2.9c.1-1.5-1.2-2.9-2.9-2.9zm-5.5-72.1h-1.6c-.3 0-.6-.3-.6-.6s.3-.6.6-.6h1.6c.3 0 .6.3.6.6s-.3.6-.6.6zm11 0h-6.5c-.3 0-.6-.3-.6-.6s.3-.6.6-.6h6.5c.3 0 .6.3.6.6s-.2.6-.6.6z"/>
+                                    </svg>
+                                        <span>
+                                            M-Ticket
+                                        </span>
+                                </span>
+                                            <span
+                                                class="feature feature-fnb">
+                                                <svg width="20px" height="20px"
+                                                     xmlns="http://www.w3.org/2000/svg" x="0px"
+                                                     y="0px"
+                                                     viewBox="0 0 100 100"
+                                                     enable-background="new 0 0 100 100"
+                                                     xml:space="preserve" class="me-2">
+                                                     <path fill="#F90"
+                                                           d="M58.7 85.9H8.5c-4.1 0-7.5-3.4-7.5-7.5v-1.1c0-4.1 3.4-7.5 7.5-7.5h50.2c4.1 0 7.5 3.4 7.5 7.5v1.1c0 4.1-3.4 7.5-7.5 7.5zM8.5 74.3a3 3 0 00-3 3v1.1a3 3 0 003 3h50.2a3 3 0 003-3v-1.1a3 3 0 00-3-3H8.5zM54.8 99H12.4c-3.7 0-6.8-3-6.8-6.8v-4c0-1.2 1-2.2 2.2-2.2s2.2 1 2.2 2.2v4c0 1.3 1.1 2.3 2.4 2.3h42.4c1.3 0 2.3-1.1 2.3-2.3v-4c0-1.2 1-2.2 2.2-2.2s2.2 1 2.2 2.2v4c.1 3.8-3 6.8-6.7 6.8zm42-57.9c-1.2 0-2.2-1-2.2-2.2v-2.8c0-.6-.5-1-1-1h-54a1 1 0 00-1 1v2.8c0 1.2-1 2.2-2.2 2.2-1.2 0-2.2-1-2.2-2.2v-2.8c0-3 2.5-5.5 5.5-5.5h54c3 0 5.5 2.4 5.5 5.5v2.8c-.2 1.2-1.2 2.2-2.4 2.2z"/>
+                                                    <path fill="#F90"
+                                                          d="M63.9 31.4c-1 0-1.9-.7-2.2-1.7L56.6 6.2c-.1-.4-.3-.5-.4-.6-.1-.1-.4-.2-.8-.1L41 8.6c-1.2.3-2.4-.5-2.6-1.7-.3-1.2.5-2.4 1.7-2.6l14.4-3.1c1.4-.3 2.9 0 4.1.7 1.2.8 2.1 2 2.4 3.4l5.1 23.5c.3 1.2-.5 2.4-1.7 2.6h-.5zm-3.7 38.7c-.8 0-1.5-.4-1.9-1.1-3.9-6.7-12.4-14.5-23.8-14.5s-20 7.8-23.8 14.5c-.6 1.1-2 1.4-3 .8-1.1-.6-1.4-2-.8-3 5.9-10.1 16.7-16.7 27.7-16.7s21.8 6.5 27.7 16.7c.6 1.1.3 2.4-.8 3-.5.2-.9.3-1.3.3z"/>
+                                                    <circle fill="#F90" cx="24.3" cy="63.9"
+                                                            r="1.7"/>
+                                                    <circle fill="#F90" cx="40.7" cy="65.6"
+                                                            r="1.7"/>
+                                                    <circle fill="#F90" cx="33.6" cy="58.8"
+                                                            r="1.7"/>
+                                                    <path fill="#F90"
+                                                          d="M47 49.6c-1.2 0-2.2-.9-2.2-2.1l-.5-10.3c-.1-1.2.9-2.3 2.1-2.3 1.3-.1 2.3.9 2.3 2.1l.5 10.3c.1 1.2-.9 2.3-2.1 2.3H47zM82.1 93H71.4c-1.2 0-2.2-1-2.2-2.2s1-2.2 2.2-2.2h10.7c.6 0 1-.5 1-1L85.5 37a2.3 2.3 0 012.3-2.1c1.2.1 2.2 1.1 2.1 2.3l-2.4 50.5c.1 2.9-2.4 5.3-5.4 5.3z"/>
+                                                  </svg>
+                                                <span>
+                                                    Food & Beverages
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div
+                                            class="d-flex flex-row flex-shrink-0 align-items-center">
+                                            <i class="bi bi-info-circle ms-auto flex-shrink-0 me-1 small-75"></i>
+                                            <span
+                                                class="fw-light info-btn-text small-65">INFO</span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="right">
+                                    <div class="showtimes d-flex flex-wrap">
+                                        @for (showtime of theater.shows; track $index) {
+                                            <div class="showtime m-2 position-relative"
+                                                 [ngClass]="getShowtimeClass(showtime)">
+                                                <div
+                                                    class="time d-flex flex-column justify-content-center align-items-center">
+                                                    <span
+                                                        class="small-85">{{ showtime.eventDurationDetails.startTime | date:"h:mm" }} {{ getAmOrPm(
+                                                        showtime.eventDurationDetails.startTime) }}
+                                                    </span>
+                                                    <span class="small-55">
+                                                      <!-- TODO -->
+                                                        <!-- {{ showtime.format }} -->
+                                                    </span>
+                                                </div>
+                                                <div class="showtime-tooltip">
+                                                    @for (pricingTier of showtime.pricingTierMaps; track $index) {
+                                                        <div class="tooltip-content px-3">
+                                                            <div class="price">
+                                                                Rs. {{ pricingTier.price
+                                                            || 295.00 }}
+                                                            </div>
+                                                            <div
+                                                                class="status-label">{{ pricingTier.name
+                                                            || 'EXECUTIVE' }}
+                                                            </div>
+                                                            <div
+                                                                class="availability">{{ 'Almost Full' }}
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    <div
+                                        class="status text-dark small-65 d-flex flex-row align-items-center mt-3">
+                                        <div class="dot fast-filling">
+                                        </div>
+                                        <span>
+                                            {{ theater.cancellable ? "Cancellation Available"
+                                            : "Non-cancellable" }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

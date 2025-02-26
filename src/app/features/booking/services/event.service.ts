@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Event, EventForShowList } from '../types';
+import { BookingPageInfo, Event, EventForShowList } from '../types';
 import { environment } from '../../../../environments/environment';
 import { distinct, map, Observable } from 'rxjs';
 
@@ -31,5 +31,9 @@ export class EventService {
 
   getShowListForCityAndBetweenStartAndEnd(eventId: string, city: string, startTime: string, endTime: string): Observable<EventForShowList[]> {
     return this.http.get<EventForShowList[]>(this.eventsUrl + `/byEventId/${eventId}?city=${city}&startTime=${startTime}&endTime=${endTime}`)
+  }
+
+  getBookingPageInfo(eventId: string) {
+    return this.http.get<BookingPageInfo>(this.eventsUrl + `/booking-info/${eventId}`)
   }
 }

@@ -6,8 +6,9 @@
   margin: 0 auto;
 }
 
-.seat:not(.layout-btn) {
-  background-color: white !important;
+.selected-seat {
+  background-color: $primary-red !important;
+  width: 200px;
 }
 
 .space-seat {

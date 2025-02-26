@@ -148,6 +148,9 @@ export class ShowListingComponent implements OnInit {
 
   updateDateWindow() {
     const start = this.currentWindowStart();
+    if (!start) {
+      return;
+    }
     const windowDates = [];
     for (let i = 0; i < 5; i++) {
       const newDate = new Date(start!);

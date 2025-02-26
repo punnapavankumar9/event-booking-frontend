@@ -1,0 +1,238 @@
+@import "./../../common-layout";
+
+$bg-red: #ff0000;
+
+.seat-selection-container {
+
+  .overlay {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 400;
+  }
+
+  .content-wrapper {
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+
+    .seat-selection-content {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      width: min(95%, 500px);
+    }
+  }
+
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .rickshaw-image {
+    margin-bottom: 20px;
+
+    svg {
+      fill: #4a5568; // Gray for the rickshaw
+      path:nth-child(3) {
+        fill: #a0aec0;
+      }
+
+      // Light gray for body
+      path:nth-child(4) {
+        fill: #f6ad55;
+      }
+
+      // Orange for canopy
+    }
+  }
+
+  .seat-count-selection {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+
+    .seat-count-btn {
+      width: 40px;
+      height: 40px;
+      background-color: #fff6f6;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 50%;
+      border: none;
+      transition: background-color 1s, border-color 1s, transform 1s;
+
+      &:hover:not(.selected) {
+        background-color: $bg-red; // Red on hover
+        transform: scale(1.01);
+        color: white;
+      }
+
+      &.selected {
+        background-color: $bg-red; // Red for selected
+        border-color: $bg-red;
+        color: white;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .pricing-tiers {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+
+    .tier {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin: 0 5px;
+      text-align: center;
+
+      .tier-name {
+        display: block;
+        color: #333;
+        font-size: .8rem;
+      }
+
+      .tier-price {
+        display: block;
+        font-weight: bold;
+        color: #333;
+        margin-top: 5px;
+      }
+
+      .tier-status {
+        display: block;
+        margin-top: 5px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .select-seats-btn {
+    background-color: $bg-red; // Red button
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #cc0000; // Darker red on hover
+    }
+  }
+}
+
+
+.main-container {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.seat:not(.layout-btn) {
+  font-size: .65rem;
+}
+
+.selected:not(.layout-btn) {
+  background-color: red !important;
+}
+
+.seat:not(.layout-btn):not(.selected-seat):not(.space-seat):not(.seat-not-available):hover {
+  background-color: $seat-green !important;
+  color: white;
+}
+
+.seat-not-available {
+  background-color: #999999;
+  border: none;
+
+  span {
+    display: none;
+  }
+}
+
+.layout-btn {
+  color: black !important;
+  font-weight: lighter;
+}
+
+.space-seat {
+  visibility: hidden;
+}
+
+.header {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+}
+
+.seating-visual {
+  min-height: 200px;
+  background: #fafafa;
+}
+
+.layout-btn {
+  cursor: auto !important;
+}
+
+$main-container-background: #f9f9f9;
+
+.main-container {
+  background-color: $main-container-background;
+}
+
+.tier-name-inner {
+  background-color: $main-container-background !important;
+}
+
+.layout-holder {
+  background-color: $main-container-background;
+}
+
+.selected-seat-count {
+  border: 1px solid rgba(136, 136, 136, 0.82);
+  background-color: white;
+  border-radius: 4px;
+  padding: 4px 6px;
+}
+
+
+.event-name {
+  font-size: 1rem;
+}
+
+.pay-bill {
+  position: fixed;
+  width: 100%;
+  height: 50px;
+  bottom: 0;
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 0 7px rgba(0, 0, 0, .8);
+
+  span {
+    position: relative;
+    display: inline-block;
+    top: 3px;
+    background-color: $primary-red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: min(90vw, 250px);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}

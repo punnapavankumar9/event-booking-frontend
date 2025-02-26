@@ -8,6 +8,8 @@ export type Seat = {
   tier: string;
 }
 
+export type BookingSeat = Seat & { isSelected?: boolean, isAvailable?: boolean };
+
 
 export type ServerSideSeatingLayout = {
   id?: string;
@@ -27,7 +29,7 @@ export type TierFormGroup = FormGroup<{
 }>;
 
 
-export type SeatingLayout = (Seat & { isSelected?: boolean }) [][];
+export type SeatingLayout = BookingSeat[][];
 
 
 export type Venue = {
@@ -77,7 +79,10 @@ export type Event = {
   eventDurationDetails: EventDurationDetails,
   additionalDetails?: AnyObject,
   pricingTierMaps: PricingTierMap[],
-  seatState?: string,
+  seatState?: {
+    bookedSeats: { row: number; column: number }[] | null,
+    blockedSeats: { row: number; column: number }[] | null,
+  },
   seatingLayoutId?: string,
 }
 
@@ -106,3 +111,11 @@ export type EventForShowList = {
 }
 
 export type EventBookingStates = "Available" | "Filling Fast" | "Almost Full";
+
+
+export type BookingPageInfo = {
+  event: Event,
+  venueName: string,
+  seatingLayout: ServerSideSeatingLayout,
+  showList: string[],
+}

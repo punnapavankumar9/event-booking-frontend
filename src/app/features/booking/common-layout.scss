@@ -57,10 +57,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  margin: 2px;
+  margin: 3px;
   font-size: .8rem;
   border: 1px solid $seat-green;
   color: $seat-green;
+  background-color: white;
+}
+
+.layout-btn {
+  background-color: transparent !important;
 }
 
 .selected-seat {
@@ -72,10 +77,6 @@
   background-color: #909090;
   border: none;
   color: white;
-}
-
-.available-seat {
-
 }
 
 .page1 {

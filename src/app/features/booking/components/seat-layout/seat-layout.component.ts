@@ -6,6 +6,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { map, take } from 'rxjs';
 import { SeatingLayout, ServerSideSeatingLayout } from '../../types';
 import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
+import { buildSeatLayout } from '../../utils';
 
 @Component({
   selector: 'app-seat-layout',
@@ -38,7 +39,7 @@ export class SeatLayoutComponent implements OnInit {
     this.seatLayoutService.getSeatLayout(id).subscribe({
       next: data => {
         this.serverResponse.set(data);
-        this.layout.set(this.buildSeatLayout(data));
+        this.layout.set(buildSeatLayout(data));
       },
       error: err => {
         this.toastService.showToast({message: err.message, type: "error"});
@@ -46,18 +47,6 @@ export class SeatLayoutComponent implements OnInit {
     });
   }
 
-  buildSeatLayout(seatLayout: ServerSideSeatingLayout) {
-    const uiLayout: SeatingLayout = [];
-    const rows = seatLayout.rows;
-    const columns = seatLayout.columns;
-    for (let i = 0; i < rows; i++) {
-      uiLayout.push([].constructor(columns));
-    }
-    seatLayout.seats.forEach(seat => {
-      uiLayout[seat.row][seat.column] = seat;
-    })
-    return uiLayout;
-  }
 
   prevTierName: string | null = null;
 

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Event, EventWithVenueName } from '../types';
+import { Event, EventForShowList } from '../types';
 import { environment } from '../../../../environments/environment';
-import { map, Observable } from 'rxjs';
+import { distinct, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,12 +23,13 @@ export class EventService {
 
   getEventDatesForEventIdAfter(eventId: string, from: Date): Observable<Date[]> {
     return this.http.get<string[]>(this.eventsUrl + `/event-dates/byEventId?eventId=${eventId}&from=${from.toISOString()}`).pipe(
+      distinct(),
       map((dates: string[]) => {
         return dates.map(date => new Date(date)).sort((a, b) => a.getTime() - b.getTime());
       }));
   }
 
-  getShowListForCityAndBetweenStartAndEnd(eventId: string, city: string, startTime: string, endTime: string): Observable<EventWithVenueName[]> {
-    return this.http.get<EventWithVenueName[]>(this.eventsUrl + `/byEventId/${eventId}?city=${city}&startTime=${startTime}&endTime=${endTime}`)
+  getShowListForCityAndBetweenStartAndEnd(eventId: string, city: string, startTime: string, endTime: string): Observable<EventForShowList[]> {
+    return this.http.get<EventForShowList[]>(this.eventsUrl + `/byEventId/${eventId}?city=${city}&startTime=${startTime}&endTime=${endTime}`)
   }
 }

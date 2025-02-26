@@ -1,17 +1,18 @@
 import { Component, effect, OnInit, signal } from '@angular/core';
 import { DatePipe, NgClass } from '@angular/common';
 import { EventService } from '../../services/event.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ToastService } from '../../../core/services/toast.service';
 import { Movie } from '../../../core/types';
 import { MoviesService } from '../../../movies/services/movies.service';
-import { Event } from '../../types'
+import { EventBookingStates, EventForShowList } from '../../types'
 
 @Component({
   selector: 'app-show-listing',
   imports: [
     NgClass,
-    DatePipe
+    DatePipe,
+    RouterLink
   ],
   templateUrl: './show-listing.component.html',
   styleUrl: './show-listing.component.scss'
@@ -22,12 +23,14 @@ export class ShowListingComponent implements OnInit {
   theaters = signal<{
     venueName: string,
     venueId: string,
-    shows: Event[],
-    cancellable: boolean
+    shows: EventForShowList[],
+    cancellable: boolean,
+    numberOfBookedAndBlockedSeats: number,
+    totalSeats: number
   }[] | null>(null);
   movieInfo = signal<Movie | null>(null);
   movieId = signal<null | string>(null);
-  activeDate = signal<null | Date>(null);
+  currentWindowStart = signal<null | Date>(null);
 
   constructor(private eventService: EventService, private movieService: MoviesService, private router: Router, private route: ActivatedRoute, private toastService: ToastService) {
     route.params.subscribe(params => {
@@ -48,12 +51,17 @@ export class ShowListingComponent implements OnInit {
     }
     this.fetchMovieInfo();
     this.fetchDates();
-
   }
 
 
   fetchShowList(): void {
-    this.eventService.getShowListForCityAndBetweenStartAndEnd(this.movieId()!, "Hyderabad", this.selectedDate()!.toISOString(), this.getEndOfTheDayInUTC(this.selectedDate()!).toISOString())
+    const currTime = new Date();
+    let startTime = this.selectedDate()!;
+    startTime.setHours(0, 0, 0);
+    if (currTime.getDate() == startTime.getTime() && currTime.getMonth() == startTime.getMonth() && currTime.getFullYear() == startTime.getFullYear()) {
+      startTime = currTime;
+    }
+    this.eventService.getShowListForCityAndBetweenStartAndEnd(this.movieId()!, "Hyderabad", startTime.toISOString(), this.getEndOfTheDayInUTC(this.selectedDate()!).toISOString())
     .subscribe((events) => {
       const groupEventsByTheater = Object.values(
         events.reduce((acc: any, event) => {
@@ -99,6 +107,8 @@ export class ShowListingComponent implements OnInit {
     .subscribe((dates) => {
       this.dates.set(dates);
       this.selectedDate.set(dates[0]);
+      this.currentWindowStart.set(dates[0]);
+      this.updateDateWindow();
     })
   }
 
@@ -107,18 +117,22 @@ export class ShowListingComponent implements OnInit {
       return;
     }
     this.selectedDate.set(date);
-    this.fetchShowList();
   }
 
   previousWeek() {
-    // Placeholder for shifting dates backward
-    console.log('Previous week');
+    const newStart = new Date(this.currentWindowStart()!);
+    newStart.setDate(newStart.getDate() - 5); // Move back 5 days
+    this.currentWindowStart.set(newStart);
+    this.updateDateWindow();
   }
 
   nextWeek() {
-    // Placeholder for shifting dates forward
-    console.log('Next week');
+    const newStart = new Date(this.currentWindowStart()!);
+    newStart.setDate(newStart.getDate() + 5); // Move forward 5 days
+    this.currentWindowStart.set(newStart);
+    this.updateDateWindow();
   }
+
 
   getShowtimeClass(showtime: any) {
     if (!showtime.availability) {
@@ -130,11 +144,48 @@ export class ShowListingComponent implements OnInit {
     };
   }
 
+  windowDates = signal<Date[]>([]);
+
+  updateDateWindow() {
+    const start = this.currentWindowStart();
+    const windowDates = [];
+    for (let i = 0; i < 5; i++) {
+      const newDate = new Date(start!);
+      newDate.setDate(start!.getDate() + i);
+      if (this.dates().some(d => d.toDateString() === newDate.toDateString())) {
+        windowDates.push(newDate);
+      }
+    }
+    this.windowDates.set(windowDates);
+    if (!this.selectedDate() || !windowDates.some(d => d.toDateString() === this.selectedDate()!.toDateString())) {
+      this.selectedDate.set(windowDates[0]); // Default to first date in window if no selection
+    }
+  }
+
   getAmOrPm(startTime: string) {
     return new Date(startTime).getHours() > 12 ? "PM" : "AM";
   }
 
   isSelectedDate(date: Date) {
     return this.selectedDate()?.getDate() == date.getDate();
+  }
+
+  getBookingsState(total: number, bookedOrBlocked: number): EventBookingStates {
+    const percentage = ((bookedOrBlocked * 100) / total);
+    if (percentage > 80) {
+      return "Almost Full";
+    } else if (percentage > 60) {
+      return "Filling Fast";
+    } else {
+      return "Available";
+    }
+  }
+
+  getAvailabilityClassName(availability: EventBookingStates) {
+    if (availability == "Available") {
+      return "available";
+    } else if (availability == "Filling Fast") {
+      return "filling-fast";
+    } else return "almost-full";
   }
 }

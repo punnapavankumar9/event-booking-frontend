@@ -9,7 +9,7 @@
             <div class="row mb-2">
                 <div class="col">
                     <h1 class="display-6">{{ movieInfo()?.title }}</h1>
-                    <div class="genres ms-5">
+                    <div class="genres ms-2">
                         @for (genre of movieInfo()?.genres; track $index) {
                             <span class="genre-chip">{{ genre }}</span>
                         }
@@ -20,30 +20,29 @@
             <div
                 class="data-and-filter-container d-flex flex-row justify-content-between align-items-center">
                 <!-- Date Navigation -->
-                <div class="date-navigation d-fac ">
-                    <button class="btn arrow left" (click)="previousWeek()">
+                <div class="date-navigation d-flex align-items-center">
+                    <button class="btn arrow left" (click)="previousWeek()"
+                            [disabled]="dates()[0].getDate() == windowDates()[0].getDate()">
                         <i class="bi bi-chevron-left"></i>
                     </button>
                     <div
                         class="dates d-flex flex-nowrap overflow-auto align-items-center justify-content-center">
-                        @for (date of dates(); track $index) {
-                            <div class="date"
-                                 [class.selected]="isSelectedDate(date)"
+                        @for (date of windowDates(); track $index) {
+                            <div class="date" [class.selected]="isSelectedDate(date)"
                                  (click)="selectDate(date)">
                                 <div
                                     class="d-flex rounded-1 flex-column align-items-center justify-content-center small date-container">
-                                <span class="text-uppercase small-65">
-                                    {{ date.toLocaleString('en-US', {weekday: 'short'}) }}
-                                </span>
-                                    <span class="small-85">  {{ date.getDate() }} </span>
-                                    <span class="text-uppercase small-65">
-                                        {{ date.toLocaleString('en-US', {month: 'short'}) }}
-                                </span>
+                                    <span class="text-uppercase small-65">{{ date.toLocaleString(
+                                        'en-US', {weekday: 'short'}) }}</span>
+                                    <span class="small-85">{{ date.getDate() }}</span>
+                                    <span class="text-uppercase small-65">{{ date.toLocaleString(
+                                        'en-US', {month: 'short'}) }}</span>
                                 </div>
                             </div>
                         }
                     </div>
-                    <button class="btn arrow right" (click)="nextWeek()">
+                    <button class="btn arrow right" (click)="nextWeek()"
+                            [disabled]="currentWindowStart()?.getDate() === dates()[dates().length - 1].getDate()">
                         <i class="bi bi-chevron-right"></i>
                     </button>
                 </div>
@@ -51,16 +50,6 @@
                 <!-- Filters -->
                 <div class="d-flex flex-row">
                     <div class="col-md-8 d-flex justify-content-start">
-                        <div class="dropdown me-2">
-                            <button class="btn dropdown-toggle" type="button"
-                                    id="languageFormatDropdown" data-bs-toggle="dropdown">
-                                Hindi - 2D
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Hindi - 2D</a></li>
-                                <li><a class="dropdown-item" href="#">Telugu - 2D</a></li>
-                            </ul>
-                        </div>
                         <div class="dropdown me-2">
                             <button class="btn dropdown-toggle" type="button"
                                     id="priceRangeDropdown"
@@ -175,7 +164,6 @@
                                             <i class="bi bi-info-circle ms-auto flex-shrink-0 me-1 small-75"></i>
                                             <span
                                                 class="fw-light info-btn-text small-65">INFO</span>
-
                                         </div>
                                     </div>
                                 </div>
@@ -183,9 +171,11 @@
                                     <div class="showtimes d-flex flex-wrap">
                                         @for (showtime of theater.shows; track $index) {
                                             <div class="showtime m-2 position-relative"
-                                                 [ngClass]="getShowtimeClass(showtime)">
+                                                 [ngClass]="getShowtimeClass(showtime)"
+                                                 [routerLink]="['/booking', 'shows', showtime.id, 'book']">
                                                 <div
-                                                    class="time d-flex flex-column justify-content-center align-items-center">
+                                                    class="time d-flex flex-column justify-content-center align-items-center"
+                                                    ng>
                                                     <span
                                                         class="small-85">{{ showtime.eventDurationDetails.startTime | date:"h:mm" }} {{ getAmOrPm(
                                                         showtime.eventDurationDetails.startTime) }}
@@ -198,16 +188,20 @@
                                                 <div class="showtime-tooltip">
                                                     @for (pricingTier of showtime.pricingTierMaps; track $index) {
                                                         <div class="tooltip-content px-3">
-                                                            <div class="price">
+                                                            <div class="price small-85">
                                                                 Rs. {{ pricingTier.price
                                                             || 295.00 }}
                                                             </div>
                                                             <div
-                                                                class="status-label">{{ pricingTier.name
+                                                                class="status-label text-uppercase small-70">{{ pricingTier.name
                                                             || 'EXECUTIVE' }}
                                                             </div>
+                                                            @let availability = getBookingsState(
+                                                                showtime.totalSeats,
+                                                                showtime.numberOfBookedAndBlockedSeats);
                                                             <div
-                                                                class="availability">{{ 'Almost Full' }}
+                                                                [class]="getAvailabilityClassName(availability)"
+                                                                class="small-85"> {{ availability }}
                                                             </div>
                                                         </div>
                                                     }
@@ -216,7 +210,7 @@
                                         }
                                     </div>
                                     <div
-                                        class="status text-dark small-65 d-flex flex-row align-items-center mt-3">
+                                        class="status text-dark small-80 d-flex flex-row align-items-center mt-3">
                                         <div class="dot fast-filling">
                                         </div>
                                         <span>

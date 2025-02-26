@@ -60,6 +60,12 @@ export type EventInfo = {
   eventDurationCategory: EventDurationType;
 }
 
+export type EventDurationDetails = {
+  startTime: string;
+  endTime: string;
+  eventDurationType: EventDurationType
+}
+
 export type Event = {
   id?: string,
   name: string,
@@ -68,27 +74,35 @@ export type Event = {
   eventType: EventCategory,
   venueId: string,
   openForBooking: boolean,
-  eventDurationDetails: {
-    startTime: string;
-    endTime: string;
-    eventDurationType: EventDurationType
-  },
+  eventDurationDetails: EventDurationDetails,
   additionalDetails?: AnyObject,
   pricingTierMaps: PricingTierMap[],
   seatState?: string,
   seatingLayoutId?: string,
 }
 
-export type EventWithVenueName = Event & { venueName: string };
-
 export type PricingTierMap = {
   name: string;
   price: number;
 }
-
 
 export type VenueWithNameAndLayoutId = {
   name: string,
   id: string,
   seatingLayoutId: string,
 }
+
+export type EventForShowList = {
+  id: string;
+  venueName: string;
+  eventId: string;
+  eventType: EventCategory;
+  venueId: string;
+  eventDurationDetails: EventDurationDetails;
+  pricingTierMaps: PricingTierMap[];
+  seatingLayoutId: string;
+  numberOfBookedAndBlockedSeats: number;
+  totalSeats: number;
+}
+
+export type EventBookingStates = "Available" | "Filling Fast" | "Almost Full";

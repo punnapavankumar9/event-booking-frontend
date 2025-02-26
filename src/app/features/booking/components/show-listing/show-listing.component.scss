@@ -28,16 +28,16 @@ body {
   border-radius: 5px;
 }
 
-.available {
-  color: $available-color;
-  border-radius: 5px;
-  border: 1px solid #b2b2b2;
+.filling-fast {
+  color: $fast-filling-color;
 }
 
-.fast-filling {
-  color: $fast-filling-color;
-  border-radius: 5px;
-  border: 1px solid #b2b2b2;
+.available {
+  color: $available-color;
+}
+
+.almost-full {
+  color: $primary-red;
 }
 
 .subtitles {
@@ -99,6 +99,10 @@ h1 {
   background-color: transparent;
   border: none;
   font-size: 24px;
+
+  &[disabled] {
+    opacity: 0.5;
+  }
 }
 
 .dates {
@@ -146,6 +150,8 @@ h1 {
   position: relative;
   cursor: pointer;
   transition: transform 0.2s ease;
+  border: 1px solid rgba(136, 136, 136, 0.82);
+  border-radius: 6px;
 
   &:hover {
     transform: scale(1.05); // Optional: slight zoom effect on hover
@@ -188,17 +194,10 @@ h1 {
     .price {
       font-weight: bold;
       color: #333;
-      font-size: 16px;
     }
 
     .status-label {
       color: #6c757d;
-      font-size: 14px;
-    }
-
-    .availability {
-      color: #ff9900; // Orange for "Almost Full"
-      font-size: 12px;
     }
   }
 }
@@ -272,4 +271,18 @@ h1 {
 .pricing-tiers-container {
   z-index: 999;
   display: none;
+}
+
+@include media-breakpoint-down(md) {
+  .theater {
+    flex-direction: column !important;
+
+    .left {
+      width: 100%;
+      padding-right: 10px;
+    }
+  }
+  .data-and-filter-container {
+    flex-direction: column !important;
+  }
 }

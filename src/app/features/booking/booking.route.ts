@@ -42,7 +42,16 @@ export const routes: Route[] = [
         children: [
           {
             path: ":movieId",
-            loadComponent: () => import("./components/show-listing/show-listing.component").then(m => m.ShowListingComponent),
+            children: [
+              {
+                path: "",
+                loadComponent: () => import("./components/show-listing/show-listing.component").then(m => m.ShowListingComponent),
+              },
+              {
+                path: "book",
+                loadComponent: () => import("./components/book-movie-tickets/book-movie-tickets.component").then(m => m.BookMovieTicketsComponent)
+              }
+            ]
           }
         ]
       }

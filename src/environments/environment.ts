@@ -6,4 +6,6 @@ export const environment = {
   movies: gatewayURL + '/api/v1/movies',
   locations: gatewayURL + '/api/v1/locations',
   venues: gatewayURL + '/api/v1/venues',
+  orders: gatewayURL + '/api/v1/orders',
+  razorpayId: "rzp_test_NKD77owZ3pZ3DR"
 };

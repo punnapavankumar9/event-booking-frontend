@@ -2,16 +2,22 @@ import { Component, effect, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '../../../core/services/toast.service';
 import { EventService } from '../../services/event.service';
-import { SeatLayoutService } from '../../services/seat-layout.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgClass, NgStyle, NgTemplateOutlet } from '@angular/common';
-import { BookingPageInfo, BookingSeat, SeatingLayout } from '../../types';
+import {
+  BookingPageInfo,
+  BookingSeat,
+  OrderReqDetails,
+  SeatingLayout,
+  SeatLocation
+} from '../../types';
 import { buildSeatLayout } from '../../utils';
+import { OrderDetailsComponent } from '../order-details/order-details.component';
 
 @Component({
   selector: 'app-book-movie-tickets',
   standalone: true,
-  imports: [ReactiveFormsModule, NgClass, NgTemplateOutlet, NgStyle],
+  imports: [ReactiveFormsModule, NgClass, NgTemplateOutlet, NgStyle, OrderDetailsComponent],
   templateUrl: './book-movie-tickets.component.html',
   styleUrl: './book-movie-tickets.component.scss'
 })
@@ -24,8 +30,9 @@ export class BookMovieTicketsComponent implements OnInit {
   seatCountForm = new FormGroup({
     count: new FormControl(2, [Validators.required, Validators.min(1), Validators.max(6)]), // Default to 3
   });
-  selectedSeats = signal<{ row: number, col: number }[]>([]);
-  maxAllowedSeats = 6;
+  selectedSeats = signal<{ row: number, col: number, label: string }[]>([]);
+  showOrderDetails = signal<boolean>(false);
+  orderDetails = signal<{ order: OrderReqDetails, bookingPageInfo: BookingPageInfo }>(null as any);
   selectedSeatCount = 2;
 
   pricingTierMap = {} as any;
@@ -35,7 +42,6 @@ export class BookMovieTicketsComponent implements OnInit {
     private router: Router,
     private toastService: ToastService,
     private eventService: EventService,
-    private seatLayoutService: SeatLayoutService
   ) {
     this.route.params.subscribe(params => {
       this.eventId.set(params['movieId']);
@@ -76,10 +82,6 @@ export class BookMovieTicketsComponent implements OnInit {
       this.layout.set(buildSeatLayout(bookingPageInfo.seatingLayout));
       this.updateLayoutWithAvailableSeats();
     });
-  }
-
-  private fetchSeatingLayout() {
-
   }
 
   prevTierName: string | null = null;
@@ -123,7 +125,7 @@ export class BookMovieTicketsComponent implements OnInit {
   }
 
   incrementAvailableSeatCount() {
-    return this.availableSeatCounter++;
+    this.availableSeatCounter++;
   }
 
   getColumnIndicator(rowId: number) {
@@ -140,7 +142,7 @@ export class BookMovieTicketsComponent implements OnInit {
     return false;
   }
 
-  selectSeat(seat: BookingSeat) {
+  selectSeat(seat: BookingSeat, label: string) {
     if (seat.isAvailable === false) {
       return;
     }
@@ -155,7 +157,7 @@ export class BookMovieTicketsComponent implements OnInit {
         return s;
       })
     }
-    this.selectedSeats().push({row: seat.row, col: seat.column});
+    this.selectedSeats().push({row: seat.row, col: seat.column, label});
     this.layout()[seat.row][seat.column].isSelected = true;
   }
 
@@ -223,7 +225,30 @@ export class BookMovieTicketsComponent implements OnInit {
 
 
   proceedToPayment() {
-    console.log(this.selectedSeats())
+    const seats: SeatLocation[] = [];
+    this.selectedSeats().forEach(seat => {
+      seats.push({row: seat.row, column: seat.col});
+    });
+    const seatLabels: string[] = [];
+    this.selectedSeats().forEach(seat => {
+      seatLabels.push(seat.label);
+    })
+
+    const order: OrderReqDetails = {
+      info: {
+        seats,
+        seatLabels
+      },
+      eventId: this.eventId(),
+      amount: this.calculateBill(),
+      eventType: "MOVIE"
+    }
+
+    this.orderDetails.set({
+      order,
+      bookingPageInfo: this.bookingPageInfo(),
+    })
+    this.showOrderDetails.set(true);
   }
 
   private updateLayoutWithAvailableSeats() {

@@ -1,0 +1,160 @@
+.order-summary-container {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  margin: 20px auto;
+
+  .order-summary-content {
+    font-family: Arial, sans-serif;
+  }
+
+  .order-header {
+    margin-bottom: 20px;
+
+    .order-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .ticket-count {
+      font-size: 1rem;
+      color: #666;
+      font-weight: 500;
+    }
+  }
+
+  .movie-details {
+    margin-bottom: 20px;
+
+    .movie-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 5px;
+    }
+
+    .movie-format, .venue, .feature, .seats, .show-time {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 5px;
+    }
+
+    .feature {
+      color: #777;
+      font-style: italic;
+    }
+  }
+
+  .divider {
+    border-top: 1px dashed #ccc;
+    margin: 15px 0;
+  }
+
+  .pricing-breakdown {
+    margin-bottom: 20px;
+
+    .pricing-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: #333;
+      margin-bottom: 5px;
+
+      &.sub-label {
+        font-size: 0.8rem;
+        color: #777;
+        padding-left: 15px;
+      }
+
+      &.tax-breakup {
+        margin-top: 10px;
+        font-size: 0.8rem;
+        color: #dc3545; // Red for "Hide tax breakup"
+
+        a {
+          text-decoration: none;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+
+  .donation-section {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+
+    .donation-content {
+      margin-bottom: 5px;
+
+      .donation-logo {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+        vertical-align: middle;
+      }
+
+      .donation-info {
+        font-size: 0.9rem;
+        color: #333;
+
+        small {
+          font-size: 0.7rem;
+          color: #777;
+        }
+      }
+
+      .donation-amount {
+        font-size: 0.9rem;
+        color: #333;
+
+        button {
+          padding: 2px 8px;
+          font-size: 0.7rem;
+        }
+      }
+    }
+
+    small {
+      font-size: 0.7rem;
+      color: #777;
+
+      a {
+        text-decoration: none;
+        color: #007bff;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .amount-payable {
+    background-color: #fff3cd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+
+    .payable-content {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #333;
+    }
+  }
+
+  .ip-address {
+    font-size: 0.8rem;
+    color: #777;
+    text-align: center;
+  }
+}

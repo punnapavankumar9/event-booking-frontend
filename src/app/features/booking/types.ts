@@ -1,14 +1,20 @@
 import { FormControl, FormGroup } from '@angular/forms';
 import { AnyObject } from '../../types';
 
-export type Seat = {
+export interface SeatLocation {
   row: number;
   column: number;
+}
+
+export interface Seat extends SeatLocation {
   isSpace: boolean;
   tier: string;
 }
 
-export type BookingSeat = Seat & { isSelected?: boolean, isAvailable?: boolean };
+export interface BookingSeat extends Seat {
+  isSelected?: boolean,
+  isAvailable?: boolean
+}
 
 
 export type ServerSideSeatingLayout = {
@@ -119,3 +125,29 @@ export type BookingPageInfo = {
   seatingLayout: ServerSideSeatingLayout,
   showList: string[],
 }
+
+export type OrderInfo = {
+  seats: SeatLocation[],
+  seatLabels: string[],
+}
+
+export type OrderReqDetails = {
+  id?: string,
+  info: OrderInfo,
+  eventId: string,
+  amount: number,
+  eventType: EventCategory,
+}
+
+export type OrderResDetails = OrderReqDetails & {
+  id: string,
+  paymentId: string,
+  createdBy: string,
+  createdDate: string,
+  orderStatus: OrderStatus
+  eventOrderId: string,
+  razorOrderId?: string
+}
+
+export type OrderStatus = "CREATED" | "SUCCEEDED" | "FAILED" | "CANCELLED" | "PENDING";
+

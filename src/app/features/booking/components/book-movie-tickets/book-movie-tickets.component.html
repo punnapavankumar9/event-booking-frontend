@@ -1,4 +1,6 @@
-@if (bookingPageInfo()) {
+@if (showOrderDetails()) {
+    <app-order-details [orderInfo]="orderDetails()"></app-order-details>
+} @else if (bookingPageInfo()) {
     @if (showSeatCountSelectionTab()) {
         <div class="seat-selection-container">
             <div class="overlay top-0 left-0 right-0 bottom-0">
@@ -103,13 +105,16 @@
                                             </td>
                                             @for (col of layout()[rowId]; track col; let colId = $index) {
                                                 @let seat = layout()[rowId][colId];
+                                                @if (!seat.isSpace) {
+                                                    {{ incrementAvailableSeatCount() }}
+                                                }
+                                                @let seatNumber = availableSeatCounter;
                                                 <td [ngClass]="[seat.isSelected ? 'selected-seat' : '', seat.isSpace ? 'space-seat': '', seat.isAvailable === false ? 'seat-not-available' : '' ]"
-                                                    class="seat" (click)="selectSeat(seat)">
+                                                    class="seat"
+                                                    (click)="selectSeat(seat, getColumnIndicator(rowId) + '' + seatNumber)">
                                                     <span>
-                                                        @if (!seat.isSpace) {
-                                                            {{ incrementAvailableSeatCount() }}
-                                                        }
-                                                            </span>
+                                                        {{ seatNumber }}
+                                                    </span>
                                                 </td>
                                             }
                                         </tr>

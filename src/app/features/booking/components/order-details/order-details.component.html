@@ -1,0 +1,95 @@
+<div class="order-summary-container">
+    <div class="order-summary-content">
+        <div class="order-header d-flex justify-content-between align-items-center">
+            <h2 class="order-title">ORDER SUMMARY</h2>
+            <span class="ticket-count">2 Tickets</span>
+        </div>
+
+        <div class="movie-details">
+            <h3 class="movie-title">{{ orderInfo().bookingPageInfo.event.name }}</h3>
+            <!--            <p class="movie-format">{{ orderInfo().bookingPageInfo.event. }}</p>-->
+            <p class="venue">{{ orderInfo().bookingPageInfo.venueName }}</p>
+            <p class="feature">M-Ticket</p>
+            <p class="seats">
+                @for (seat of orderInfo().order.info.seatLabels; track $index) {
+                    {{ seat }}
+                }
+            </p>
+            <p class="show-time">{{ orderInfo().bookingPageInfo.event.eventDurationDetails.startTime | date:'EEE, d MMM, y' }}</p>
+            <p class="show-time">{{ orderInfo().bookingPageInfo.event.eventDurationDetails.startTime | date:'h:mm a' }} </p>
+        </div>
+
+        <hr class="divider">
+
+
+        <div class="pricing-breakdown">
+            @if (showTaxBreakup()) {
+                <div class="pricing-row">
+                    <span class="label">Total (Including GST and Additional Taxes)</span>
+                    <span
+                        class="value">{{ orderInfo().order.amount | currency:'INR':'symbol':'1.2-2' }}</span>
+                </div>
+                <div class="pricing-row">
+                    <span class="label">+ Convenience fees</span>
+                    <span class="value">{{ 50 + (orderInfo().order.amount / 100
+                        * 18) | currency:'INR':'symbol':'1.2-2' }}</span>
+                </div>
+                <div class="pricing-row sub-label">
+                    <span>Base Amount</span>
+                    <span>{{ 50.00 | currency:'INR':'symbol':'1.2-2' }}</span>
+                </div>
+                <div class="pricing-row sub-label">
+                    <span>Integrated GST (IGST) &#64; 18%</span>
+                    <span>{{ orderInfo().order.amount / 100
+                    * 18 | currency:'INR':'symbol':'1.2-2' }}</span>
+                </div>
+            }
+            <div class="pricing-row tax-breakup">
+                <a class="text-danger" href="#" (click)="toggleTaxBreakup($event)">
+                    @if (showTaxBreakup()) {
+                        Hide tax breakup
+                        <i class="bi bi-caret-up-fill"></i>
+                    } @else {
+                        Show tax breakup
+                        <i class="bi bi-caret-down-fill"></i>
+                    }
+                </a>
+            </div>
+        </div>
+
+        <!--        <div class="donation-section">-->
+        <!--            <div class="donation-content d-flex justify-content-between align-items-center">-->
+        <!--                <div class="donation-info">-->
+        <!--                    <i class="bi bi-piggy-bank-fill"></i>-->
+        <!--                    <span>Donate to BookAChange</span>-->
+        <!--                    <small class="text-muted">(&#8377;1 per ticket will be added)</small>-->
+        <!--                </div>-->
+        <!--                <div class="donation-amount">-->
+        <!--                    <span>{{ isDonatingToCharity() ? 2 : 0 }}</span>-->
+        <!--                    <button class="btn btn-danger btn-sm ms-2" (click)="toggleDonation()">-->
+        <!--                        @if (!isDonatingToCharity()) {-->
+        <!--                            Add 2-->
+        <!--                        } @else {-->
+        <!--                            remove-->
+        <!--                        }-->
+        <!--                    </button>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--            <small class="text-muted mt-1"><a href="#">View T&C</a></small>-->
+        <!--        </div>-->
+
+        <div class="amount-payable">
+            <div class="payable-content d-flex justify-content-between align-items-center">
+                <span class="label">Amount Payable</span>
+                <span
+                    class="value">{{ orderInfo().order.amount | currency:'INR':'symbol':'1.2-2' }}</span>
+            </div>
+        </div>
+
+        <div class="submit-button-container d-inline-block w-100 text-center">
+            <button type="submit" class="form-submit-btn-red" (click)="createOrder()">
+                Pay {{ orderInfo().order.amount  | currency:'INR':'symbol':'1.2-2' }}
+            </button>
+        </div>
+    </div>
+</div>

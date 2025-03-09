@@ -13,5 +13,9 @@ export const routes: Routes = [
   {
     path: "booking",
     loadChildren: () => import("./features/booking/booking.route").then(m => m.routes)
+  },
+  {
+    path: "oauth2/success",
+    loadComponent: () => import("./features/core/oauth2-success/oauth2-success.component").then(m => m.Oauth2SuccessComponent)
   }
 ];

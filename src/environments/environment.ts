@@ -7,5 +7,7 @@ export const environment = {
   locations: gatewayURL + '/api/v1/locations',
   venues: gatewayURL + '/api/v1/venues',
   orders: gatewayURL + '/api/v1/orders',
-  razorpayId: "rzp_test_NKD77owZ3pZ3DR"
+  razorpayId: "rzp_test_NKD77owZ3pZ3DR",
+  googleSignInUrl: gatewayURL + '/oauth2/authorization/google',
+  githubSignInUrl: gatewayURL + '/oauth2/authorization/github',
 };

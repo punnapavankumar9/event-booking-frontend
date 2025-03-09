@@ -19,7 +19,7 @@
 
         @if (signInTab()) {
             <div class="oath2-buttons">
-                <div class="google-button button-link">
+                <div class="google-button button-link" (click)="signInWithGoogle()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19">
                         <g fill="none">
                             <path fill="#4285F4"
@@ -35,7 +35,7 @@
                     </svg>
                     <span>Continue with Google</span>
                 </div>
-                <div class="apple-button button-link">
+                <div class="apple-button button-link" (click)="signInWithGithub()">
                     <svg width="19" xmlns="http://www.w3.org/2000/svg" height="19"
                          viewBox="0 0 170 170"
                          aria-labelledby="apple-label" role="img">
@@ -44,7 +44,7 @@
                         </path>
                     </svg>
                     <span>
-                    Continue with Apple
+                    Continue with Github
                 </span>
                 </div>
             </div>

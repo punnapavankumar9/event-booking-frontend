@@ -30,7 +30,6 @@ export class OrderDetailsComponent {
 
 
   proceedToPayment() {
-
     const options = {
       "key": environment.razorpayId,
       "amount": this.orderResDetails().amount,

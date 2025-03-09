@@ -6,6 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../../core/services/toast.service';
 import { CommonModule } from '@angular/common';
 import { ClickOutsideDirective } from '../../core/directives/click-outside.directive';
+import { environment } from '../../../../environments/environment';
 
 
 @Component({
@@ -73,5 +74,26 @@ export class RegisterComponent {
         this.errorMessage.set(err.error.message ?? err.message);
       }
     })
+  }
+
+  signInWithGoogle() {
+    const url = environment.googleSignInUrl;
+    this.signInWithOAuth2(url);
+  }
+
+  signInWithGithub() {
+    const url = environment.githubSignInUrl;
+    this.signInWithOAuth2(url);
+  }
+
+  signInWithOAuth2(url: string) {
+    const newWindow = window.open(url, '_blank', 'width=1000,height=1000');
+    window.addEventListener('message', (event) => {
+      if (event.data.jwt) {
+        this.toastService.showToast({message: "Logged Successfully", type: 'success'});
+        this.authService.authToken.set(event.data.jwt);
+        this.closeDialog();
+      }
+    });
   }
 }

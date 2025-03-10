@@ -58,7 +58,7 @@ export class CreateMovieComponent {
       duration: formValue.duration,
       tags: formValue.tags,
       genres: formValue.genres,
-      releaseDate: formValue.releaseDate,
+      releaseDate: new Date(formValue.releaseDate!).toISOString(),
     }));
 
     this.movieService.createMovie(movieData).subscribe({

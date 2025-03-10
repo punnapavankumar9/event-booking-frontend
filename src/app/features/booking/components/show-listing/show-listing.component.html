@@ -1,7 +1,7 @@
-<div class="main-container">
-    @if (dates().length == 0) {
-        <h1>No Shows Available</h1>
-    } @else {
+@if (dates().length == 0) {
+    <app-no-shows-available [movie]="movieInfo()!"></app-no-shows-available>
+} @else {
+    <div class="main-container">
         <!-- Header -->
 
         <div class="top-header container">
@@ -109,10 +109,6 @@
                                         <span
                                             class="theater-name text-break w-100 me-2">{{ theater.venueName }}
                                         </span>
-                                            <!--                                        <span-->
-                                            <!--                                            class="theater-location text-break w-100 me-2">{{ theater.location }}-->
-                                            <!--  TODO expose location-->
-                                            <!--                                        </span>-->
                                         </div>
                                         <div class="features mt-3 d-flex flex-row">
                                     <span class="feature feature-m-ticket">
@@ -224,5 +220,5 @@
                 </div>
             </div>
         </div>
-    }
-</div>
+    </div>
+}

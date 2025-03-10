@@ -21,6 +21,7 @@
     "@angular/router": "^19.1.0",
     "@ngrx/signals": "^19.0.1",
     "bootstrap": "^5.3.3",
+    "qrcode": "^1.5.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

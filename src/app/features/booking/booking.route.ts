@@ -54,6 +54,14 @@ export const routes: Route[] = [
             ]
           }
         ]
+      },
+      {
+        path: "orders", children: [
+          {
+            path: ":orderId",
+            loadComponent: () => import("./components/movie-booking-confirmation/movie-booking-confirmation.component").then(m => m.MovieBookingConfirmationComponent),
+          }
+        ]
       }
     ]
   }

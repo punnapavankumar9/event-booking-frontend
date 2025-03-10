@@ -1,5 +1,5 @@
 @if (showOrderDetails()) {
-    <app-order-details [orderInfo]="orderDetails()"></app-order-details>
+    <app-order-details [orderInfo]="orderDetails()" ></app-order-details>
 } @else if (bookingPageInfo()) {
     @if (showSeatCountSelectionTab()) {
         <div class="seat-selection-container">

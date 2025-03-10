@@ -1,0 +1,26 @@
+@if (movie()) {
+
+    <div class="no-shows-container">
+        <div class="no-shows-card">
+            <!-- Movie Poster -->
+            <img *ngIf="movie()?.posterUrl" [src]="movie().posterUrl"
+                 alt="{{ movie().title }} Poster"
+                 class="movie-poster"/>
+
+            <!-- Message Section -->
+            <div class="message-section">
+                <h2 class="title">No Shows Available</h2>
+                <p class="subtitle">Sorry, there are currently no showtimes available for</p>
+                <p class="movie-title">{{ movie().title }}</p>
+                <p class="info">Release Date: {{ movie().releaseDate | date:'MMMM d, yyyy' }}</p>
+                <p class="info">Check back later for updated showtimes or explore other movies!</p>
+            </div>
+
+            <!-- Actions Section -->
+            <div class="actions-section">
+                <button class="primary-button" [routerLink]="['/movies']">Explore Other Movies
+                </button>
+            </div>
+        </div>
+    </div>
+}

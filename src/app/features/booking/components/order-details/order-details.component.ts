@@ -4,6 +4,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { OrderService } from '../../services/order.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { environment } from '../../../../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-order-details',
@@ -18,14 +19,15 @@ export class OrderDetailsComponent {
   showTaxBreakup = signal<boolean>(true); // Initially show tax breakup
   isDonatingToCharity = signal<boolean>(false);
   orderInfo = input.required<{ order: OrderReqDetails, bookingPageInfo: BookingPageInfo }>();
-
   orderResDetails = signal<OrderResDetails>(null as any);
+  paymentAttempted = signal<boolean>(false);
+  markPaymentAsFailed = signal<string | null>(null);
 
   ngOnInit(): void {
     // Initialize any data (e.g., fetch order details from a service)
   }
 
-  constructor(private orderService: OrderService, private toastService: ToastService) {
+  constructor(private orderService: OrderService, private toastService: ToastService, private router: Router) {
   }
 
 
@@ -39,6 +41,7 @@ export class OrderDetailsComponent {
       "image": "https://example.com/your_logo",
       "order_id": this.orderResDetails().razorOrderId!,
       "handler": (response: any) => {
+        this.paymentAttempted.set(true);
         this.orderService.markOrderAsSuccess(this.orderResDetails().id, response.razorpay_payment_id).subscribe({
           next: response => {
             if (response.orderStatus == "SUCCEEDED") {
@@ -46,7 +49,7 @@ export class OrderDetailsComponent {
                 message: "payment successfully completed",
                 type: "success"
               })
-              // TODO navigate to order-confirmation/info
+              this.router.navigate(['/booking', "orders", this.orderResDetails().id]);
             } else {
               this.toastService.showToast({
                 message: "payment processing",
@@ -73,29 +76,32 @@ export class OrderDetailsComponent {
       },
       "theme": {
         "color": "#3399cc"
+      },
+      modal: {
+        escape: false, ondismiss: () => {
+          if (this.markPaymentAsFailed()) {
+            this.orderService.markOrderAsFailure(this.orderResDetails().id, this.markPaymentAsFailed()!).subscribe({
+              next: response => {
+                this.toastService.showToast({message: "payment failed", type: "error"});
+                this.router.navigate(['/booking', "orders", this.orderResDetails().id]);
+              },
+              error: error => {
+                this.toastService.showToast({message: error.message, type: "error"});
+              }
+            })
+          }
+          if (this.paymentAttempted()) {
+            this.router.navigate(['/booking', "orders", this.orderResDetails().id]);
+          }
+        }
       }
-    };
+    }
     // @ts-ignore
     const razorPayWindow = new window.Razorpay(options);
     console.log(razorPayWindow);
     razorPayWindow.on('payment.failed', (response: any) => {
-      console.log(response);
-      this.orderService.markOrderAsFailure(this.orderResDetails().id, response.error.metadata.payment_id).subscribe({
-        next: response => {
-          this.toastService.showToast({message: "payment failed", type: "error"});
-          // TODO navigate to payment failed page
-        },
-        error: error => {
-          this.toastService.showToast({message: error.message, type: "error"});
-        }
-      });
-      // alert(response.error.code);
-      // alert(response.error.description);
-      // alert(response.error.source);
-      // alert(response.error.step);
-      // alert(response.error.reason);
-      // alert(response.error.metadata.order_id);
-      // alert(response.error.metadata.payment_id);
+      this.paymentAttempted.set(true);
+      this.markPaymentAsFailed.set(response.error.metadata.payment_id);
     });
     razorPayWindow.open();
   }
@@ -116,7 +122,8 @@ export class OrderDetailsComponent {
     }
   }
 
-  toggleTaxBreakup(event: Event): void {
+  toggleTaxBreakup(event: Event):
+    void {
     event.preventDefault();
     this.showTaxBreakup.set(!this.showTaxBreakup());
   }

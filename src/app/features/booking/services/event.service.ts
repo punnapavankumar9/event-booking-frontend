@@ -21,6 +21,10 @@ export class EventService {
     return this.http.get<Event[]>(this.eventsUrl + `/byEventId/${eventId}/${venueId}`);
   }
 
+  findEventById(id: string): Observable<Event> {
+    return this.http.get<Event>(this.eventsUrl + `/${id}`);
+  }
+
   getEventDatesForEventIdAfter(eventId: string, from: Date): Observable<Date[]> {
     return this.http.get<string[]>(this.eventsUrl + `/event-dates/byEventId?eventId=${eventId}&from=${from.toISOString()}`).pipe(
       distinct(),

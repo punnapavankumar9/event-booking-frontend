@@ -34,7 +34,6 @@ export class BookMovieTicketsComponent implements OnInit {
   showOrderDetails = signal<boolean>(false);
   orderDetails = signal<{ order: OrderReqDetails, bookingPageInfo: BookingPageInfo }>(null as any);
   selectedSeatCount = 2;
-
   pricingTierMap = {} as any;
 
   constructor(
@@ -222,7 +221,6 @@ export class BookMovieTicketsComponent implements OnInit {
     })
     return bill;
   }
-
 
   proceedToPayment() {
     const seats: SeatLocation[] = [];

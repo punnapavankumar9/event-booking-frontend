@@ -27,4 +27,8 @@ export class OrderService {
   public markOrderAsFailure(orderId: string, paymentId: string) {
     return this.http.get<OrderResDetails>(this.ordersUrl + "/payment-failed/" + orderId + "?paymentId=" + paymentId);
   }
+
+  public getOrderResDetails(orderId: string) {
+    return this.http.get<OrderResDetails>(this.ordersUrl + "/" + orderId);
+  }
 }

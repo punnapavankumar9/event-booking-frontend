@@ -6,13 +6,15 @@ import { ToastService } from '../../../core/services/toast.service';
 import { Movie } from '../../../core/types';
 import { MoviesService } from '../../../movies/services/movies.service';
 import { EventBookingStates, EventForShowList } from '../../types'
+import { NoShowsAvailableComponent } from '../no-shows-available/no-shows-available.component';
 
 @Component({
   selector: 'app-show-listing',
   imports: [
     NgClass,
     DatePipe,
-    RouterLink
+    RouterLink,
+    NoShowsAvailableComponent
   ],
   templateUrl: './show-listing.component.html',
   styleUrl: './show-listing.component.scss'

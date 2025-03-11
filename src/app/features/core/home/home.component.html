@@ -9,12 +9,25 @@
             <div class="left">
                 <span>Recommended Movies</span>
             </div>
-            <span class="right red-link" [routerLink]="['/movies']">see all</span>
+            <span class="right" [routerLink]="['/movies']">see all</span>
         </div>
-        <div class="movie-cards-container mt-0 pt-0">
+        
+        <button class="scroll-btn prev-btn" (click)="scrollMovies('left')" [disabled]="!canScrollLeft()">
+            <svg viewBox="0 0 24 24">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+        </button>
+        
+        <div class="movie-cards-container" #movieContainer>
             @for (movie of movies(); track movie.id) {
-            <app-movie-card [movie]="movie"></app-movie-card>
+                <app-movie-card [movie]="movie"></app-movie-card>
             }
         </div>
+        
+        <button class="scroll-btn next-btn" (click)="scrollMovies('right')" [disabled]="!canScrollRight()">
+            <svg viewBox="0 0 24 24">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+        </button>
     </div>
 </div>

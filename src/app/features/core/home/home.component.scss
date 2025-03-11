@@ -4,18 +4,89 @@
   flex-wrap: nowrap;
   overflow: scroll;
   scrollbar-width: none;
+  scroll-behavior: smooth;
+  padding: 10px 40px;
+  position: relative;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.movies-list {
+  position: relative;
 }
 
 .movies-list-header {
-  padding: 10px 10px 0 10px;
+  padding: 10px 50px 0 50px;
 
   .left {
     font-size: 1.5rem;
     font-weight: bolder;
-    padding-left: 5px;
+  }
+  
+  .right {
+    color: #f84464;
+    font-weight: 500;
+    cursor: pointer;
+    
+    &:hover {
+      opacity: 0.8;
+    }
   }
 }
 
-.right {
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  &:disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  svg {
+    width: 24px;
+    height: 24px;
+    fill: #2c3e50;
+  }
+  
+  &.prev-btn {
+    left: 10px;
+  }
+  
+  &.next-btn {
+    right: 10px;
+  }
+}
 
+@media (max-width: 768px) {
+  .scroll-btn {
+    display: none;
+  }
+  
+  .movie-cards-container {
+    padding: 10px 20px;
+  }
+  
+  .movies-list-header {
+    padding: 10px 20px 0 20px;
+  }
 }

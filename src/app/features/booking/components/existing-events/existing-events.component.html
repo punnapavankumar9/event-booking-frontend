@@ -1,37 +1,52 @@
-<div class="existing-events-calendar">
-    @if (datesWithEvents.length > 0) {
-        <div class="calendar-header">
-            <button class="nav-arrow" (click)="previousWeek()" [disabled]="!hasPreviousWeek()"><
-            </button>
-            <div class="calendar-dates">
-                @for (date of datesWithEvents; track date) {
-                    <div class="calendar-day {{ hasEvents(date) ? 'has-events' : 'no-events' }}"
-                         [ngClass]="{ 'selected': isToday(date) }">
-                        <div class="day-name">{{ date.toLocaleDateString('en-US',
-                            {weekday: 'short'}) }}
+@if (datesWithEvents.length > 0) {
+<div class="events-calendar">
+    <div class="calendar-header">
+        <button class="nav-btn" (click)="previousWeek()" [disabled]="!hasPreviousWeek()">
+            <i class="bi bi-chevron-left"></i>
+        </button>
+        <div class="calendar-grid">
+            @for (date of datesWithEvents; track date) {
+            <div class="calendar-day" [class.has-events]="hasEvents(date)" [class.selected]="isToday(date)">
+                <div class="day-info">
+                    <span class="day-name">{{ date.toLocaleDateString('en-US', {weekday: 'short'}) }}</span>
+                    <span class="day-number">{{ date.getDate() }}</span>
+                    <span class="day-month">{{ date.toLocaleDateString('en-US', {month: 'short'}) }}</span>
+                </div>
+                @if (hasEvents(date)) {
+                <div class="events-list">
+                    @for (event of getEventsForDate(date); track event.id) {
+                    <div class="event-card">
+                        <div class="event-time">
+                            <i class="bi bi-clock"></i>
+                            <span>
+                                {{ event.eventDurationDetails.startTime | date:'shortTime' }} -
+                                {{ event.eventDurationDetails.endTime | date:'shortTime' }}
+                            </span>
                         </div>
-                        <div class="day-number">{{ date.getDate() }}</div>
-                        <div class="day-month">{{ date.toLocaleDateString('en-US',
-                            {month: 'short'}) }}
-                        </div>
-                        <div class="time-slots" *ngIf="hasEvents(date)">
-                            @for (event of getEventsForDate(date); track event.id) {
-                                <div class="time-slot">
-                                    <span>{{ event.eventDurationDetails.startTime | date:'shortTime' }}
-                                        - {{ event.eventDurationDetails.endTime | date:'shortTime' }}</span>
-                                    <input type="checkbox" [checked]="event.openForBooking"
-                                           disabled>
-                                    <span class="booking-status">{{ event.openForBooking ? 'Open'
-                                        : 'Closed' }}</span>
-                                </div>
-                            }
+                        <div class="event-status">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" [checked]="event.openForBooking"
+                                    disabled>
+                                <label class="form-check-label" [class.text-success]="event.openForBooking">
+                                    {{ event.openForBooking ? 'Open for Booking' : 'Booking Closed' }}
+                                </label>
+                            </div>
                         </div>
                     </div>
+                    }
+                </div>
                 }
             </div>
-            <button class="nav-arrow" (click)="nextWeek()" [disabled]="!hasNextWeek()">></button>
+            }
         </div>
-    } @else {
-        <p>No events scheduled yet.</p>
-    }
+        <button class="nav-btn" (click)="nextWeek()" [disabled]="!hasNextWeek()">
+            <i class="bi bi-chevron-right"></i>
+        </button>
+    </div>
 </div>
+} @else {
+<div class="no-events">
+    <i class="bi bi-calendar-x"></i>
+    <p>No events scheduled yet</p>
+</div>
+}

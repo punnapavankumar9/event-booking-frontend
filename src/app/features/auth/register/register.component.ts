@@ -1,5 +1,5 @@
 import { Component, output, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { UserRegistrationDetails } from '../types';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -95,5 +95,12 @@ export class RegisterComponent {
         this.closeDialog();
       }
     });
+  }
+
+  hasError(control: AbstractControl, errorType?: string): boolean {
+    if (errorType) {
+      return control.touched && control.hasError(errorType);
+    }
+    return control.touched && control.invalid;
   }
 }

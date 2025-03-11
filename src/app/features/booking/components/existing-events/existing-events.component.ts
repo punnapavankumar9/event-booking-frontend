@@ -9,7 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   selector: 'app-existing-events',
   templateUrl: './existing-events.component.html',
   styleUrls: ['./existing-events.component.scss'],
-  imports: [DatePipe, NgIf, NgClass],
+  imports: [DatePipe],
   standalone: true
 })
 export class ExistingEventsComponent implements OnInit {
@@ -29,7 +29,7 @@ export class ExistingEventsComponent implements OnInit {
     if (this.eventId) {
       this.loadEvents();
     } else {
-      this.toastService.showToast({message: 'No event ID provided', type: 'error'});
+      this.toastService.showToast({ message: 'No event ID provided', type: 'error' });
     }
   }
 
@@ -46,17 +46,17 @@ export class ExistingEventsComponent implements OnInit {
 
         // Find the earliest startTime and set currentWeekStart to the Sunday of that week
         const startTimes = events
-        .map(event => {
-          // Parse the UTC ISO string and convert to local Date for sorting
-          const startTime = new Date(event.eventDurationDetails.startTime);
-          if (isNaN(startTime.getTime())) {
-            console.error('Invalid startTime for event:', event);
-            throw new Error('Invalid date format in event startTime');
-          }
-          // Ensure we use local time for sorting and grouping
-          return new Date(startTime.toLocaleString()); // Convert UTC to local time
-        })
-        .sort((a, b) => a.getTime() - b.getTime());
+          .map(event => {
+            // Parse the UTC ISO string and convert to local Date for sorting
+            const startTime = new Date(event.eventDurationDetails.startTime);
+            if (isNaN(startTime.getTime())) {
+              console.error('Invalid startTime for event:', event);
+              throw new Error('Invalid date format in event startTime');
+            }
+            // Ensure we use local time for sorting and grouping
+            return new Date(startTime.toLocaleString()); // Convert UTC to local time
+          })
+          .sort((a, b) => a.getTime() - b.getTime());
         const earliestStartTime = startTimes[0];
 
         // Set currentWeekStart to the Sunday of the week of the earliest startTime (using local time)
@@ -85,7 +85,7 @@ export class ExistingEventsComponent implements OnInit {
         this.updateDatesWithEvents();
       },
       error: (err: HttpErrorResponse) => {
-        this.toastService.showToast({message: err.message, type: 'error'});
+        this.toastService.showToast({ message: err.message, type: 'error' });
       }
     });
   }
@@ -119,9 +119,9 @@ export class ExistingEventsComponent implements OnInit {
     end.setDate(end.getDate() + 6); // Show 7 days (a week)
 
     this.datesWithEvents = Object.keys(this.eventsByDate)
-    .map(dateStr => new Date(dateStr))
-    .filter(date => date >= start && date <= end)
-    .sort((a, b) => a.getTime() - b.getTime());
+      .map(dateStr => new Date(dateStr))
+      .filter(date => date >= start && date <= end)
+      .sort((a, b) => a.getTime() - b.getTime());
   }
 
   previousWeek() {
@@ -138,8 +138,8 @@ export class ExistingEventsComponent implements OnInit {
 
   nextWeek() {
     const lastEventDate = Object.keys(this.eventsByDate)
-    .map(dateStr => new Date(dateStr))
-    .sort((a, b) => b.getTime() - a.getTime())[0];
+      .map(dateStr => new Date(dateStr))
+      .sort((a, b) => b.getTime() - a.getTime())[0];
     if (!lastEventDate) return;
     const nextWeekStart = new Date(this.currentWeekStart);
     nextWeekStart.setDate(nextWeekStart.getDate() + 7);
@@ -152,8 +152,8 @@ export class ExistingEventsComponent implements OnInit {
 
   hasNextWeek(): boolean {
     const lastEventDate = Object.keys(this.eventsByDate)
-    .map(dateStr => new Date(dateStr))
-    .sort((a, b) => b.getTime() - a.getTime())[0];
+      .map(dateStr => new Date(dateStr))
+      .sort((a, b) => b.getTime() - a.getTime())[0];
     if (!lastEventDate) return false;
     const nextWeekStart = new Date(this.currentWeekStart);
     nextWeekStart.setDate(nextWeekStart.getDate() + 7);
@@ -171,14 +171,14 @@ export class ExistingEventsComponent implements OnInit {
     weekEnd.setDate(weekEnd.getDate() + 6); // Last day of the week (Saturday)
 
     return Object.keys(this.eventsByDate)
-    .map(dateStr => new Date(dateStr))
-    .some(date => date >= weekStart && date <= weekEnd);
+      .map(dateStr => new Date(dateStr))
+      .some(date => date >= weekStart && date <= weekEnd);
   }
 
   private getEarliestEventDate(): Date {
     const earliestDateStr = Object.keys(this.eventsByDate)
-    .map(dateStr => new Date(dateStr))
-    .sort((a, b) => a.getTime() - b.getTime())[0];
+      .map(dateStr => new Date(dateStr))
+      .sort((a, b) => a.getTime() - b.getTime())[0];
     return earliestDateStr || new Date();
   }
 }

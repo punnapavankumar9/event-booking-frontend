@@ -1,141 +1,153 @@
 @if (movieDetails) {
-    <div class="container my-4">
-        <div class="header bg-light p-4 rounded mb-4">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <h1 class="display-4">{{ movieDetails.title }}</h1>
-                    <p class="lead text-muted">
-                        Release Date: {{ movieDetails.releaseDate | date:'mediumDate' }}
-                        | Rating: <span class="badge bg-success">{{ movieDetails.rating }}
-                        /10</span>
-                    </p>
+<div class="scheduler-container">
+    <div class="movie-header">
+        <div class="content-wrapper">
+            <div class="movie-info">
+                <h1 class="movie-title">{{ movieDetails.title }}</h1>
+                <div class="meta-info">
+                    <span class="release-date">
+                        <i class="bi bi-calendar-event"></i>
+                        {{ movieDetails.releaseDate | date:'mediumDate' }}
+                    </span>
+                    <span class="rating">
+                        <i class="bi bi-star-fill"></i>
+                        {{ movieDetails.rating }}/10
+                    </span>
                 </div>
-                <div class="col-md-4 text-center">
-                    <img appImageLoader [ngSrc]="movieDetails.posterUrl!" priority width="1280"
-                         height="640"
-                         alt="{{ movieDetails.title }} Poster"
-                         class="img-fluid rounded"
-                         style="max-height: 300px;">
+                <div class="tags-container">
+                    @for (genre of movieDetails.genres; track genre) {
+                    <span class="meta-tag">{{ genre }}</span>
+                    }
+                </div>
+            </div>
+            <div class="poster-container">
+                <img appImageLoader [ngSrc]="movieDetails.posterUrl!" priority width="1280" height="640"
+                    alt="{{ movieDetails.title }} Poster" class="movie-poster">
+            </div>
+        </div>
+    </div>
+
+    <div class="content-section">
+        <div class="movie-details-card">
+            <div class="details-grid">
+                <div class="detail-item">
+                    <i class="bi bi-clock"></i>
+                    <div class="detail-content">
+                        <h6>Duration</h6>
+                        <p>{{ movieDetails.duration }} minutes</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="bi bi-translate"></i>
+                    <div class="detail-content">
+                        <h6>Languages</h6>
+                        <p>{{ extractLanguages(movieDetails.tags!) }}</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="bi bi-heart-fill"></i>
+                    <div class="detail-content">
+                        <h6>Likes</h6>
+                        <p>{{ movieDetails.likes | number }}</p>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <i class="bi bi-tags"></i>
+                    <div class="detail-content">
+                        <h6>Tags</h6>
+                        <p>{{ movieDetails.tags!.join(', ') }}</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h5>Details</h5>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-film me-2"></i>
-                                Genres: {{ movieDetails.genres!.join(', ') }}
-                            </li>
-                            <li><i class="bi bi-clock me-2"></i>
-                                Duration: {{ movieDetails.duration }} minutes
-                            </li>
-                            <li><i class="bi bi-tags me-2"></i> Tags: {{ movieDetails.tags!.join(
-                                ', ') }}
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <h5>Engagement</h5>
-                        <ul class="list-unstyled">
-                            <li><i class="bi bi-heart-fill me-2 text-danger"></i>
-                                Likes: {{ movieDetails.likes | number }}
-                            </li>
-                            <li><i class="bi bi-globe me-2"></i> Languages: {{ extractLanguages(
-                                movieDetails.tags!) }}
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="mb-4">
-            <h5>Description</h5>
+        <div class="description-card">
+            <h5>About the Movie</h5>
             <p>{{ movieDetails.description }}</p>
         </div>
 
-        <div class="mb-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5>{{ showScheduler() ? 'Schedule Movie Screening'
-                    : 'View Existing Schedules' }}</h5>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="toggleScheduler"
-                           (change)="toggleView()" [checked]="showScheduler()"
-                           [disabled]="selectedVenue() == null">
-                    <label class="form-check-label" for="toggleScheduler">
-                        {{ showScheduler() ? 'Switch to Existing Schedules'
-                        : 'Switch to Schedule New Screening' }}
+        <div class="scheduler-section">
+            <div class="section-header">
+                <h5>{{ showScheduler() ? 'Schedule Movie Screening' : 'View Existing Schedules' }}</h5>
+                <div class="toggle-container">
+                    <label class="toggle">
+                        <input type="checkbox" (change)="toggleView()" [checked]="showScheduler()"
+                            [disabled]="selectedVenue() == null">
+                        <span class="slider"></span>
+                        <span class="toggle-label">{{ showScheduler() ? 'Switch to Existing Schedules' : 'Switch to
+                            Schedule New Screening' }}</span>
                     </label>
                 </div>
             </div>
 
-            <!-- Conditional Rendering Based on Toggle -->
             @if (showScheduler()) {
-                <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="container py-4">
-                    <!-- Venue Search -->
-                    <div class="form-group mb-3 position-relative">
-                        <label for="venueSearch" class="form-label">Search Venue</label>
+            <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="scheduler-form">
+                <div class="venue-search">
+                    <label for="venueSearch">Search Venue</label>
+                    <div class="search-container">
+                        <i class="bi bi-search"></i>
                         <input id="venueSearch" (input)="onVenueSearch(searchBox.value)" #searchBox
-                               class="form-control" placeholder="Search by name">
-                        <ul *ngIf="venueSuggestions().length > 0"
-                            class="list-group venue-location-list mt-2 position-absolute w-100">
-                            <li *ngFor="let venue of venueSuggestions()"
-                                (click)="selectVenue(venue)"
-                                class="list-group-item list-group-item-action">
+                            placeholder="Search venues by name">
+                        <ul *ngIf="venueSuggestions().length > 0" class="venue-suggestions">
+                            @for (venue of venueSuggestions(); track venue) {
+                            <li (click)="selectVenue(venue)">
+                                <i class="bi bi-building"></i>
                                 {{ venue.name }}
                             </li>
+                            }
                         </ul>
                     </div>
-
-                    <!-- Selected Venue and Pricing Tiers -->
-                    <div *ngIf="selectedVenue()" class="mb-3">
-                        <p><strong>Selected Venue:</strong>
-                            <a class="text-decoration-none"
-                               [routerLink]="['/booking', 'seating', selectedVenue().seatingLayoutId ]"
-                               target="_blank" rel="noopener noreferrer">
-                                {{ selectedVenue().name }}
-                            </a>
-                        </p>
-                        <div formArrayName="pricingTierMaps">
-                            <div *ngFor="let tierGroup of pricingTierMaps.controls; let i=index"
-                                 [formGroupName]="i" class="mb-2">
-                                <div class="form-group">
-                                    <label class="form-label">Tier: {{ tierGroup.get(
-                                        'name')?.value }}</label>
-                                    @let priceControl = tierGroup.get('price')!;
-                                    <input formControlName="price" type="number"
-                                           class="form-control" placeholder="Enter price"
-                                           [ngClass]="{'is-invalid' : hasError(priceControl)}">
-                                    @if (hasError(priceControl!, 'min') || hasError(priceControl,
-                                        'required') || hasError(priceControl, 'max')) {
-                                        <div class="invalid-feedback">
-                                            <span>price must be between 0 - 250000</span>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Event Scheduler -->
-                    <div class="event-scheduler-container container my-4">
-                        <app-event-scheduler (submitEventInfo)="collectEventsFromScheduler($event)"
-                                             [eventInfo]="getEventInfo()"></app-event-scheduler>
-                    </div>
-                    <button type="submit" class="btn btn-primary" [disabled]="eventForm.invalid">
-                        Create Event
-                    </button>
-                </form>
-            } @else {
-                <div class="existing-events-container container my-4">
-                    <app-existing-events [eventId]="movieId()!"
-                                         [venueId]="selectedVenue().id"></app-existing-events>
                 </div>
-            }
 
+                @if (selectedVenue()) {
+                <div class="selected-venue">
+                    <h6>Selected Venue</h6>
+                    <a [routerLink]="['/booking', 'seating', selectedVenue().seatingLayoutId]" target="_blank"
+                        rel="noopener noreferrer">
+                        <i class="bi bi-building-check"></i>
+                        {{ selectedVenue().name }}
+                    </a>
+
+                    <div class="pricing-tiers" formArrayName="pricingTierMaps">
+                        @for (tierGroup of pricingTierMaps.controls; track tierGroup; let i = $index) {
+                        <div [formGroupName]="i" class="tier-group">
+                            <label>{{ tierGroup.get('name')?.value }}</label>
+                            @let priceControl = tierGroup.get('price')!;
+                            <div class="price-input">
+                                <span class="currency">₹</span>
+                                <input formControlName="price" type="number" placeholder="Enter price"
+                                    [ngClass]="{'is-invalid': hasError(priceControl)}">
+                            </div>
+                            @if (hasError(priceControl!, 'min') || hasError(priceControl, 'required') ||
+                            hasError(priceControl, 'max')) {
+                            <div class="error-message">
+                                Price must be between ₹0 - ₹250,000
+                            </div>
+                            }
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
+
+                <div class="scheduler-component">
+                    <app-event-scheduler (submitEventInfo)="collectEventsFromScheduler($event)"
+                        [eventInfo]="getEventInfo()">
+                    </app-event-scheduler>
+                </div>
+
+                <button type="submit" class="submit-btn" [disabled]="eventForm.invalid">
+                    <i class="bi bi-calendar-plus"></i>
+                    Create Event
+                </button>
+            </form>
+            } @else {
+            <div class="existing-events">
+                <app-existing-events [eventId]="movieId()!" [venueId]="selectedVenue().id">
+                </app-existing-events>
+            </div>
+            }
         </div>
     </div>
+</div>
 }

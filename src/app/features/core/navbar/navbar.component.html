@@ -1,52 +1,49 @@
-<div class="navbar">
+<!-- Main Navigation -->
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <!-- Left Section - Brand -->
     <div class="left">
-        <a class="website-icon button-link" [routerLink]="['/']"
-           routerLinkActive="router-link-active">
-            <span>Ticket Booking </span>
+        <a class="website-icon" [routerLink]="['/']" routerLinkActive="router-link-active" aria-label="Home">
+            <span>Ticket Booking</span>
         </a>
     </div>
-    <div class="middle">
 
+    <!-- Middle Section - Future Nav Items -->
+    <div class="middle">
+        <!-- Reserved for future navigation items -->
     </div>
+
+    <!-- Right Section - Auth Controls -->
     <div class="right">
         @if (signedIn()) {
-
-            <div class="signout-button button-link">
-                <a class="signout-button-link btn-special-red button-link" (click)="logout()">Sign
-                    out</a>
-            </div>
-            <!--        <div class="auth-info">-->
-
-                <!--            <div [routerLink]="['/auth', 'profile']" [routerLinkActive]="['active-tab']"-->
-                <!--                class="profile-icon button-link">-->
-                <!--                <div class="footer-menu-item__icon">-->
-                <!--                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"-->
-                <!--                        class="bi bi-person-circle" viewBox="0 0 16 16">-->
-                <!--                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />-->
-                <!--                        <path fill-rule="evenodd"-->
-                <!--                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />-->
-                <!--                    </svg>-->
-                <!--                </div>-->
-                <!--            </div>-->
-                <!--        </div>-->
+        <div class="signout-button">
+            <button class="signout-button-link btn-special-red" (click)="logout()" aria-label="Sign out">
+                Sign out
+            </button>
+        </div>
         } @else {
-            <div class="signin-button button-link">
-                <a class="signin-button-link btn-special-red button-link"
-                   (click)="toggleSignInDialog(true)">Sign in</a>
-            </div>
+        <div class="signin-button">
+            <button class="signin-button-link btn-special-red" (click)="toggleSignInDialog(true)" aria-label="Sign in">
+                Sign in
+            </button>
+        </div>
         }
-        <div class="haberger-menu button-link" (click)="toggleSideNav()">
+
+        <!-- Hamburger Menu -->
+        <div class="haberger-menu btn" (click)="toggleSideNav()" aria-label="Toggle navigation menu"
+            [attr.aria-expanded]="sideNav()">
             <span></span>
             <span></span>
             <span></span>
         </div>
     </div>
-</div>
+</nav>
 
+<!-- Auth Dialog -->
 @if (signInDialog()) {
-    <app-register (closeDialog)="toggleSignInDialog(false)"></app-register>
+<app-register (closeDialog)="toggleSignInDialog(false)"></app-register>
 }
 
+<!-- Side Navigation -->
 @if (sideNav()) {
-    <app-sidenav (hideSideNav)="toggleSideNav()"></app-sidenav>
+<app-sidenav (hideSideNav)="toggleSideNav()"></app-sidenav>
 }

@@ -13,9 +13,8 @@
         </div>
         <div class="movie-cards-container mt-0 pt-0">
             @for (movie of movies(); track movie.id) {
-                <app-movie-card [movie]="movie"></app-movie-card>
+            <app-movie-card [movie]="movie"></app-movie-card>
             }
         </div>
     </div>
 </div>
-

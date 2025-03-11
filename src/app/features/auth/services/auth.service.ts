@@ -37,4 +37,18 @@ export class AuthService {
   register(registrationDetails: UserRegistrationDetails) {
     return this.httpClient.post<UserRegistrationDetails>(this.signupUrl, registrationDetails);
   }
+
+  logout() {
+    this.authToken.set(null);
+    localStorage.removeItem('jwt-token');
+  }
+
+  isAuthenticated() {
+    return this.authToken() !== null;
+  }
+
+  getCurrentUser(){
+    // TODO: Implement this
+    return {name: "Test"};
+  }
 }

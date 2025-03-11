@@ -85,7 +85,7 @@ export class EventSchedulerComponent implements OnInit {
     const showGroup = new FormGroup({
       startDate: new FormControl(startTime, [Validators.required]),
       isOpenForBooking: new FormControl(true, [Validators.required]),
-      endDate: new FormControl({value: endTime, disabled: true}, [Validators.required]),
+      endDate: new FormControl({ value: endTime, disabled: true }, [Validators.required]),
     });
 
     // Store initial value for delta calculation
@@ -96,7 +96,7 @@ export class EventSchedulerComponent implements OnInit {
         const delta = this.calculateTimeDelta(previousStartTime, newStartTime);
         previousStartTime = newStartTime; // Update previous for next change
         const newEndTime = this.addMinutes(newStartTime, duration);
-        showGroup.controls.endDate.setValue(newEndTime, {emitEvent: false});
+        showGroup.controls.endDate.setValue(newEndTime, { emitEvent: false });
 
         // Propagate delta to subsequent shows
         const day = showGroup.parent?.parent as FormGroup; // Get the day FormGroup
@@ -160,7 +160,7 @@ export class EventSchedulerComponent implements OnInit {
       currentShow.patchValue({
         startDate: newStartTime,
         endDate: newEndTime,
-      }, {emitEvent: false}); // Avoid infinite loop
+      }, { emitEvent: false }); // Avoid infinite loop
     }
   }
 
@@ -228,7 +228,7 @@ export class EventSchedulerComponent implements OnInit {
       const isOpenForBooking = show.get('isOpenForBooking')?.value as boolean;
       const newShowGroup = new FormGroup({
         startDate: new FormControl(startTime, [Validators.required]),
-        endDate: new FormControl({value: endTime, disabled: true}, [Validators.required]),
+        endDate: new FormControl({ value: endTime, disabled: true }, [Validators.required]),
         isOpenForBooking: new FormControl(isOpenForBooking, [Validators.required]),
       });
 
@@ -237,7 +237,7 @@ export class EventSchedulerComponent implements OnInit {
         if (newStartTime) {
           const duration = this.eventInfo().duration || 60;
           const newEndTime = this.addMinutes(newStartTime, duration);
-          newShowGroup.controls.endDate.setValue(newEndTime, {emitEvent: false});
+          newShowGroup.controls.endDate.setValue(newEndTime, { emitEvent: false });
 
           const parentDay = newShowGroup.parent?.parent as FormGroup;
           if (parentDay) {

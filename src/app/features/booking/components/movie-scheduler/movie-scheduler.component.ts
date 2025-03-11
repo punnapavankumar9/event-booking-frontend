@@ -27,17 +27,16 @@ import { EventService } from '../../services/event.service';
     ExistingEventsComponent, // Add new component to imports
     ReactiveFormsModule,
     NgIf,
-    NgForOf,
     NgClass,
     RouterLink
   ],
   templateUrl: './movie-scheduler.component.html',
-  styleUrls: ['./movie-scheduler.component.scss'] // Fixed typo: styleUrl -> styleUrls
+  styleUrls: ['./movie-scheduler.component.scss'] 
 })
 export class MovieSchedulerComponent implements OnInit {
   movieId = signal<string | null>(null);
   movieDetails: Movie = null as unknown as Movie;
-  showScheduler = signal(true); // Toggle state: true = scheduler, false = existing events
+  showScheduler = signal(true); 
 
   eventForm: FormGroup<{
     venueId: FormControl<string | null>;
@@ -64,7 +63,7 @@ export class MovieSchedulerComponent implements OnInit {
   selectVenue(venue: any): void {
     this.selectedVenue.set(venue);
     this.seatingLayoutSubject.next(venue);
-    this.eventForm.patchValue({venueId: venue.id});
+    this.eventForm.patchValue({ venueId: venue.id });
     this.venueSearchQuery.set('');
     this.venueSuggestions.set([]);
   }
@@ -112,7 +111,7 @@ export class MovieSchedulerComponent implements OnInit {
     ).subscribe({
       next: (venues) => this.venueSuggestions.set(venues),
       error: (err: HttpErrorResponse) => {
-        this.toastService.showToast({message: err.message, type: 'error'});
+        this.toastService.showToast({ message: err.message, type: 'error' });
       }
     });
 
@@ -121,7 +120,7 @@ export class MovieSchedulerComponent implements OnInit {
       this.pricingTierMaps.clear();
       tiers.forEach((tier: string) => {
         this.pricingTierMaps.push(new FormGroup({
-          name: new FormControl({value: tier, disabled: true}),
+          name: new FormControl({ value: tier, disabled: true }),
           price: new FormControl(0, [Validators.required, Validators.min(0), Validators.max(250_000)]),
         }));
       });
@@ -133,11 +132,11 @@ export class MovieSchedulerComponent implements OnInit {
       this.movieService.getMovieDetails(this.movieId()!).pipe(take(1)).subscribe({
         next: result => this.movieDetails = result,
         error: err => {
-          this.toastService.showToast({type: 'error', message: err.message});
+          this.toastService.showToast({ type: 'error', message: err.message });
         }
       });
     } else {
-      this.toastService.showToast({message: "Invalid URL", type: 'error'});
+      this.toastService.showToast({ message: "Invalid URL", type: 'error' });
       this.router.navigate(['/']);
     }
   }
@@ -171,12 +170,12 @@ export class MovieSchedulerComponent implements OnInit {
 
   onSubmit(): void {
     if (this.selectedVenue() == null) {
-      this.toastService.showToast({message: "Please select a venue", type: 'error'});
+      this.toastService.showToast({ message: "Please select a venue", type: 'error' });
       return;
     }
     this.invokeCollectEventsFromScheduler();
     if (this.scheduledEvents.length === 0) {
-      this.toastService.showToast({message: "No events scheduled to submit", type: 'error'});
+      this.toastService.showToast({ message: "No events scheduled to submit", type: 'error' });
       return;
     }
     const events: Event[] = [];
@@ -213,7 +212,7 @@ export class MovieSchedulerComponent implements OnInit {
         message: "Events Created Successfully",
         type: 'success'
       }),
-      error: err => this.toastService.showToast({message: err.message, type: 'error'})
+      error: err => this.toastService.showToast({ message: err.message, type: 'error' })
     });
   }
 

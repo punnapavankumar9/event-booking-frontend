@@ -3,11 +3,23 @@
 .navbar {
   @include styles.d-flex-row-between();
   width: 100%;
-  height: 64px;
-  background-color: transparent;
+  height: 56px;
+  background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(26, 26, 26, 0.85));
+  backdrop-filter: blur(10px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 0 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  @media (max-width: 768px) {
+    padding: 0 0.5rem;
+  }
 }
 
-.right > div {
+.right>div {
   padding: 10px;
 }
 
@@ -21,12 +33,23 @@
   font-family: "Arizonia", serif;
   font-weight: 400;
   font-style: normal;
-  font-size: 2rem;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
   height: 100%;
-  color: styles.$primary-red;
-  margin: 0px 10px 0px 10px
+  color: #ffffff;
+  margin: 0 10px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: styles.$primary-red;
+    transform: scale(1.02);
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
 }
 
 .haberger-menu {
@@ -38,8 +61,14 @@
 
   span {
     width: 32px;
+    border-radius: 2px;
     height: 3px;
-    background-color: black;
+    transition: all 0.3s ease;
+    background-color: white;
+  }
+
+  &:hover span {
+    background-color: styles.$primary-red;
   }
 }
 
@@ -47,6 +76,7 @@
   @include styles.d-flex-row();
   height: 100%;
   align-items: center;
+  gap: 1rem;
 }
 
 .auth-info {
@@ -60,7 +90,32 @@
 
 .signin-button-link,
 .signout-button-link {
-  @include styles.red-rect-button() {
-    padding: 6px 10px 6px 10px;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #ffffff;
+  background: linear-gradient(135deg, styles.$primary-red, darken(styles.$primary-red, 10%));
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(styles.$primary-red, 0.3);
+  }
+}
+
+// Add spacing for fixed navbar
+:host {
+  display: block;
+  height: 56px;
+}
+
+// Mobile menu styles
+@media (max-width: 768px) {
+  .right>div:not(.haberger-menu) {
+    display: none;
   }
 }

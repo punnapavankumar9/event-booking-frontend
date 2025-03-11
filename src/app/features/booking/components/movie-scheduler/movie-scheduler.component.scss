@@ -4,18 +4,18 @@
 }
 
 .header {
-  background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(26, 26, 26, 0.85));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(250, 250, 250, 0.85));
   border-radius: 24px;
   backdrop-filter: blur(10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease;
   overflow: hidden;
 
   .display-4 {
     font-size: 2.5rem;
     font-weight: 700;
-    background: linear-gradient(to right, #ffffff, #e0e0e0);
+    background: linear-gradient(to right, #333333, #666666);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -23,7 +23,7 @@
   }
 
   .lead {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(0, 0, 0, 0.8);
     font-size: 1.1rem;
     
     .badge {
@@ -46,11 +46,11 @@
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
   margin-bottom: 2rem;
 
   .card-body {
@@ -218,20 +218,20 @@
 }
 
 .scheduler-container {
-  background-color: #0a0a0a;
+  background-color: #ffffff;
   min-height: 100vh;
   padding: 2rem 0;
-  color: white;
+  color: #333333;
 }
 
 .movie-header {
   width: min(90%, 1200px);
   margin: 0 auto;
-  background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(26, 26, 26, 0.85));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(250, 250, 250, 0.85));
   border-radius: 24px;
   backdrop-filter: blur(10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   overflow: hidden;
   
   .content-wrapper {
@@ -252,7 +252,7 @@
       font-size: 2.5rem;
       font-weight: 700;
       margin-bottom: 1.5rem;
-      background: linear-gradient(to right, #ffffff, #e0e0e0);
+      background: linear-gradient(to right, #333333, #666666);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -268,7 +268,7 @@
         align-items: center;
         gap: 0.5rem;
         font-size: 1.1rem;
-        color: rgba(255, 255, 255, 0.9);
+        color: #333333;
 
         i {
           color: #f84464;
@@ -282,17 +282,18 @@
       gap: 0.5rem;
 
       .meta-tag {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.05);
         padding: 0.5rem 1rem;
         border-radius: 12px;
         font-size: 0.9rem;
         backdrop-filter: blur(5px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        color: #333333;
         transition: all 0.3s ease;
 
         &:hover {
           transform: translateY(-2px);
-          background: rgba(248, 68, 100, 0.2);
+          background: rgba(248, 68, 100, 0.1);
         }
       }
     }
@@ -318,12 +319,13 @@
   margin: 2rem auto;
 
   .movie-details-card {
-    background: rgba(255, 255, 255, 0.02);
+    background: white;
     border-radius: 24px;
     padding: 2rem;
     margin-bottom: 2rem;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 
     .details-grid {
       display: grid;
@@ -343,13 +345,13 @@
         .detail-content {
           h6 {
             font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.6);
+            color: #666666;
             margin-bottom: 0.5rem;
           }
 
           p {
             font-size: 1.1rem;
-            color: white;
+            color: #333333;
             margin: 0;
           }
         }
@@ -358,12 +360,13 @@
   }
 
   .description-card {
-    background: rgba(255, 255, 255, 0.02);
+    background: white;
     border-radius: 24px;
     padding: 2rem;
     margin-bottom: 2rem;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 
     h5 {
       color: #f84464;
@@ -373,18 +376,19 @@
     }
 
     p {
-      color: rgba(255, 255, 255, 0.8);
+      color: #333333;
       line-height: 1.8;
       font-size: 1.1rem;
     }
   }
 
   .scheduler-section {
-    background: rgba(255, 255, 255, 0.02);
+    background: white;
     border-radius: 24px;
     padding: 2rem;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 
     .section-header {
       display: flex;
@@ -413,9 +417,14 @@
             background: #f84464;
           }
 
+          &:disabled + .slider, &:not(checked) + .slider {
+            background: #ccc;
+          }
+
           &:checked + .slider:before {
             transform: translateX(24px);
           }
+
         }
 
         .slider {
@@ -442,7 +451,7 @@
 
         .toggle-label {
           font-size: 0.9rem;
-          color: rgba(255, 255, 255, 0.8);
+          color: #666666;
         }
       }
     }
@@ -454,7 +463,7 @@
         label {
           display: block;
           margin-bottom: 0.5rem;
-          color: rgba(255, 255, 255, 0.8);
+          color: #666666;
         }
 
         .search-container {
@@ -465,27 +474,27 @@
             left: 1rem;
             top: 50%;
             transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.4);
+            color: #666666;
           }
 
           input {
             width: 100%;
             padding: 1rem 1rem 1rem 3rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: 12px;
-            color: white;
+            color: #333333;
             font-size: 1rem;
             transition: all 0.3s ease;
 
             &:focus {
               outline: none;
               border-color: #f84464;
-              background: rgba(255, 255, 255, 0.1);
+              background: white;
             }
 
             &::placeholder {
-              color: rgba(255, 255, 255, 0.4);
+              color: #999999;
             }
           }
         }
@@ -494,11 +503,13 @@
           position: absolute;
           width: 100%;
           margin-top: 0.5rem;
-          background: rgba(26, 26, 26, 0.95);
+          background: white;
           border-radius: 12px;
           overflow: hidden;
           z-index: 1000;
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          color: #333333;
 
           li {
             padding: 1rem;
@@ -520,13 +531,14 @@
       }
 
       .selected-venue {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(0, 0, 0, 0.02);
         border-radius: 16px;
         padding: 1.5rem;
         margin-bottom: 2rem;
+        border: 1px solid rgba(0, 0, 0, 0.1);
 
         h6 {
-          color: rgba(255, 255, 255, 0.6);
+          color: #666666;
           margin-bottom: 1rem;
         }
 
@@ -553,7 +565,7 @@
             label {
               display: block;
               margin-bottom: 0.5rem;
-              color: rgba(255, 255, 255, 0.8);
+              color: #666666;
             }
 
             .price-input {
@@ -564,16 +576,16 @@
                 left: 1rem;
                 top: 50%;
                 transform: translateY(-50%);
-                color: rgba(255, 255, 255, 0.4);
+                color: #666666;
               }
 
               input {
                 width: 100%;
                 padding: 0.8rem 0.8rem 0.8rem 2rem;
-                background: rgba(255, 255, 255, 0.05);
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                background: white;
+                border: 1px solid rgba(0, 0, 0, 0.1);
                 border-radius: 12px;
-                color: white;
+                color: #333333;
                 font-size: 1rem;
 
                 &:focus {
@@ -648,5 +660,36 @@
 
   .pricing-tiers {
     grid-template-columns: 1fr !important;
+  }
+}
+
+.booking-toggle {
+  .toggle-label {
+    color: #666666;
+  }
+}
+
+.action-btn {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #333333;
+}
+
+.validation-errors {
+  ul {
+    color: #333333;
+  }
+}
+
+.no-event-info {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
+  i {
+    color: #666666;
+  }
+
+  p {
+    color: #666666;
   }
 }

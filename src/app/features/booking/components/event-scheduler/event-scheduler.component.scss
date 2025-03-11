@@ -7,18 +7,19 @@ $border-radius: 8px;
 
 .container {
   max-width: 1200px;
-  background: black;
+  background: white;
   border-radius: $border-radius;
   padding: 2rem;
 }
 
 // Day Card
 .day-card {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 24px;
   padding: 2rem;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 
   .day-header {
     display: flex;
@@ -39,10 +40,10 @@ $border-radius: 8px;
       }
 
       input {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: white;
+        border: 1px solid rgba(0, 0, 0, 0.1);
         border-radius: 12px;
-        color: white;
+        color: #333;
         padding: 0.8rem 1rem 0.8rem 3rem;
         font-size: 1rem;
         min-width: 200px;
@@ -50,7 +51,7 @@ $border-radius: 8px;
         &:focus {
           outline: none;
           border-color: #f84464;
-          background: rgba(255, 255, 255, 0.1);
+          background: white;
         }
       }
     }
@@ -64,9 +65,10 @@ $border-radius: 8px;
 
 // Show Card
 .show-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: white;
   border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   transition: transform 0.3s ease;
 
@@ -75,16 +77,16 @@ $border-radius: 8px;
   }
 
   .show-header {
-    background: rgba(255, 255, 255, 0.02);
+    background: $light-bg;
     padding: 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
     h6 {
       margin: 0;
-      color: rgba(255, 255, 255, 0.9);
+      color: #333;
       font-weight: 600;
     }
 
@@ -120,22 +122,22 @@ $border-radius: 8px;
         left: 1rem;
         top: 50%;
         transform: translateY(-50%);
-        color: rgba(255, 255, 255, 0.4);
+        color: rgba(0, 0, 0, 0.4);
       }
 
       input {
         width: 100%;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: white;
+        border: 1px solid rgba(0, 0, 0, 0.1);
         border-radius: 12px;
-        color: white;
+        color: #333;
         padding: 0.8rem 1rem 0.8rem 3rem;
         font-size: 1rem;
 
         &:focus {
           outline: none;
           border-color: #f84464;
-          background: rgba(255, 255, 255, 0.1);
+          background: white;
         }
       }
     }
@@ -228,15 +230,15 @@ $border-radius: 8px;
 
 .scheduler-form {
   width: 100%;
-  color: white;
-  background-color: #0a0a0a;
+  color: #333;
+  background-color: white;
 }
 
 .days-container {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  background-color: black;
+  background-color: white;
 }
 
 .shows-grid {

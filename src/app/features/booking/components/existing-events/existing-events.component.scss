@@ -1,10 +1,11 @@
 .events-calendar {
   width: 100%;
-  background: rgba(255, 255, 255, 0.02);
+  background: white;
   border-radius: 24px;
   padding: 2rem;
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .calendar-header {
@@ -14,10 +15,10 @@
 }
 
 .nav-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 12px;
-  color: white;
+  color: #333333;
   width: 48px;
   display: flex;
   align-items: center;
@@ -29,7 +30,7 @@
   }
 
   &:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(248, 68, 100, 0.1);
     transform: translateY(-2px);
   }
 
@@ -49,12 +50,13 @@
 }
 
 .calendar-day {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 16px;
   padding: 1rem;
   min-width: 200px;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
   &.has-events {
     background: rgba(248, 68, 100, 0.05);
@@ -72,11 +74,11 @@
     flex-direction: column;
     align-items: center;
     margin-bottom: 1rem;
-    color: white;
+    color: #333333;
 
     .day-name {
       font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.6);
+      color: #666666;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
@@ -89,7 +91,7 @@
 
     .day-month {
       font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.6);
+      color: #666666;
       text-transform: uppercase;
     }
   }
@@ -102,11 +104,12 @@
 }
 
 .event-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   padding: 1rem;
   transition: transform 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
   &:hover {
     transform: translateY(-2px);
@@ -117,7 +120,7 @@
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 0.8rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: #333333;
 
     i {
       color: #f84464;
@@ -139,8 +142,8 @@
       width: 2.5rem;
       height: 1.25rem;
       margin-left: -2.5rem;
-      background-color: rgba(255, 255, 255, 0.2);
-      border-color: rgba(255, 255, 255, 0.1);
+      background-color: rgba(0, 0, 0, 0.1);
+      border-color: rgba(0, 0, 0, 0.2);
       cursor: not-allowed;
 
       &:checked {
@@ -150,7 +153,7 @@
     }
 
     .form-check-label {
-      color: rgba(255, 255, 255, 0.6);
+      color: #666666;
       font-size: 0.85rem;
       cursor: default;
 
@@ -167,17 +170,18 @@
   align-items: center;
   gap: 1rem;
   padding: 3rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: white;
   border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 
   i {
     font-size: 3rem;
-    color: rgba(255, 255, 255, 0.4);
+    color: #666666;
   }
 
   p {
-    color: rgba(255, 255, 255, 0.6);
+    color: #666666;
     font-size: 1.1rem;
     margin: 0;
   }

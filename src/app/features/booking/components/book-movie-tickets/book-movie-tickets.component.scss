@@ -1,14 +1,17 @@
 @import "./../../common-layout";
 
-$bg-red: #ff0000;
+$bg-red: #f84464;
+$shadow-light: 0 4px 12px rgba(0, 0, 0, 0.05);
+$shadow-medium: 0 6px 16px rgba(0, 0, 0, 0.1);
+$border-light: 1px solid rgba(0, 0, 0, 0.1);
 
 .seat-selection-container {
-
   .overlay {
     position: fixed;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
     z-index: 400;
   }
 
@@ -19,17 +22,20 @@ $bg-red: #ff0000;
 
     .seat-selection-content {
       background-color: white;
-      border-radius: 10px;
-      padding: 20px;
+      border-radius: 16px;
+      padding: 2rem;
       width: min(95%, 500px);
+      box-shadow: $shadow-medium;
+      border: $border-light;
     }
   }
 
   .title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333;
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #333333;
+    text-align: center;
   }
 
   .rickshaw-image {
@@ -37,6 +43,7 @@ $bg-red: #ff0000;
 
     svg {
       fill: #4a5568; // Gray for the rickshaw
+
       path:nth-child(3) {
         fill: #a0aec0;
       }
@@ -53,30 +60,35 @@ $bg-red: #ff0000;
   .seat-count-selection {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 1rem;
+    margin-bottom: 2rem;
 
     .seat-count-btn {
-      width: 40px;
-      height: 40px;
-      background-color: #fff6f6;
-      font-size: 1rem;
+      width: 48px;
+      height: 48px;
+      background-color: white;
+      font-size: 1.1rem;
       cursor: pointer;
-      border-radius: 50%;
-      border: none;
-      transition: background-color 1s, border-color 1s, transform 1s;
+      border-radius: 12px;
+      border: $border-light;
+      transition: all 0.3s ease;
+      color: #333333;
+      box-shadow: $shadow-light;
 
       &:hover:not(.selected) {
-        background-color: $bg-red; // Red on hover
-        transform: scale(1.01);
-        color: white;
+        background-color: rgba($bg-red, 0.1);
+        transform: translateY(-2px);
+        border-color: $bg-red;
+        color: $bg-red;
       }
 
       &.selected {
-        background-color: $bg-red; // Red for selected
+        background-color: $bg-red;
         border-color: $bg-red;
         color: white;
-        font-weight: bold;
+        font-weight: 500;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba($bg-red, 0.3);
       }
     }
   }
@@ -84,16 +96,23 @@ $bg-red: #ff0000;
   .pricing-tiers {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
-    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    gap: 1rem;
 
     .tier {
       flex: 1;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      margin: 0 5px;
+      padding: 1rem;
+      background: white;
+      border: $border-light;
+      border-radius: 12px;
       text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: $shadow-light;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: $shadow-medium;
+      }
 
       .tier-name {
         display: block;
@@ -118,45 +137,197 @@ $bg-red: #ff0000;
   }
 
   .select-seats-btn {
-    background-color: $bg-red; // Red button
+    background: linear-gradient(135deg, $bg-red, darken($bg-red, 10%));
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 1rem;
+    border-radius: 12px;
     font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
     width: 100%;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
+    box-shadow: $shadow-light;
 
     &:hover {
-      background-color: #cc0000; // Darker red on hover
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba($bg-red, 0.3);
     }
   }
 }
 
+.venue-info-container {
+  background: white;
+  border-bottom: $border-light;
+  padding: 1rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: $shadow-light;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+
+  .back-nav {
+    .back-button {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: #333333;
+      transition: all 0.3s ease;
+      text-decoration: none;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.05);
+        transform: translateX(-2px);
+      }
+
+      i {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .movie-info {
+    .movie-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #333333;
+      margin: 0 0 0.5rem;
+      line-height: 1.2;
+    }
+
+    .venue-details {
+      color: #666666;
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+
+      .time-separator {
+        margin: 0 0.5rem;
+        opacity: 0.5;
+      }
+    }
+
+    .movie-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: #666666;
+      font-size: 0.9rem;
+
+      .duration {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+
+        i {
+          font-size: 1rem;
+          position: relative;
+          top: -1px;
+        }
+      }
+
+      .separator {
+        opacity: 0.5;
+      }
+
+      .language {
+        text-transform: uppercase;
+        font-weight: 500;
+      }
+
+      .genre {
+        color: $bg-red;
+      }
+    }
+  }
+
+  .ticket-count {
+    .selected-seat-count {
+      background: white;
+      border: $border-light;
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      color: #333333;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: $shadow-light;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: $shadow-medium;
+      }
+
+      i {
+        color: $bg-red;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    gap: 1rem;
+
+    .movie-info {
+      .movie-title {
+        font-size: 1.25rem;
+      }
+
+      .venue-details {
+        font-size: 0.85rem;
+      }
+
+      .movie-meta {
+        font-size: 0.8rem;
+        flex-wrap: wrap;
+      }
+    }
+
+    .ticket-count {
+      .selected-seat-count {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.85rem;
+      }
+    }
+  }
+}
 
 .main-container {
   width: 100%;
   height: 100%;
   margin: 0 auto;
+  background-color: #ffffff;
 }
 
 .seat:not(.layout-btn) {
-  font-size: .65rem;
+  font-size: 0.75rem;
 }
 
 .selected:not(.layout-btn) {
-  background-color: red !important;
+  background-color: $bg-red !important;
+  color: white !important;
 }
 
 .seat:not(.layout-btn):not(.selected-seat):not(.space-seat):not(.seat-not-available):hover {
-  background-color: $seat-green !important;
-  color: white;
+  background-color: rgba($bg-red, 0.1) !important;
+  color: $bg-red !important;
+  transform: scale(1.05);
 }
 
 .seat-not-available {
-  background-color: #999999;
+  background-color: #e0e0e0;
   border: none;
+  opacity: 0.5;
 
   span {
     display: none;
@@ -164,8 +335,8 @@ $bg-red: #ff0000;
 }
 
 .layout-btn {
-  color: black !important;
-  font-weight: lighter;
+  color: #333333 !important;
+  font-weight: 500;
 }
 
 .space-seat {
@@ -178,61 +349,87 @@ $bg-red: #ff0000;
 
 .seating-visual {
   min-height: 200px;
-  background: #fafafa;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: $shadow-light;
+  margin: 1rem;
 }
 
 .layout-btn {
   cursor: auto !important;
 }
 
-$main-container-background: #f9f9f9;
+.tier-header {
+  position: relative;
+  text-align: center;
+  margin: 2rem 0 1rem;
 
-.main-container {
-  background-color: $main-container-background;
+  hr {
+    border: none;
+    border-top: $border-light;
+    margin: 0;
+  }
+
+  .tier-name {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    .tier-name-inner {
+      background: white;
+      padding: 0.5rem 1rem;
+      color: #666666;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+  }
 }
 
-.tier-name-inner {
-  background-color: $main-container-background !important;
-}
+.screen {
+  margin: 2rem 0;
 
-.layout-holder {
-  background-color: $main-container-background;
-}
+  .screen-tagline {
+    color: #666666;
+    font-size: 0.9rem;
+    margin: 1rem 0;
+  }
 
-.selected-seat-count {
-  border: 1px solid rgba(136, 136, 136, 0.82);
-  background-color: white;
-  border-radius: 4px;
-  padding: 4px 6px;
-}
-
-
-.event-name {
-  font-size: 1rem;
+  svg {
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+  }
 }
 
 .pay-bill {
   position: fixed;
   width: 100%;
-  height: 50px;
+  height: 64px;
   bottom: 0;
   text-align: center;
   background-color: white;
-  box-shadow: 0 0 7px rgba(0, 0, 0, .8);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
 
   span {
-    position: relative;
-    display: inline-block;
-    top: 3px;
-    background-color: $primary-red;
+    background: linear-gradient(135deg, $bg-red, darken($bg-red, 10%));
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 1rem;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 500;
     cursor: pointer;
-    width: min(90vw, 250px);
-    transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: min(90vw, 300px);
+    transition: all 0.3s ease;
+    box-shadow: $shadow-light;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba($bg-red, 0.3);
+    }
   }
 }

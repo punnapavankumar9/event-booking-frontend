@@ -1,5 +1,5 @@
 import { Component, effect, OnInit, signal } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ToastService } from '../../../core/services/toast.service';
 import { EventService } from '../../services/event.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -17,7 +17,7 @@ import { OrderDetailsComponent } from '../order-details/order-details.component'
 @Component({
   selector: 'app-book-movie-tickets',
   standalone: true,
-  imports: [ReactiveFormsModule, NgClass, NgTemplateOutlet, NgStyle, OrderDetailsComponent],
+  imports: [ReactiveFormsModule, NgClass, NgTemplateOutlet, NgStyle, OrderDetailsComponent, RouterLink],
   templateUrl: './book-movie-tickets.component.html',
   styleUrl: './book-movie-tickets.component.scss'
 })

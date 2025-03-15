@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, effect, OnDestroy, OnInit, signal } from '@angular/core';
 import { Event, OrderResDetails, Venue } from '../../types';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { OrderService } from '../../services/order.service';
@@ -8,6 +8,7 @@ import { EventService } from '../../services/event.service';
 import { DatePipe, NgForOf, NgIf } from '@angular/common';
 import { QrCodeComponent } from '../qr-code/qr-code.component';
 import { VenueService } from '../../services/venue.service';
+import { catchError, EMPTY, interval, startWith, Subscription, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-movie-booking-confirmation',
@@ -21,9 +22,9 @@ import { VenueService } from '../../services/venue.service';
   templateUrl: './movie-booking-confirmation.component.html',
   styleUrl: './movie-booking-confirmation.component.scss'
 })
-export class MovieBookingConfirmationComponent implements OnInit {
+export class MovieBookingConfirmationComponent implements OnInit, OnDestroy {
   orderId: string;
-  orderDetails: OrderResDetails | null = null;
+  orderDetails = signal<OrderResDetails | null>(null as any);
   movieInfo = signal<Movie>(null as any);
   eventInfo = signal<Event>(null as any);
   venueInfo = signal<Venue>(null as any);
@@ -38,33 +39,54 @@ export class MovieBookingConfirmationComponent implements OnInit {
     private venueService: VenueService,
   ) {
     this.orderId = '';
+    effect(() => {
+      console.log(this.orderDetails());
+    });
   }
+
+  ngOnDestroy(): void {
+    this.orderDetailsSubscription?.unsubscribe();
+  }
+
+  orderDetailsSubscription: Subscription | undefined;
 
   ngOnInit(): void {
     this.orderId = this.route.snapshot.paramMap.get('orderId') || '';
 
     if (this.orderId) {
-      this.loadOrderDetails();
+      this.orderDetailsSubscription = this.loadOrderDetails().subscribe();
     } else {
       this.error = true;
       this.loading = false;
     }
   }
 
-  private loadOrderDetails(): void {
-    this.orderService.getOrderResDetails(this.orderId).subscribe({
-      next: (data) => {
-        this.orderDetails = data;
+  private getOrderDetails() {
+    return this.orderService.getOrderResDetails(this.orderId);
+  }
+
+  private loadOrderDetails() {
+    return interval(5000).pipe(
+      startWith(0),
+      switchMap(() => this.orderService.getOrderResDetails(this.orderId)),
+      tap(data => {
+        this.orderDetails.set(data);
         this.loading = false;
-        console.log("event details", data)
-        this.loadEventInfo(data.eventId);
-      },
-      error: (err) => {
+        console.log("event details", data);
+        if (this.eventInfo() == null) {
+          this.loadEventInfo(data.eventId);
+        }
+        if (data.orderStatus != "PENDING") {
+          this.orderDetailsSubscription?.unsubscribe();
+        }
+      }),
+      catchError(err => {
         console.error('Failed to load order details:', err);
         this.error = true;
         this.loading = false;
-      }
-    });
+        return EMPTY;
+      })
+    );
   }
 
   private loadEventInfo(eventId: string): void {

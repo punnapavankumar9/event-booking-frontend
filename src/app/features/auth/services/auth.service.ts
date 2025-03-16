@@ -14,6 +14,7 @@ export class AuthService {
   signupUrl = this.userServiceBaseUrl;
 
   authToken = signal(localStorage.getItem('jwt-token'));
+  selectedCity = signal<string>("hyderabad");
 
   constructor(private httpClient: HttpClient) {
     effect(() => {
@@ -23,6 +24,12 @@ export class AuthService {
         localStorage.removeItem('jwt-token');
       }
     });
+
+    effect(() => {
+      localStorage.setItem('selected-city', this.selectedCity());
+    });
+
+    this.selectedCity.set(localStorage.getItem('selected-city') || "hyderabad");
   }
 
   login(credentials: LoginCredentials): Observable<{ token: string }> {

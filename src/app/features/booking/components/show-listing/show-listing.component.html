@@ -97,6 +97,11 @@
                     </div>
                 </div>
                 <div class="theater-list">
+                    @if(theaters()?.length == 0) {
+                        <div class="no-theaters">
+                            <h1 class="text-center p-5">No Shows Available</h1>
+                        </div>
+                    }
                     @for (theater of theaters(); track $index) {
                         <hr class="p-0 m-0 opacity-1">
                         <div class="theater-container pt-1 pb-2">

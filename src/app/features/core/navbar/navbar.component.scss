@@ -122,3 +122,169 @@
     display: none;
   }
 }
+
+.city-selector {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+
+  .selected-city {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+
+    svg {
+      color: #666;
+    }
+
+    span {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .dropdown-arrow {
+      transition: transform 0.2s ease;
+
+      &.open {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  &.active .selected-city {
+    background-color: #f0f0f0;
+    border-color: #e0e0e0;
+  }
+
+  .city-dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    min-width: 160px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+
+    .city-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      span {
+        font-size: 0.9rem;
+        color: #333;
+      }
+
+      svg {
+        color: #4CAF50;
+      }
+
+      &:hover {
+        background-color: #f8f9fa;
+      }
+
+      &.selected {
+        background-color: #f0f0f0;
+      }
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Responsive styles
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.5rem;
+
+    .left {
+      .website-icon {
+        font-size: 1.1rem;
+      }
+
+      .city-selector {
+        .selected-city {
+          padding: 0.4rem 0.6rem;
+
+          span {
+            font-size: 0.85rem;
+          }
+        }
+
+        .city-dropdown {
+          left: -1rem;
+          right: -1rem;
+          min-width: auto;
+
+          .city-option {
+            padding: 0.4rem 0.6rem;
+
+            span {
+              font-size: 0.85rem;
+            }
+          }
+        }
+      }
+    }
+
+    .right {
+      .signin-button,
+      .signout-button {
+        display: none;
+      }
+
+      .haberger-menu {
+        display: flex;
+      }
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar {
+    .left {
+      gap: 0.5rem;
+
+      .website-icon {
+        font-size: 1rem;
+      }
+
+      .city-selector {
+        .selected-city {
+          padding: 0.35rem 0.5rem;
+
+          svg {
+            width: 14px;
+            height: 14px;
+          }
+
+          span {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,10 +1,35 @@
 <!-- Main Navigation -->
 <nav class="navbar" role="navigation" aria-label="main navigation">
-    <!-- Left Section - Brand -->
+    <!-- Left Section - Brand and City Selector -->
     <div class="left">
         <a class="website-icon" [routerLink]="['/']" routerLinkActive="router-link-active" aria-label="Home">
             <span>Ticket Booking</span>
         </a>
+        <div class="city-selector" (click)="toggleCityDropdown($event)" [class.active]="showCityDropdown()">
+            <div class="selected-city">
+                <svg width="16" height="16" viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/>
+                </svg>
+                <span>{{ selectedCity() | titlecase }}</span>
+                <svg class="dropdown-arrow" width="16" height="16" viewBox="0 0 24 24" [class.open]="showCityDropdown()">
+                    <path d="M7 10l5 5 5-5z" fill="currentColor"/>
+                </svg>
+            </div>
+            @if (showCityDropdown()) {
+            <div class="city-dropdown">
+                @for (city of cities; track city) {
+                <div class="city-option" (click)="selectCity(city, $event)" [class.selected]="selectedCity() === city.toLowerCase()">
+                    <span>{{ city }}</span>
+                    @if (selectedCity() === city.toLowerCase()) {
+                    <svg width="16" height="16" viewBox="0 0 24 24">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/>
+                    </svg>
+                    }
+                </div>
+                }
+            </div>
+            }
+        </div>
     </div>
 
     <!-- Middle Section - Future Nav Items -->

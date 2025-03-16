@@ -7,6 +7,7 @@ import { Movie } from '../../../core/types';
 import { MoviesService } from '../../../movies/services/movies.service';
 import { EventBookingStates, EventForShowList } from '../../types'
 import { NoShowsAvailableComponent } from '../no-shows-available/no-shows-available.component';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-show-listing',
@@ -34,7 +35,7 @@ export class ShowListingComponent implements OnInit {
   movieId = signal<null | string>(null);
   currentWindowStart = signal<null | Date>(null);
 
-  constructor(private eventService: EventService, private movieService: MoviesService, private router: Router, private route: ActivatedRoute, private toastService: ToastService) {
+  constructor(private eventService: EventService, private authService: AuthService, private movieService: MoviesService, private router: Router, private route: ActivatedRoute, private toastService: ToastService) {
     route.params.subscribe(params => {
       this.movieId.set(params['movieId']);
     });
@@ -48,7 +49,7 @@ export class ShowListingComponent implements OnInit {
 
   ngOnInit() {
     if (!this.movieId()) {
-      this.toastService.showToast({message: "Unable to find movieId", type: 'error'});
+      this.toastService.showToast({ message: "Unable to find movieId", type: 'error' });
       this.router.navigate(["/"]);
     }
     this.fetchMovieInfo();
@@ -63,23 +64,23 @@ export class ShowListingComponent implements OnInit {
     if (currTime.getDate() == startTime.getTime() && currTime.getMonth() == startTime.getMonth() && currTime.getFullYear() == startTime.getFullYear()) {
       startTime = currTime;
     }
-    this.eventService.getShowListForCityAndBetweenStartAndEnd(this.movieId()!, "Hyderabad", startTime.toISOString(), this.getEndOfTheDayInUTC(this.selectedDate()!).toISOString())
-    .subscribe((events) => {
-      const groupEventsByTheater = Object.values(
-        events.reduce((acc: any, event) => {
-          if (!acc[event.venueId]) {
-            acc[event.venueId] = {
-              venueName: event.venueName,
-              venueId: event.venueId,
-              shows: [],
-            };
-          }
-          acc[event.venueId].shows.push(event);
-          return acc;
-        }, {})
-      );
-      this.theaters.set(groupEventsByTheater as any);
-    })
+    this.eventService.getShowListForCityAndBetweenStartAndEnd(this.movieId()!, this.authService.selectedCity(), startTime.toISOString(), this.getEndOfTheDayInUTC(this.selectedDate()!).toISOString())
+      .subscribe((events) => {
+        const groupEventsByTheater = Object.values(
+          events.reduce((acc: any, event) => {
+            if (!acc[event.venueId]) {
+              acc[event.venueId] = {
+                venueName: event.venueName,
+                venueId: event.venueId,
+                shows: [],
+              };
+            }
+            acc[event.venueId].shows.push(event);
+            return acc;
+          }, {})
+        );
+        this.theaters.set(groupEventsByTheater as any);
+      })
   }
 
   getEndOfTheDayInUTC(date: Date) {
@@ -96,7 +97,7 @@ export class ShowListingComponent implements OnInit {
         this.movieInfo.set(movieInfo);
       },
       error: err => {
-        this.toastService.showToast({message: err.message, type: 'error'});
+        this.toastService.showToast({ message: err.message, type: 'error' });
         this.router.navigate(["/"]);
       }
     })
@@ -105,12 +106,12 @@ export class ShowListingComponent implements OnInit {
 
   fetchDates() {
     return this.eventService.getEventDatesForEventIdAfter(this.movieId()!, new Date())
-    .subscribe((dates) => {
-      this.dates.set(dates);
-      this.selectedDate.set(dates[0]);
-      this.currentWindowStart.set(dates[0]);
-      this.updateDateWindow();
-    })
+      .subscribe((dates) => {
+        this.dates.set(dates);
+        this.selectedDate.set(dates[0]);
+        this.currentWindowStart.set(dates[0]);
+        this.updateDateWindow();
+      })
   }
 
   selectDate(date: Date): void {
@@ -137,7 +138,7 @@ export class ShowListingComponent implements OnInit {
 
   getShowtimeClass(showtime: any) {
     if (!showtime.availability) {
-      return {available: true}
+      return { available: true }
     }
     return {
       'available': showtime.availability === 'AVAILABLE',

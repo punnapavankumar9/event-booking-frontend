@@ -1,249 +1,429 @@
-.confirmation-container {
-  min-height: 100vh;
-  background-color: #f9fafb;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem 1rem;
-}
+.booking-confirmation-container {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    padding: 1rem;
 
-.confirmation-card {
-  max-width: 450px;
-  width: 100%;
-  background-color: white;
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-}
-
-
-.header-section {
-  padding: 1.5rem;
-  background: linear-gradient(to right, #ec4899, #ef4444);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  color: white;
-
-  .success-icon {
-    margin-bottom: 1rem;
-  }
-
-  .title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin: 0;
-  }
-
-  .subtitle {
-    margin: 0.25rem 0 0;
-    opacity: 0.9;
-  }
-}
-
-.failed-header {
-  background: none;
-  color: black;
-}
-
-.info-section {
-  padding: 1.5rem;
-
-  .event-title {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #1f2937;
-    margin: 0 0 0.25rem;
-  }
-
-  .venue {
-    color: #4b5563;
-    margin: 0 0 1.5rem;
-  }
-
-  .info-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-  }
-
-  .info-col {
-    min-width: 45%;
-  }
-
-  .info-label {
-    color: #6b7280;
-    font-size: 0.875rem;
-    margin: 0 0 0.25rem;
-  }
-
-  .info-value {
-    font-weight: 500;
-    color: #1f2937;
-    margin: 0;
-  }
-
-  .seats-container {
-    margin-bottom: 1.5rem;
-  }
-
-  .seat-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.25rem;
-  }
-
-  .seat-chip {
-    background-color: #f3f4f6;
-    border-radius: 9999px;
-    padding: 0.25rem 0.75rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-  }
-
-  .order-summary {
-    border-top: 1px solid #e5e7eb;
-    padding-top: 1.5rem;
-  }
-
-  .summary-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-
-    &:last-child {
-      margin-bottom: 0;
+    @media (min-width: 768px) {
+        padding: 2rem;
     }
-  }
 
-  .summary-label {
-    font-weight: 500;
-    color: #1f2937;
-  }
+    .booking-confirmation-content {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        margin: 0 auto;
+        max-width: 100%;
 
-  .summary-value {
-    color: #4b5563;
-    font-size: 0.875rem;
+        @media (min-width: 768px) {
+            max-width: 800px;
+            padding: 3rem;
+        }
 
-    &.amount {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #1f2937;
+        // Header Styles
+        .success-header,
+        .failed-header,
+        .cancelled-header,
+        .pending-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 2rem;
+            border-radius: 12px;
+
+            .status-icon {
+                font-size: 3rem;
+                margin-bottom: 1rem;
+            }
+
+            .title {
+                font-size: 1.75rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+                opacity: 0.8;
+                max-width: 80%;
+                margin: 0 auto;
+            }
+        }
+
+        .success-header {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: white;
+
+            .status-icon {
+                color: white;
+            }
+        }
+
+        .failed-header {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+
+            .status-icon {
+                color: white;
+            }
+        }
+
+        .cancelled-header {
+            background: linear-gradient(135deg, #64748b, #475569);
+            color: white;
+
+            .status-icon {
+                color: white;
+            }
+
+            .refund-info {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                margin-top: 1rem;
+                padding: 1rem;
+                background-color: rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                max-width: 90%;
+                margin-left: auto;
+                margin-right: auto;
+                font-size: 0.875rem;
+                color: white;
+
+                i {
+                    color: white;
+                }
+            }
+        }
+
+        .pending-header {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+
+            .status-icon {
+                color: white;
+                animation: spin 2s linear infinite;
+            }
+        }
+
+        // Event Details
+        .event-details {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+
+            .event-title {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: #1a1a1a;
+                margin-bottom: 1rem;
+            }
+
+            .event-meta {
+                display: grid;
+                gap: 1rem;
+
+                @media (min-width: 768px) {
+                    grid-template-columns: repeat(3, 1fr);
+                }
+
+                .meta-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    color: #666;
+
+                    i {
+                        color: #ff385c;
+                    }
+                }
+            }
+        }
+
+        // Ticket Details
+        .ticket-details {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+
+            .ticket-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+
+                h3 {
+                    font-size: 1.25rem;
+                    font-weight: 600;
+                    color: #1a1a1a;
+                    margin: 0;
+                }
+
+                .ticket-count {
+                    font-size: 0.875rem;
+                    color: #666;
+                    background-color: #f3f4f6;
+                    padding: 0.25rem 0.75rem;
+                    border-radius: 16px;
+                }
+            }
+
+            .seats-list {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+
+                .seat-tag {
+                    background-color: #f3f4f6;
+                    padding: 0.5rem 1rem;
+                    border-radius: 20px;
+                    font-size: 0.875rem;
+                    color: #1a1a1a;
+                }
+            }
+        }
+
+        // Payment Details
+        .payment-details {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+
+            h3 {
+                font-size: 1.25rem;
+                font-weight: 600;
+                color: #1a1a1a;
+                margin-bottom: 1rem;
+            }
+
+            .payment-info {
+                .info-row {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 0.75rem 0;
+                    border-bottom: 1px solid #e5e7eb;
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+
+                    .label {
+                        font-size: 0.875rem;
+                        color: #666;
+                    }
+
+                    .value {
+                        font-size: 0.875rem;
+                        font-weight: 500;
+                        color: #1a1a1a;
+
+                        &.status {
+                            padding: 0.25rem 0.75rem;
+                            border-radius: 16px;
+                            font-size: 0.75rem;
+                            text-transform: uppercase;
+
+                            &.success {
+                                background-color: #dcfce7;
+                                color: #166534;
+                            }
+
+                            &.failed {
+                                background-color: #fee2e2;
+                                color: #991b1b;
+                            }
+
+                            &.cancelled {
+                                background-color: #f3f4f6;
+                                color: #374151;
+                            }
+
+                            &.pending {
+                                background-color: #dbeafe;
+                                color: #1e40af;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // QR Section
+        .qr-section {
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            text-align: center;
+
+            .qr-text {
+                font-size: 1rem;
+                color: #1a1a1a;
+                margin-bottom: 1.5rem;
+            }
+
+            app-qr-code {
+                display: block;
+                margin: 0 auto;
+                background: white;
+                padding: 1rem;
+                border-radius: 8px;
+                width: fit-content;
+            }
+
+            .qr-note {
+                font-size: 0.875rem;
+                color: #666;
+                margin-top: 1.5rem;
+                max-width: 80%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        // Actions
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            @media (min-width: 768px) {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .action-btn,
+            .cancel-btn,
+            .back-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                padding: 0.75rem 1.5rem;
+                border-radius: 8px;
+                font-size: 0.875rem;
+                font-weight: 500;
+                text-decoration: none;
+                transition: all 0.2s ease;
+                cursor: pointer;
+
+                i {
+                    font-size: 1rem;
+                }
+
+                &.primary {
+                    background-color: #ff385c;
+                    color: white;
+                    border: none;
+
+                    &:hover {
+                        background-color: darken(#ff385c, 5%);
+                    }
+                }
+
+                &.secondary {
+                    background-color: white;
+                    color: #1a1a1a;
+                    border: 1px solid #e5e7eb;
+
+                    &:hover {
+                        background-color: #f8f9fa;
+                    }
+                }
+            }
+
+            .cancel-btn {
+                background-color: white;
+                border: 1px solid #dc2626;
+                color: #dc2626;
+
+                &:hover:not(:disabled) {
+                    background-color: #dc2626;
+                    color: white;
+                }
+
+                &:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
+                }
+            }
+
+            .back-btn {
+                background-color: #f3f4f6;
+                border: none;
+                color: #374151;
+
+                &:hover {
+                    background-color: #e5e7eb;
+                }
+            }
+        }
     }
-  }
-}
 
-.qr-section {
-  padding: 1.5rem;
-  background-color: #f9fafb;
-  border-top: 1px solid #e5e7eb;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    // Loading State
+    .loading-container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 3rem;
+        margin: 0 auto;
+        max-width: 400px;
+        text-align: center;
 
-  .qr-text {
-    color: #4b5563;
-    margin: 0 0 1rem;
-    text-align: center;
-  }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255, 56, 92, 0.1);
+            border-top-color: #ff385c;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            animation: spin 1s linear infinite;
+        }
 
-  .qr-container {
-    background-color: white;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-
-    .qr-image {
-      width: 200px;
-      height: 200px;
-      object-fit: contain;
+        p {
+            color: #666;
+            margin: 0;
+        }
     }
-  }
 
-  .qr-note {
-    font-size: 0.75rem;
-    color: #6b7280;
-    text-align: center;
-    margin: 1rem 0 0;
-    max-width: 80%;
-  }
-}
+    // Error State
+    .error-container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 3rem;
+        margin: 0 auto;
+        max-width: 400px;
+        text-align: center;
 
-.actions-section {
-  padding: 1.5rem;
-  border-top: 1px solid #e5e7eb;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
+        .error-icon {
+            font-size: 3rem;
+            color: #dc2626;
+            margin-bottom: 1rem;
+        }
 
-.primary-button {
-  width: 100%;
-  background-color: #ec4899;
-  color: white;
-  font-weight: 500;
-  padding: 0.75rem 1rem;
-  border-radius: 0.375rem;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s;
+        h2 {
+            font-size: 1.5rem;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
 
-  &:hover {
-    background-color: #db2777;
-  }
-}
-
-.secondary-button {
-  width: 100%;
-  background-color: white;
-  color: #1f2937;
-  font-weight: 500;
-  padding: 0.75rem 1rem;
-  border-radius: 0.375rem;
-  border: 1px solid #d1d5db;
-  cursor: pointer;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: #f9fafb;
-  }
-}
-
-// Loading and Error states
-.loading-container, .error-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  min-height: 400px;
-  width: 100%;
-  max-width: 450px;
-  background-color: white;
-  border-radius: 0.75rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  padding: 2rem;
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 3px solid rgba(236, 72, 153, 0.1);
-  border-top-color: #ec4899;
-  animation: spin 1s linear infinite;
-  margin-bottom: 1rem;
+        p {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+    }
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
+    from {
+        transform: rotate(0deg);
+    }
 
-.error-icon {
-  margin-bottom: 1rem;
+    to {
+        transform: rotate(360deg);
+    }
 }

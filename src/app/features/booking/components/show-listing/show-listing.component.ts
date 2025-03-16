@@ -78,7 +78,6 @@ export class ShowListingComponent implements OnInit {
           return acc;
         }, {})
       );
-      console.log(groupEventsByTheater);
       this.theaters.set(groupEventsByTheater as any);
     })
   }

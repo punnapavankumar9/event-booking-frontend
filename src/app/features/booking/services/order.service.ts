@@ -3,7 +3,6 @@ import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { OrderReqDetails, OrderResDetails } from '../types';
 
-
 @Injectable({providedIn: 'root'})
 export class OrderService {
 
@@ -12,23 +11,28 @@ export class OrderService {
   constructor(private http: HttpClient) {
   }
 
+  getOrders() {
+    return this.http.get<OrderResDetails[]>(this.ordersUrl);
+  }
+
   public createOrder(order: OrderReqDetails) {
     return this.http.post<OrderResDetails>(this.ordersUrl, order);
   }
 
   public cancelOrder(orderId: string) {
-    return this.http.get<OrderResDetails>(this.ordersUrl + "/cancel-order/" + orderId);
+    // TODO: implement this in backend
+    return this.http.get<OrderResDetails>(`${this.ordersUrl}/cancel-order/${orderId}`);
   }
 
   public markOrderAsSuccess(orderId: string, paymentId: string) {
-    return this.http.get<OrderResDetails>(this.ordersUrl + "/payment-success/" + orderId + "?paymentId=" + paymentId);
+    return this.http.get<OrderResDetails>(`${this.ordersUrl}/payment-success/${orderId}?paymentId=${paymentId}`);
   }
 
   public markOrderAsFailure(orderId: string, paymentId: string) {
-    return this.http.get<OrderResDetails>(this.ordersUrl + "/payment-failed/" + orderId + "?paymentId=" + paymentId);
+    return this.http.get<OrderResDetails>(`${this.ordersUrl}/payment-failed/${orderId}?paymentId=${paymentId}`);
   }
 
   public getOrderResDetails(orderId: string) {
-    return this.http.get<OrderResDetails>(this.ordersUrl + "/" + orderId);
+    return this.http.get<OrderResDetails>(`${this.ordersUrl}/${orderId}`);
   }
 }

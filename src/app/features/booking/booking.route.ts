@@ -56,7 +56,12 @@ export const routes: Route[] = [
         ]
       },
       {
-        path: "orders", children: [
+        path: "orders",
+        children: [
+          {
+            path: "",
+            loadComponent: () => import("./components/orders-list/orders-list.component").then(m => m.OrdersListComponent),
+          },
           {
             path: ":orderId",
             loadComponent: () => import("./components/movie-booking-confirmation/movie-booking-confirmation.component").then(m => m.MovieBookingConfirmationComponent),

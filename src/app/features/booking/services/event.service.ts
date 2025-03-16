@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BookingPageInfo, Event, EventForShowList } from '../types';
+import { BookingPageInfo, Event, EventForShowList, EventNameAndIdProjection } from '../types';
 import { environment } from '../../../../environments/environment';
 import { distinct, map, Observable } from 'rxjs';
 
@@ -39,5 +39,9 @@ export class EventService {
 
   getBookingPageInfo(eventId: string) {
     return this.http.get<BookingPageInfo>(this.eventsUrl + `/booking-info/${eventId}`)
+  }
+
+  getEventNames(eventIds: string[]): Observable<EventNameAndIdProjection[]> {
+    return this.http.post<EventNameAndIdProjection[]>(`${this.eventsUrl}/event-names`, eventIds);
   }
 }

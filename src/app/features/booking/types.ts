@@ -151,3 +151,7 @@ export type OrderResDetails = OrderReqDetails & {
 
 export type OrderStatus = "CREATED" | "SUCCEEDED" | "FAILED" | "CANCELLED" | "PENDING";
 
+export type EventNameAndIdProjection = {
+  name: string,
+  id: string
+}

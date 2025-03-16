@@ -46,9 +46,6 @@ export class BookMovieTicketsComponent implements OnInit {
       this.eventId.set(params['movieId']);
     });
     this.fetchMovieInfo();
-    effect(() => {
-      console.log(this.selectedSeats());
-    });
   }
 
   ngOnInit(): void {

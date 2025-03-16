@@ -1,0 +1,43 @@
+<div class="orders-container">
+    <div class="orders-header">
+        <h1>My Orders</h1>
+    </div>
+
+    <div class="orders-list">
+        @for (order of orders(); track order.id) {
+            <div class="order-card" [routerLink]="['/booking', 'orders', order.id]">
+                <div class="order-info">
+                    <div class="order-id">
+                        Order #{{ order.id }}
+                    </div>
+                    <div class="order-date">
+                        {{ order.createdDate | date:'medium' }}
+                    </div>
+                </div>
+                
+                <div class="order-details">
+                    <div class="seats-info">
+                        <span class="label">Seats:</span>
+                        <span class="value">{{ order.info.seatLabels.join(', ') }}</span>
+                    </div>
+                    <div class="amount-info">
+                        <span class="label">Amount:</span>
+                        <span class="value">₹{{ order.amount }}</span>
+                    </div>
+                </div>
+                
+                <div class="order-status">
+                    <span class="status-badge" [ngClass]="getStatusClass(order.orderStatus)">
+                        {{ order.orderStatus }}
+                    </span>
+                </div>
+            </div>
+        }
+        
+        @if (orders().length === 0) {
+            <div class="no-orders">
+                <p>No orders found</p>
+            </div>
+        }
+    </div>
+</div> 

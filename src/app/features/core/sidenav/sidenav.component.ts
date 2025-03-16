@@ -2,10 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, OnInit, output } from '@angular/core';
 import { AuthService } from '../../auth/services/auth.service';
 import { ClickOutsideDirective } from '../directives/click-outside.directive';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-sidenav',
-  imports: [CommonModule, ClickOutsideDirective],
+  imports: [CommonModule, ClickOutsideDirective, RouterLink],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
 })

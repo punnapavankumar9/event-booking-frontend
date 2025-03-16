@@ -1,160 +1,221 @@
 .order-summary-container {
+  padding: 1rem;
   background-color: #f8f9fa;
-  border-radius: 10px;
-  padding: 20px;
-  border: 1px solid #e9ecef;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  margin: 20px auto;
+  min-height: 100vh;
+
+  @media (min-width: 768px) {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem;
+  }
 
   .order-summary-content {
-    font-family: Arial, sans-serif;
-  }
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    width: 100%;
 
-  .order-header {
-    margin-bottom: 20px;
-
-    .order-title {
-      font-size: 1.25rem;
-      font-weight: bold;
-      color: #333;
+    @media (min-width: 768px) {
+      max-width: 600px;
+      padding: 2rem;
     }
 
-    .ticket-count {
-      font-size: 1rem;
-      color: #666;
-      font-weight: 500;
-    }
-  }
+    .order-header {
+      margin-bottom: 1.5rem;
 
-  .movie-details {
-    margin-bottom: 20px;
-
-    .movie-title {
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: #333;
-      margin-bottom: 5px;
-    }
-
-    .movie-format, .venue, .feature, .seats, .show-time {
-      font-size: 0.9rem;
-      color: #666;
-      margin-bottom: 5px;
-    }
-
-    .feature {
-      color: #777;
-      font-style: italic;
-    }
-  }
-
-  .divider {
-    border-top: 1px dashed #ccc;
-    margin: 15px 0;
-  }
-
-  .pricing-breakdown {
-    margin-bottom: 20px;
-
-    .pricing-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.9rem;
-      color: #333;
-      margin-bottom: 5px;
-
-      &.sub-label {
-        font-size: 0.8rem;
-        color: #777;
-        padding-left: 15px;
+      .order-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin: 0;
       }
 
-      &.tax-breakup {
-        margin-top: 10px;
-        font-size: 0.8rem;
-        color: #dc3545; // Red for "Hide tax breakup"
+      .ticket-count {
+        font-size: 0.875rem;
+        color: #666;
+        background-color: #f0f0f0;
+        padding: 0.25rem 0.75rem;
+        border-radius: 16px;
+      }
+    }
 
-        a {
-          text-decoration: none;
-          cursor: pointer;
+    .movie-details {
+      margin-bottom: 1.5rem;
 
-          &:hover {
-            text-decoration: underline;
+      .movie-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 1rem;
+      }
+
+      .venue-info {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+
+        p {
+          margin: 0;
+          font-size: 0.875rem;
+          color: #666;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+
+          i {
+            color: #ff385c;
+          }
+        }
+      }
+
+      .seats-info {
+        margin-bottom: 1rem;
+
+        .seats-label {
+          font-size: 0.875rem;
+          color: #666;
+          margin-bottom: 0.5rem;
+        }
+
+        .seats-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+
+          .seat-tag {
+            background-color: #f0f0f0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 16px;
+            font-size: 0.875rem;
+            color: #1a1a1a;
+          }
+        }
+      }
+
+      .show-time-info {
+        display: flex;
+        gap: 1rem;
+
+        p {
+          margin: 0;
+          font-size: 0.875rem;
+          color: #666;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+
+          i {
+            color: #ff385c;
           }
         }
       }
     }
-  }
 
-  .donation-section {
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-
-    .donation-content {
-      margin-bottom: 5px;
-
-      .donation-logo {
-        width: 20px;
-        height: 20px;
-        margin-right: 5px;
-        vertical-align: middle;
-      }
-
-      .donation-info {
-        font-size: 0.9rem;
-        color: #333;
-
-        small {
-          font-size: 0.7rem;
-          color: #777;
-        }
-      }
-
-      .donation-amount {
-        font-size: 0.9rem;
-        color: #333;
-
-        button {
-          padding: 2px 8px;
-          font-size: 0.7rem;
-        }
-      }
+    .divider {
+      margin: 1.5rem 0;
+      border-color: #e0e0e0;
     }
 
-    small {
-      font-size: 0.7rem;
-      color: #777;
+    .pricing-breakdown {
+      margin-bottom: 1.5rem;
 
-      a {
+      .pricing-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+
+        .label {
+          font-size: 0.875rem;
+          color: #666;
+        }
+
+        .value {
+          font-size: 0.875rem;
+          color: #1a1a1a;
+          font-weight: 500;
+        }
+
+        &.sub-label {
+          padding-left: 1rem;
+          font-size: 0.8125rem;
+          color: #888;
+        }
+      }
+
+      .pricing-details {
+        margin-left: 1rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .tax-toggle {
+        color: #ff385c;
         text-decoration: none;
-        color: #007bff;
+        font-size: 0.875rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
 
         &:hover {
           text-decoration: underline;
         }
       }
     }
-  }
 
-  .amount-payable {
-    background-color: #fff3cd;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 20px;
+    .amount-payable {
+      background-color: #f8f9fa;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
 
-    .payable-content {
-      font-size: 1rem;
-      font-weight: bold;
-      color: #333;
+      .payable-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .label {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #1a1a1a;
+        }
+
+        .value {
+          font-size: 1.25rem;
+          font-weight: 600;
+          color: #1a1a1a;
+        }
+      }
     }
-  }
 
-  .ip-address {
-    font-size: 0.8rem;
-    color: #777;
-    text-align: center;
+    .pay-button-container {
+      .pay-button {
+        width: 100%;
+        background-color: #ff385c;
+        border: none;
+        border-radius: 8px;
+        padding: 1rem;
+        color: white;
+        font-weight: 600;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: darken(#ff385c, 5%);
+        }
+
+        .pay-text {
+          font-size: 1rem;
+        }
+
+        .pay-amount {
+          font-size: 1.125rem;
+        }
+      }
+    }
   }
 }

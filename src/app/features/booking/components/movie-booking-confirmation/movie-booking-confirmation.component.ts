@@ -1,21 +1,24 @@
 import { Component, effect, OnDestroy, OnInit, signal } from '@angular/core';
-import { Event, OrderResDetails, Venue } from '../../types';
+import { Event, OrderResDetails, OrderStatus, Venue } from '../../types';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { OrderService } from '../../services/order.service';
 import { Movie } from '../../../core/types';
 import { MoviesService } from '../../../movies/services/movies.service';
 import { EventService } from '../../services/event.service';
-import { DatePipe, NgForOf, NgIf } from '@angular/common';
+import { CurrencyPipe, DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { QrCodeComponent } from '../qr-code/qr-code.component';
 import { VenueService } from '../../services/venue.service';
 import { catchError, EMPTY, interval, startWith, Subscription, switchMap, tap } from 'rxjs';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-movie-booking-confirmation',
+  standalone: true,
   imports: [
     DatePipe,
-    NgForOf,
+    NgClass,
     NgIf,
+    CurrencyPipe,
     RouterLink,
     QrCodeComponent
   ],
@@ -30,6 +33,7 @@ export class MovieBookingConfirmationComponent implements OnInit, OnDestroy {
   venueInfo = signal<Venue>(null as any);
   loading = true;
   error = false;
+  canCancel = signal<boolean>(false);
 
   constructor(
     private route: ActivatedRoute,
@@ -37,11 +41,9 @@ export class MovieBookingConfirmationComponent implements OnInit, OnDestroy {
     private movieService: MoviesService,
     private eventService: EventService,
     private venueService: VenueService,
+    private toastService: ToastService
   ) {
     this.orderId = '';
-    effect(() => {
-      console.log(this.orderDetails());
-    });
   }
 
   ngOnDestroy(): void {
@@ -66,13 +68,12 @@ export class MovieBookingConfirmationComponent implements OnInit, OnDestroy {
   }
 
   private loadOrderDetails() {
-    return interval(5000).pipe(
+    return interval(3000).pipe(
       startWith(0),
       switchMap(() => this.orderService.getOrderResDetails(this.orderId)),
       tap(data => {
         this.orderDetails.set(data);
         this.loading = false;
-        console.log("event details", data);
         if (this.eventInfo() == null) {
           this.loadEventInfo(data.eventId);
         }
@@ -89,11 +90,24 @@ export class MovieBookingConfirmationComponent implements OnInit, OnDestroy {
     );
   }
 
+  private updateCancelButtonVisibility() {
+    if (!this.orderDetails() || !this.eventInfo()) return;
+
+    const startTime = new Date(this.eventInfo()!.eventDurationDetails.startTime);
+    const currentTime = new Date();
+    const thirtyMinutesBefore = new Date(startTime.getTime() - 30 * 60000);
+
+    this.canCancel.set(
+      (this.orderDetails()!.orderStatus === "SUCCEEDED") &&
+      currentTime < thirtyMinutesBefore
+    );
+  }
+
   private loadEventInfo(eventId: string): void {
     this.eventService.findEventById(eventId).subscribe({
       next: (data) => {
         this.eventInfo.set(data);
-        console.log(data);
+        this.updateCancelButtonVisibility();
         this.loadMovieDetails(data.eventId);
         this.loadVenueInfo(data.venueId);
       },
@@ -156,6 +170,52 @@ export class MovieBookingConfirmationComponent implements OnInit, OnDestroy {
     //     alert('Failed to send receipt to your email');
     //   }
     // });
+  }
+
+  cancelOrder() {
+    if (!this.orderDetails() || !this.canCancel()) return;
+
+    this.loading = true;
+    this.orderService.cancelOrder(this.orderDetails()!.id).subscribe({
+      next: (updatedOrder) => {
+        this.orderDetails.set(updatedOrder);
+        this.updateCancelButtonVisibility();
+        this.toastService.showToast({
+          message: 'Order cancelled successfully',
+          type: 'success'
+        });
+        this.loading = false;
+      },
+      error: (error) => {
+        this.toastService.showToast({
+          message: 'Failed to cancel order',
+          type: 'error'
+        });
+        this.loading = false;
+      }
+    });
+  }
+
+  getHeaderClass(): string {
+    const status = this.orderDetails()?.orderStatus;
+    switch (status) {
+      case 'SUCCEEDED': return 'success-header';
+      case 'FAILED': return 'failed-header';
+      case 'CANCELLED': return 'cancelled-header';
+      case 'PENDING': return 'pending-header';
+      default: return '';
+    }
+  }
+
+  getStatusClass(): string {
+    const status = this.orderDetails()?.orderStatus;
+    switch (status) {
+      case 'SUCCEEDED': return 'success';
+      case 'FAILED': return 'failed';
+      case 'CANCELLED': return 'cancelled';
+      case 'PENDING': return 'pending';
+      default: return '';
+    }
   }
 
 }

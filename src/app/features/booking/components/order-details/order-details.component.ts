@@ -1,10 +1,10 @@
-import { Component, input, signal } from '@angular/core';
-import { BookingPageInfo, OrderReqDetails, OrderResDetails } from '../../types';
-import { CurrencyPipe, DatePipe } from '@angular/common';
-import { OrderService } from '../../services/order.service';
-import { ToastService } from '../../../core/services/toast.service';
-import { environment } from '../../../../../environments/environment';
-import { Router } from '@angular/router';
+import {Component, input, signal} from '@angular/core';
+import {BookingPageInfo, OrderReqDetails, OrderResDetails} from '../../types';
+import {CurrencyPipe, DatePipe} from '@angular/common';
+import {OrderService} from '../../services/order.service';
+import {ToastService} from '../../../core/services/toast.service';
+import {environment} from '../../../../../environments/environment';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-order-details',
@@ -44,19 +44,7 @@ export class OrderDetailsComponent {
         this.paymentAttempted.set(true);
         this.orderService.markOrderAsSuccess(this.orderResDetails().id, response.razorpay_payment_id).subscribe({
           next: response => {
-            if (response.orderStatus == "SUCCEEDED") {
-              this.toastService.showToast({
-                message: "payment successfully completed",
-                type: "success"
-              })
-              this.router.navigate(['/booking', "orders", this.orderResDetails().id]);
-            } else {
-              this.toastService.showToast({
-                message: "payment processing",
-                type: "info"
-              });
-              // TODO navigate to order-status page
-            }
+            this.router.navigate(['/booking', "orders", this.orderResDetails().id]);
           },
           error: error => {
             this.toastService.showToast({message: error.message, type: "error"});
@@ -98,7 +86,6 @@ export class OrderDetailsComponent {
     }
     // @ts-ignore
     const razorPayWindow = new window.Razorpay(options);
-    console.log(razorPayWindow);
     razorPayWindow.on('payment.failed', (response: any) => {
       this.paymentAttempted.set(true);
       this.markPaymentAsFailed.set(response.error.metadata.payment_id);

@@ -1,92 +1,168 @@
-.movie-cards-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  overflow: scroll;
-  scrollbar-width: none;
-  scroll-behavior: smooth;
-  padding: 10px 40px;
-  position: relative;
-  
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
+.home-container {
+  padding: 20px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
 
-.movies-list {
-  position: relative;
-}
+  // .top {
+  //   margin-bottom: 2rem;
+  //   // TODO: Add styles for featured movie or banner
+  // }
 
-.movies-list-header {
-  padding: 10px 50px 0 50px;
+  .movies-list {
+    position: relative;
 
-  .left {
-    font-size: 1.5rem;
-    font-weight: bolder;
-  }
-  
-  .right {
-    color: #f84464;
-    font-weight: 500;
-    cursor: pointer;
-    
-    &:hover {
-      opacity: 0.8;
+    &:last-child {
+      margin-bottom: 1rem;
+    }
+
+    .movies-list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .left {
+        span {
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: #1a1a1a;
+        }
+      }
+
+      .right {
+        color: #e91e63;
+        cursor: pointer;
+        font-weight: 500;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: #c2185b;
+        }
+      }
+    }
+
+    .movie-cards-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow: scroll;
+      scrollbar-width: none;
+      scroll-behavior: smooth;
+      position: relative;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+
+    .scroll-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.9);
+      border: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+
+      &:hover:not(:disabled) {
+        background-color: #fff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-50%) scale(1.05);
+      }
+
+      &:disabled {
+        opacity: 0;
+        cursor: default;
+        pointer-events: none;
+      }
+
+      svg {
+        width: 24px;
+        height: 24px;
+        fill: #666;
+      }
+
+      &.prev-btn {
+        left: 0;
+      }
+
+      &.next-btn {
+        right: 0;
+      }
     }
   }
-}
 
-.scroll-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: white;
-  border: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  }
-  
-  &:disabled {
-    opacity: 0;
-    pointer-events: none;
-  }
-  
-  svg {
-    width: 24px;
-    height: 24px;
-    fill: #2c3e50;
-  }
-  
-  &.prev-btn {
-    left: 10px;
-  }
-  
-  &.next-btn {
-    right: 10px;
-  }
-}
+  @media (max-width: 1024px) {
+    .movies-list {
+      padding: 0 30px;
 
-@media (max-width: 768px) {
-  .scroll-btn {
-    display: none;
+      .movie-cards-container {
+        grid-auto-columns: 200px;
+        gap: 16px;
+      }
+    }
   }
-  
-  .movie-cards-container {
-    padding: 10px 20px;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+
+    .movies-list {
+      margin-bottom: 2rem;
+      padding: 0 20px;
+
+      .movies-list-header {
+        margin-bottom: 1rem;
+
+        .left span {
+          font-size: 1.25rem;
+        }
+      }
+
+      .movie-cards-container {
+        grid-auto-columns: 160px;
+        gap: 12px;
+      }
+
+      .scroll-btn {
+        width: 36px;
+        height: 36px;
+
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
   }
-  
-  .movies-list-header {
-    padding: 10px 20px 0 20px;
+
+  @media (max-width: 576px) {
+    padding: 12px;
+
+    .movies-list {
+      padding: 0 16px;
+
+      .movie-cards-container {
+        grid-auto-columns: 140px;
+        gap: 10px;
+      }
+
+      .scroll-btn {
+        width: 32px;
+        height: 32px;
+
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
   }
 }

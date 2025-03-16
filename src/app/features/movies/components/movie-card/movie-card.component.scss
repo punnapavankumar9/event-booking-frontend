@@ -48,12 +48,44 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    background: linear-gradient(135deg, #F07584, #EB4E62); // Pink gradient
-    color: #fff;
-    padding: 4px 8px;
-    border-radius: 12px; // Circular badge
-    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
     font-weight: 500;
+    color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 2;
+    min-width: 46px;
+    text-align: center;
+    letter-spacing: 0.5px;
+
+    &.high-rating {
+      background: rgba(44, 155, 14, 0.75); // Dark glassy for high ratings
+    }
+
+    &.medium-rating {
+      background: rgba(216, 216, 29, 0.458); // Slightly lighter for medium
+    }
+
+    &.low-rating {
+      background: rgba(0, 0, 0, 0.55); // Even lighter for low
+    }
+
+    &.likes {
+      background: rgba(0, 0, 0, 0.6); // Balanced opacity for likes
+    }
+
+    .movie-rating-star,
+    .movie-rating-heart {
+      filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+      opacity: 0.95;
+    }
+
+    &:hover {
+      backdrop-filter: blur(12px);
+      background: rgba(0, 0, 0, 0.8);
+      border-color: rgba(255, 255, 255, 0.25);
+    }
   }
 
   .movie-info {
@@ -81,9 +113,5 @@
       content: "• "; // Bullet separator
       color: #F07584; // Pink accent
     }
-  }
-
-  .movie-rating-star {
-    transform: scale(0.85); // Slightly smaller but clearer
   }
 }

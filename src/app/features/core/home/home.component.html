@@ -1,9 +1,11 @@
 <!--// TODO add slider or carousal or cleanup slider component-->
 
-<div>
+<div class="home-container">
     <div class="top">
-
+        <!-- TODO: Add featured movie or banner here -->
     </div>
+
+    <!-- Recommended Movies -->
     <div class="movies-list">
         <div class="movies-list-header d-flex flex-row justify-content-between align-items-center">
             <div class="left">
@@ -12,19 +14,127 @@
             <span class="right" [routerLink]="['/movies']">see all</span>
         </div>
         
-        <button class="scroll-btn prev-btn" (click)="scrollMovies('left')" [disabled]="!canScrollLeft()">
+        <button class="scroll-btn prev-btn" (click)="movieContainers.get(0) && scrollMovies('left', movieContainers.get(0))" [disabled]="!canScrollLeft('recommended')">
             <svg viewBox="0 0 24 24">
                 <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
             </svg>
         </button>
         
         <div class="movie-cards-container" #movieContainer>
-            @for (movie of movies(); track movie.id) {
+            @for (movie of recommendedMovies(); track movie.id) {
                 <app-movie-card [movie]="movie"></app-movie-card>
             }
         </div>
         
-        <button class="scroll-btn next-btn" (click)="scrollMovies('right')" [disabled]="!canScrollRight()">
+        <button class="scroll-btn next-btn" (click)="movieContainers.get(0) && scrollMovies('right', movieContainers.get(0))" [disabled]="!canScrollRight('recommended')">
+            <svg viewBox="0 0 24 24">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Popular Movies -->
+    <div class="movies-list">
+        <div class="movies-list-header">
+            <div class="left">
+                <span>Popular Movies</span>
+            </div>
+        </div>
+        
+        <button class="scroll-btn prev-btn" (click)="movieContainers.get(1) && scrollMovies('left', movieContainers.get(1))" [disabled]="!canScrollLeft('popular')">
+            <svg viewBox="0 0 24 24">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+        </button>
+        
+        <div class="movie-cards-container" #movieContainer>
+            @for (movie of popularMovies(); track movie.id) {
+                <app-movie-card [movie]="movie"></app-movie-card>
+            }
+        </div>
+        
+        <button class="scroll-btn next-btn" (click)="movieContainers.get(1) && scrollMovies('right', movieContainers.get(1))" [disabled]="!canScrollRight('popular')">
+            <svg viewBox="0 0 24 24">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Telugu Movies -->
+    <div class="movies-list" *ngIf="teluguMovies().length > 0">
+        <div class="movies-list-header">
+            <div class="left">
+                <span>Telugu Movies</span>
+            </div>
+        </div>
+        
+        <button class="scroll-btn prev-btn" (click)="movieContainers.get(2) && scrollMovies('left', movieContainers.get(2))" [disabled]="!canScrollLeft('telugu')">
+            <svg viewBox="0 0 24 24">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+        </button>
+        
+        <div class="movie-cards-container" #movieContainer>
+            @for (movie of teluguMovies(); track movie.id) {
+                <app-movie-card [movie]="movie"></app-movie-card>
+            }
+        </div>
+        
+        <button class="scroll-btn next-btn" (click)="movieContainers.get(2) && scrollMovies('right', movieContainers.get(2))" [disabled]="!canScrollRight('telugu')">
+            <svg viewBox="0 0 24 24">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Hindi Movies -->
+    <div class="movies-list" *ngIf="hindiMovies().length > 0">
+        <div class="movies-list-header">
+            <div class="left">
+                <span>Hindi Movies</span>
+            </div>
+        </div>
+        
+        <button class="scroll-btn prev-btn" (click)="movieContainers.get(3) && scrollMovies('left', movieContainers.get(3))" [disabled]="!canScrollLeft('hindi')">
+            <svg viewBox="0 0 24 24">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+        </button>
+        
+        <div class="movie-cards-container" #movieContainer>
+            @for (movie of hindiMovies(); track movie.id) {
+                <app-movie-card [movie]="movie"></app-movie-card>
+            }
+        </div>
+        
+        <button class="scroll-btn next-btn" (click)="movieContainers.get(3) && scrollMovies('right', movieContainers.get(3))" [disabled]="!canScrollRight('hindi')">
+            <svg viewBox="0 0 24 24">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Tamil Movies -->
+    <div class="movies-list" *ngIf="tamilMovies().length > 0">
+        <div class="movies-list-header">
+            <div class="left">
+                <span>Tamil Movies</span>
+            </div>
+        </div>
+        
+        <button class="scroll-btn prev-btn" (click)="movieContainers.get(4) && scrollMovies('left', movieContainers.get(4))" [disabled]="!canScrollLeft('tamil')">
+            <svg viewBox="0 0 24 24">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+        </button>
+        
+        <div class="movie-cards-container" #movieContainer>
+            @for (movie of tamilMovies(); track movie.id) {
+                <app-movie-card [movie]="movie"></app-movie-card>
+            }
+        </div>
+        
+        <button class="scroll-btn next-btn" (click)="movieContainers.get(4) && scrollMovies('right', movieContainers.get(4))" [disabled]="!canScrollRight('tamil')">
             <svg viewBox="0 0 24 24">
                 <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
             </svg>

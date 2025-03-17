@@ -10,7 +10,7 @@ export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(tap({
     error: (err) => {
       if (err instanceof HttpErrorResponse) {
-        if (err.status == 401) {
+        if (err.status == 401 || err.status == 403) {
           toast.showToast({message: 'Authentication error please try Signing in', type: 'error'});
           authService.authToken.set(null);
         }

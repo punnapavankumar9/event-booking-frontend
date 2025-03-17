@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { effect, Injectable, signal } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Observable, tap } from 'rxjs';
-import { LoginCredentials, UserRegistrationDetails } from '../types';
+import { LoginCredentials, UserDetails, UserRegistrationDetails } from '../types';
 
 
 @Injectable({
@@ -12,8 +12,9 @@ export class AuthService {
   userServiceBaseUrl = environment.identity
   loginUrl = this.userServiceBaseUrl + '/login';
   signupUrl = this.userServiceBaseUrl;
+  userDetails = signal<UserDetails | null>(null);
 
-  authToken = signal(localStorage.getItem('jwt-token'));
+  authToken = signal<null | string>(localStorage.getItem('jwt-token'));
   selectedCity = signal<string>("hyderabad");
 
   constructor(private httpClient: HttpClient) {
@@ -23,6 +24,7 @@ export class AuthService {
       } else {
         localStorage.removeItem('jwt-token');
       }
+      this.loadUserDetails();
     });
 
     effect(() => {
@@ -54,8 +56,18 @@ export class AuthService {
     return this.authToken() !== null;
   }
 
-  getCurrentUser(){
-    // TODO: Implement this
-    return {name: "Test"};
+  getCurrentUser() {
+    if (this.authToken() == null) return;
+    return this.httpClient.get<UserDetails>(this.userServiceBaseUrl + "/getUsersDetailsByToken");
+  }
+  loadUserDetails() {
+    this.getCurrentUser()?.subscribe({
+      next: (userDetails) => {
+        this.userDetails.set(userDetails);
+      },
+      error: (err) => {
+        this.authToken.set(null);
+      }
+    })
   }
 }

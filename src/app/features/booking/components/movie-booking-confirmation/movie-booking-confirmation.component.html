@@ -122,7 +122,7 @@
 
         <!-- Actions -->
         <div class="actions">
-            @if (orderDetails()?.orderStatus === 'SUCCEEDED') {
+            <!-- @if (orderDetails()?.orderStatus === 'SUCCEEDED') {
             <button class="action-btn primary" (click)="downloadTicket()">
                 <i class="bi bi-download"></i>
                 Download Ticket
@@ -131,7 +131,7 @@
                 <i class="bi bi-envelope"></i>
                 Email Receipt
             </button>
-            }
+            } -->
             @if (canCancel()) {
             <button class="cancel-btn" (click)="cancelOrder()" [disabled]="loading">
                 <i class="bi bi-x-circle"></i>

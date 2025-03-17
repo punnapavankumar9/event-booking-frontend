@@ -18,9 +18,19 @@ export class SidenavComponent implements OnInit {
   }
 
   authenticated = computed(() => !!this.authService.authToken());
+  
+  isAdmin = computed(() => {
+    const userDetails = this.authService.userDetails();
+    return userDetails?.authorities?.includes('ROLE_ADMIN') ?? false;
+  });
 
   onHideSideNav() {
     this.hideSideNav.emit(true);
+  }
+
+  signOut() {
+    this.authService.logout();
+    this.onHideSideNav();
   }
 
   constructor(private authService: AuthService) {

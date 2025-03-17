@@ -1,4 +1,4 @@
-# EventFrontend
+# Event Booking Frontend
 
 This repository is the frontend for event booking application.
 

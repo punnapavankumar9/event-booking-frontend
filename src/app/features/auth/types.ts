@@ -8,3 +8,10 @@ export type UserRegistrationDetails = {
   password: string,
   email: string
 }
+
+export type UserDetails = {
+  username: string,
+  authorities: string[],
+  email : string,
+  enabled: boolean
+}

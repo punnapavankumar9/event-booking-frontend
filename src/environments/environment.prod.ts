@@ -1,5 +1,6 @@
 import {createEnvironment} from './environment.common';
 
-export const gatewayUrl = 'http://localhost:8080'
+// nginx proxy will send it to backend gateway service.
+export const gatewayUrl = ""
 
 export const environment = createEnvironment(gatewayUrl);

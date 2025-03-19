@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment, gatewayURL } from '../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Movie } from '../../core/types';
 import { Observable, tap } from 'rxjs';
@@ -9,6 +9,7 @@ import { Observable, tap } from 'rxjs';
 })
 export class MoviesService {
   movieServiceBaseUrl = environment.movies;
+  gatewayUrl = environment.gatewayURL;
 
   constructor(private http: HttpClient) {
 
@@ -25,7 +26,7 @@ export class MoviesService {
     const imageUrls: string[] = [];
     if (!movie.imageUrls[0].startsWith('http')) {
       movie.imageUrls.forEach(imageUrl => {
-        imageUrls.push(gatewayURL + "/" + imageUrl);
+        imageUrls.push(this.gatewayUrl + "/" + imageUrl);
       });
       movie.imageUrls = imageUrls;
     }

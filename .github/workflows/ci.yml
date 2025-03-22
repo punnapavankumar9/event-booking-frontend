@@ -22,6 +22,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          push: 'true'
           tags: ppk4/event-booking-frontend:latest,ppk4/event-booking-frontend:${{ github.sha }}
           cache-from: |
             type=registry,ref=ppk4/event-booking-frontend:cache
